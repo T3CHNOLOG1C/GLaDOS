@@ -7,6 +7,9 @@ from discord.ext import commands
 config = configparser.ConfigParser()
 config.read("config.ini")
 
+bot_prefix = ["sudo", "."]
+bot = commands.Bot(command_prefix=bot_prefix, description="GLaDOS, a general purpose discord bot.", max_messages=10000)
+
 class cfg:
     """
     Bot Configuration Helper
