@@ -50,8 +50,8 @@ class Speak:
         author = ctx.message.author
         logOutput = "{} --> 📤 --> {}\n".format(author, member)
         logOutput += "Message Content: {}".format(message)
-        dmchannel = bot.botdms_channel
-        await dmchannel.send(bot.botdms_channel, logOutput)
+        dmchannel = self.bot.botdms_channel
+        await dmchannel.send(logOutput)
 
     @commands.has_permissions(administrator=True)
     @commands.command()
