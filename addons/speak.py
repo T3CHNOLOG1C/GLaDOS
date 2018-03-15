@@ -1,7 +1,10 @@
 #!/usr/bin/python3.6
 import json
 import discord
+import cfg
 from discord.ext import commands
+
+
 
 class Speak:
     """Give the bot a voice"""
@@ -50,7 +53,7 @@ class Speak:
         author = ctx.message.author
         logOutput = "{} --> 📤 --> {}\n".format(author, member)
         logOutput += "Message Content: {}".format(message)
-        dmchannel = discord.utils.get(self.bot.guild.channels, name=preconfig_botdev_channel)
+        dmchannel = self.bot.botdms_channel
         await dmchannel.send(logOutput)
 
     @commands.has_permissions(administrator=True)
