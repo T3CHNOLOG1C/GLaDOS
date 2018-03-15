@@ -12,8 +12,8 @@ class cfg:
     Bot Configuration Helper
     """
 
-        for guild in bot.guilds:
-        bot.guild = guild
+    for guild in bot.guilds:
+    bot.guild = guild
 
     # Role Configuration Parsing
     preconfig_owner_role = config['Roles']['owner']
