@@ -50,7 +50,7 @@ class Speak:
         author = ctx.message.author
         logOutput = "{} --> 📤 --> {}\n".format(author, member)
         logOutput += "Message Content: {}".format(message)
-        dmchannel = self.bot.botdms_channel
+        dmchannel = discord.utils.get(guild.channels, name=preconfig_botdev_channel)
         await dmchannel.send(logOutput)
 
     @commands.has_permissions(administrator=True)
