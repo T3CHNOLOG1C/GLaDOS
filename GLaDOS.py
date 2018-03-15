@@ -161,6 +161,7 @@ async def reload(ctx, addon : str):
 async def pull(ctx, pip=None):
     """Pull new changes from Git and restart.\nAppend -p or --pip to this command to also update python modules from requirements.txt."""
     dev = ctx.message.author
+    ctx.send(dev.roles)
     if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
         await ctx.send("`Pulling changes...`")
         call(["git", "stash", "save"])
