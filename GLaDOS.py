@@ -118,6 +118,7 @@ async def on_ready():
         'addons.speak',
         'addons.misc',
         'addons.memes',
+        'addons.mod',
      ]
 
     # Notify user if an addon fails to load.
