@@ -1,7 +1,7 @@
 #!/usr/bin/python3.6
 import json
 import discord
-import cfg
+import addons/cfg.py
 from discord.ext import commands
 
 
