@@ -33,6 +33,11 @@ class Misc:
     async def about(self, ctx):
         """About GLaDOS."""
         return await ctx.send("View my source code here: https://github.com/T3CHNOLOG1C/GLaDOS")
+
+    @commands.command()
+    async def test(self, ctx):
+        """test"""
+        return await ctx.send("**test**\n*test*\n__test__\n~~test~~\n`test`")
         
     @commands.command(pass_context=True)
     async def togglechannel(self, ctx, channel):
