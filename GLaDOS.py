@@ -117,6 +117,7 @@ async def on_ready():
     addons = [
         'addons.speak',
         'addons.misc',
+        'addons.memes',
      ]
 
     # Notify user if an addon fails to load.
@@ -187,5 +188,14 @@ async def restart(ctx):
         await ctx.send("`Restarting, please wait...`")
         execv("python3 GLaDOS.py", argv)
         
+@bot.command(hidden=True)
+async def roletest(ctx, addon: str):
+    """Unloads an addon."""
+    dev = ctx.message.author
+    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
+        await ctx.send("True")
+    else:
+        await ctx.send("False")
+
 # Run the bot
 bot.run(config['Main']['token'])
