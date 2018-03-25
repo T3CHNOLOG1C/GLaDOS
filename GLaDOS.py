@@ -25,6 +25,9 @@ if not os.path.isfile("database/warns.json"):
 if not os.path.isfile("database/ignored_users.json"):
     with open("database/ignored_users.json", "w") as f:
         f.write('{"users": []}')
+if not os.path.isfile("database/emojif.json"):
+    with open("database/emojif.json", "w") as f:
+        f.write('{}')
 
 bot_prefix = ["sudo", "."]
 bot = commands.Bot(command_prefix=bot_prefix, description="GLaDOS, a general purpose discord bot.", max_messages=10000)
@@ -119,6 +122,7 @@ async def on_ready():
         'addons.misc',
         'addons.memes',
         'addons.mod',
+        'addons.emojif',
      ]
 
     # Notify user if an addon fails to load.
