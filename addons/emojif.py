@@ -18,17 +18,17 @@ class Emojif:
         with open("database/emojif.json", "r") as f:
             self.emojif_settings = json.load(f)
         try:
-            self.emojif_active = False if self.emojif_settings['status'] is False else True
+            self.emojif_active = self.emojif_settings['status']
         except KeyError:
             self.emojif_active = True
         
         self.emojif_list = {}
         for g in bot.guilds:
-            for e in g:
+            for e in g.emojis:
                 if e.animated:
                     self.emojif_list[e.name] = e
 
-        print("{} addon loaded.".format(self.__class__.__name__))
+        print("{} addon loaded.\n{}\n{}\n{}".format(self.__class__.__name__, self.emojif_list, self.emojif_settings, self.emojif_active))
 
     @commands.group(name='emojif')
     async def emojif(self, ctx):
@@ -96,21 +96,20 @@ class Emojif:
         Replace messages that should contain animated emojis with
         their animated counterpart
         """
-
-        return if not self.emojif_active:
+        
+        if self.emojif_active is False:
+            return
         author = message.author
         try:
-            return if author.bot or if not self.emojif_settings[author.id]
+            if author.bot is True or self.emojif_settings[str(author.id)] is False:
+                return
         except KeyError:
             return
 
         content = message.content
-        imaginary_database = {'hey': 'hooooo'} # obviously replace this
         msg_emojis = re.findall(':\\w*:', content)
         for i, e in enumerate(msg_emojis):
-            if e[1:-1] in imaginary_database:
-                msg_emojis[i] = imaginary_database[e]
-            else:
+            if e[1:-1] not in self.emojif_list:
                 msg_emojis.pop(i)
         if len(msg_emojis) == 0:
             return
@@ -127,11 +126,13 @@ class Emojif:
         # Post URL instead of saving then reuploading image,
         # to save time, bandwidth, and disk usage.
         if len(message.attachments) > 0:
-            attachments = " ".join(attachment.url for attachment in ctx.message.attachments)
+            attachments = " ".join(attachment.url for attachment in message.attachments)
         else:
             attachments = ""
         formatted_author = "`{}`:".format(author.display_name)
         formatted_content = content.replace('@everyone', '`@everyone`').replace('@here', '`@here`')
+        for e in msg_emojis:
+            formatted_content = formatted_content.replace(e, str(self.emojif_list[e[1:-1]]))
 
         await message.delete()
 
@@ -142,9 +143,6 @@ class Emojif:
             await message.channel.send(attachments)
         else:
             await message.channel.send("{} {} {}".format(formatted_author, formatted_content, attachments))
-  
-
-        # TODO : => implement ram "cache" at init 
       
 
 def setup(bot):
