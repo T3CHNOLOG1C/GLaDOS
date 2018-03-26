@@ -23,12 +23,15 @@ class cfg:
     preconfig_admin_role = config['Roles']['admin']
     preconfig_botdev_role = config['Roles']['botdev']
     preconfig_nsfw_role = config['Roles']['nsfw']
+    preconfig_muted_role = config['Roles']['muted']
+
 
     # Roles
     bot.owner_role = discord.utils.get(guild.roles, name=preconfig_owner_role)
     bot.admin_role = discord.utils.get(guild.roles, name=preconfig_admin_role)
     bot.botdev_role = discord.utils.get(guild.roles, name=preconfig_botdev_role)
     bot.nsfw_role = discord.utils.get(guild.roles, name=preconfig_nsfw_role)
+    bot.muted_role = discord.utils.get(guild.roles,name=preconfig_muted_role)
 
     # Channel Configuration Parsing
     preconfig_announcements_channel = config['Channels']['announcements']
