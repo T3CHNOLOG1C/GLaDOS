@@ -57,10 +57,10 @@ async def on_command_error(ctx, error):
     else:
         await ctx.send("An error occured while processing the `{}` command.".format(ctx.command.name))
         print('Ignoring exception in command {0.command} in {0.message.channel}'.format(ctx))
-        botdev_msg = "Exception occured in `{0.command}` in {0.message.channel.mention}".format(ctx)
+       # botdev_msg = "Exception occured in `{0.command}` in {0.message.channel.mention}".format(ctx)
         tb = traceback.format_exception(type(error), error, error.__traceback__)
         print(''.join(tb))
-        await bot.botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
+        # await bot.botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
 
 @bot.event
 async def on_error(ctx, event_method, *args, **kwargs):
@@ -72,7 +72,7 @@ async def on_error(ctx, event_method, *args, **kwargs):
     print(''.join(tb))
     botdev_msg += '\n```' + ''.join(tb) + '\n```'
     botdev_msg += '\nargs: `{}`\n\nkwargs: `{}`'.format(args, kwargs)
-    await bot.botdev_channel.send(botdev_msg)
+    # await bot.botdev_channel.send(botdev_msg)
     print(args)
     print(kwargs)
 
@@ -89,22 +89,26 @@ async def on_ready():
     preconfig_admin_role = config['Roles']['admin']
     preconfig_botdev_role = config['Roles']['botdev']
     preconfig_nsfw_role = config['Roles']['nsfw']
+    preconfig_muted_role = config['Roles']['muted']
 
     # Roles
     bot.owner_role = discord.utils.get(guild.roles, name=preconfig_owner_role)
     bot.admin_role = discord.utils.get(guild.roles, name=preconfig_admin_role)
     bot.botdev_role = discord.utils.get(guild.roles, name=preconfig_botdev_role)
     bot.nsfw_role = discord.utils.get(guild.roles, name=preconfig_nsfw_role)
+    bot.muted_role = discord.utils.get(guild.roles, name=preconfig_muted_role)
+    
+
 
     # Channel Configuration Parsing
     preconfig_announcements_channel = config['Channels']['announcements']
-    preconfig_botdev_channel = config['Channels']['botdev']
+    #preconfig_botdev_channel = config['Channels']['botdev']
     preconfig_botdms_channel = config['Channels']['botdms']
     preconfig_adminlogs_channel = config['Channels']['adminlogs']
 
     # Channels
     bot.announcements_channel = discord.utils.get(guild.channels, name=preconfig_announcements_channel)
-    bot.botdev_channel = discord.utils.get(guild.channels, name=preconfig_botdev_channel)
+    #bot.botdev_channel = discord.utils.get(guild.channels, name=preconfig_botdev_channel)
     bot.botdms_channel = discord.utils.get(guild.channels, name=preconfig_botdms_channel)
     bot.logs_channel = discord.utils.get(guild.channels, name=preconfig_adminlogs_channel)
 
@@ -158,6 +162,8 @@ async def reload(ctx, addon : str):
         except Exception as e:
             await ctx.send('💢 Failed!\n```\n{}: {}\n```'.format(type(e).__name__, e))
 
+            # Will add back later
+'''
 @bot.command(hidden=True, name="pull", aliases=["pacman"])
 async def pull(ctx, pip=None):
     """Pull new changes from Git and restart.\nAppend -p or --pip to this command to also update python modules from requirements.txt."""
@@ -180,6 +186,7 @@ async def pull(ctx, pip=None):
             await ctx.send("`{} is not in the sudoers file. This incident will be reported.`".format(ctx.message.author.display_name))
         else:
             await ctx.send("Only bot devs and / or owners can use this command")
+            '''
 
 @bot.command()
 async def restart(ctx):

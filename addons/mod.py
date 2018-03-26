@@ -228,6 +228,55 @@ class Moderation:
         except KeyError:
             return await ctx.send("This user doesn't have any warns!")
 
+
+    @commands.has_permissions(manage_roles=True)
+    @commands.command()
+    async def mute(self, ctx, member: 
+        discord.Member):
+        """Mutes a user (Staff only)"""
+        try:
+            member = ctx.message.mentions[0]
+        except IndexError:
+            return await ctx.send("Please mention a user.")
+        
+        if self.bot.muted_role in member.roles:
+            return await ctx.send("{} is already muted!".format(member))
+
+        try:
+            await member.add_roles(self.bot.muted_role, reason="You have been muted, reason: {}.".format(
+                ctx.message.author
+                ))
+            await ctx.send(f"{member} can no longer speak!")
+            await self.dm(member, "You have been muted. You will be DM'ed when a mod unmutes you.\n**Do not ask mods to unmute you, as doing so might extend the duration of the mute!**")
+
+        except discord.errors.Forbidden:
+            await ctx.send("💢 I dont have permission to do this.")
+
+    @commands.has_permissions(manage_roles=True)
+    @commands.command()
+    async def unmute(self, ctx, member):
+        """Unmutes a user (Staff only)"""
+        try:
+            member = ctx.message.mentions[0]
+        except IndexError:
+            return await ctx.send("Please mention a user.")
+
+        if self.bot.muted_role not in member.roles:
+            return await ctx.send("{} isn't muted!".format(member))
+
+        try:
+            await member.remove_roles(self.bot.muted_role, reason="Unmuted by {}.".format(
+                ctx.message.author
+               ))
+            await ctx.send("{} can now speak again!".format(member))
+            await self.dm(member, "You have been unmuted.")
+
+        except discord.errors.Forbidden:
+            await ctx.send("💢 I dont have permission to do this.")
+
+
+
+
 def setup(bot):
     bot.add_cog(Moderation(bot))
             
