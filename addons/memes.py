@@ -171,7 +171,7 @@ class Memes:
 
 
     # Kurisu memes
-    @commands.command(hidden=truehidden=true)
+    @commands.command(hidden=true)
     async def s_99(self, ctx):
         """Memes."""
         await ctx.send("**ALL HAIL BRITANNIA!**")
