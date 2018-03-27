@@ -48,7 +48,7 @@ class Moderation:
 
     @commands.has_permissions(kick_members=True)
     @commands.command()
-    async def multikick(self, ctx, *, members):
+    async def multikick(self, ctx, *, members, reason):
         """Kick multiple members. (Staff Only)"""
         try:
             mention_check = ctx.message.mentions[0]
@@ -57,11 +57,16 @@ class Moderation:
             return
         for member in ctx.message.mentions:
             try:
+                dm_msg = "You have been involved in a multi-kick from {} by {} for the following reason:\n{}".format(ctx.guild.name, ctx.message.author, reason)
+                await self.dm(member, dm_msg)
                 await member.kick()
                 await ctx.send("Kicked {}.".format(member))
+                log_msg = ":boot::boot::boot: Multi-kick by {} has kicked {} for the following reason: {}".format(ctx.message.author, member, reason)
+                logchannel = self.bot.logs_channel
+                await logchannel.send(log_msg)
             except discord.errors.Forbidden:
                 await ctx.send("💢 Couldn't kick {}".format(member))
-
+                
     @commands.has_permissions(ban_members=True)
     @commands.command()
     async def ban(self, ctx, member=""):
@@ -99,6 +104,9 @@ class Moderation:
             try:
                 await member.ban(delete_message_days=0)
                 await ctx.send("Banned {}.".format(member))
+                log_msg = ":hammer::hammer::hammer: Multi-ban by {} has banned {} for the following reason: {}".format(ctx.message.author, member, reason)
+                logchannel = self.bot.logs_channel
+                await logchannel.send(log_msg)
             except discord.errors.Forbidden:
                 await ctx.send("💢 Couldn't ban {}".format(member))
 
