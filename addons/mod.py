@@ -187,6 +187,9 @@ class Moderation:
         })
         await ctx.send("🚩 I've warned {}. The user now has {} warns.".format(member, amount_of_warns))
         await self.dm(member, "You have been warned in {} for the following reason :\n\n{}\n\n".format(ctx.guild.name, reason))
+        log_msg = "🚩 {} was warned by {} for the following reason:\n{}\nThis was warn #{}".format(member, ctx.message.author, reason, amount_of_warns)
+        logchannel = self.bot.logs_channel
+        await logchannel.send(log_msg)
 
         if amount_of_warns == 1:
             await self.dm(member, "This is your first warning. The next warning will automatically kick you from the server.")
