@@ -33,6 +33,51 @@ bot = commands.Bot(command_prefix=bot_prefix, description="GLaDOS, a general pur
 config = configparser.ConfigParser()
 config.read("config.ini")
 
+@bot.event
+async def on_ready():
+
+    for guild in bot.guilds:
+        bot.guild = guild
+
+    # Roles
+    
+    bot.owner_role = discord.utils.get(guild.roles, name="T3CH")
+    bot.admin_role = discord.utils.get(guild.roles, name="Nazis")
+    bot.botdev_role = discord.utils.get(guild.roles, name="BotDev")
+    bot.nsfw_role = discord.utils.get(guild.roles, name="NSFW")
+    bot.muted_role = discord.utils.get(guild.roles, name="Muted")
+    bot.approved_role = discord.utils.get(guild.roles, name="Approved")
+
+    # Channels
+    bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
+    bot.botdev_channel = discord.utils.get(guild.channels, name="botdev")
+    bot.botdms_channel = discord.utils.get(guild.channels, name="bot-dm")
+    bot.logs_channel = discord.utils.get(guild.channels, name="admin-logs")
+
+    # Ignored users
+    with open("database/ignored_users.json", "r") as f:
+        ignored_users = json.load(f)["users"]
+    bot.ignored_users = ignored_users
+
+    # Load addons
+    addons = [
+        'addons.speak',
+        'addons.misc',
+        'addons.memes',
+        'addons.mod',
+     ]
+
+    # Notify user if an addon fails to load.
+    for addon in addons:
+        try:
+            bot.load_extension(addon)
+        except Exception as e:
+            print("Failed to load {} :\n{} : {}".format(addon, type(e).__name__, e))
+
+    bot.all_ready = True
+
+    print("Client logged in as {}, in the following guild : {}".format(bot.user.name, guild.name))
+
 # Handle errors
 # Taken from 
 # https://github.com/916253/Kurisu/blob/31b1b747e0d839181162114a6e5731a3c58ee34f/run.py#L88
@@ -79,51 +124,6 @@ async def on_error(ctx, event_method, *args, **kwargs):
     print(kwargs)
 
 
-# Parse configuration for channel and role names
-@bot.event
-async def on_ready():
-
-    for guild in bot.guilds:
-        bot.guild = guild
-
-    # Roles
-    
-    bot.owner_role = discord.utils.get(guild.roles, name="T3CH")
-    bot.admin_role = discord.utils.get(guild.roles, name="Nazis")
-    bot.botdev_role = discord.utils.get(guild.roles, name="BotDev")
-    bot.nsfw_role = discord.utils.get(guild.roles, name="NSFW")
-    bot.muted_role = discord.utils.get(guild.roles, name="Muted")
-    bot.approved_role = discord.utils.get(guild.roles, name="Approved")
-
-    # Channels
-    bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
-    bot.botdev_channel = discord.utils.get(guild.channels, name="botdev")
-    bot.botdms_channel = discord.utils.get(guild.channels, name="bot-dm")
-    bot.logs_channel = discord.utils.get(guild.channels, name="admin-logs")
-
-    # Ignored users
-    with open("database/ignored_users.json", "r") as f:
-        ignored_users = json.load(f)["users"]
-    bot.ignored_users = ignored_users
-
-    # Load addons
-    addons = [
-        'addons.speak',
-        'addons.misc',
-        'addons.memes',
-        'addons.mod',
-     ]
-
-    # Notify user if an addon fails to load.
-    for addon in addons:
-        try:
-            bot.load_extension(addon)
-        except Exception as e:
-            print("Failed to load {} :\n{} : {}".format(addon, type(e).__name__, e))
-
-    bot.all_ready = True
-
-    print("Client logged in as {}, in the following guild : {}".format(bot.user.name, guild.name))
     
 # Core commands
 @bot.command(hidden=True)
