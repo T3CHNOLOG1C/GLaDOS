@@ -36,8 +36,8 @@ class Moderation:
             except IndexError:
                 await ctx.send("Please mention a user.")
                 return
-            message = "You have been kicked from {} by {} for the following reason:\n{}".format(guild.name, ctx.message.author, reason)
-            await self.dm(member, message)
+            dm_msg = "You have been kicked from {} by {} for the following reason:\n{}".format(ctx.guild.name, ctx.message.author, reason)
+            await self.dm(member, dm_msg)
             await member.kick()
             await ctx.send("I've kicked {}.".format(member))
             logchannel = self.bot.logs_channel
