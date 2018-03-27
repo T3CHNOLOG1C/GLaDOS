@@ -93,6 +93,7 @@ async def on_ready():
     bot.botdev_role = discord.utils.get(guild.roles, name="BotDev")
     bot.nsfw_role = discord.utils.get(guild.roles, name="NSFW")
     bot.muted_role = discord.utils.get(guild.roles, name="Muted")
+    bot.approved_role = discord.utils.get(guild.roles, name="Approved")
 
     # Channels
     bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
