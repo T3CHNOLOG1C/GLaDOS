@@ -73,7 +73,7 @@ async def on_error(ctx, event_method, *args, **kwargs):
     print(''.join(tb))
     botdev_msg += '\n```' + ''.join(tb) + '\n```'
     botdev_msg += '\nargs: `{}`\n\nkwargs: `{}`'.format(args, kwargs)
-    botdev_channel = self.bot.botdev_channel
+    botdev_channel = bot.botdev_channel
     await botdev_channel.send(botdev_msg)
     print(args)
     print(kwargs)
