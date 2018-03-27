@@ -104,6 +104,20 @@ class Moderation:
         logchannel = self.bot.logs_channel
         await logchannel.send(log_msg)
         
+        
+    @commands.has_permissions(manage_messages=True)
+    @commands.command()
+    async def unlock(self, ctx):
+        """
+        Unlock a channel
+        """
+        channel = ctx.channel
+        await channel.set_permissions(ctx.guild.default_role, send_messages=True)
+        await channel.send(":unlock: Channel Unlocked")
+        log_msg = ":unlock: #{} unlocked by @{}".format(ctx.channel.name, ctx.message.author)
+        logchannel = self.bot.logs_channel
+        await logchannel.send(log_msg)
+        
     
     # WARN STUFF
 
