@@ -25,9 +25,10 @@ class Moderation:
             await member.send(message)
         except:
             pass
+        
     @commands.has_permissions(kick_members=True)
     @commands.command()
-    async def kick(self, ctx, member):
+    async def kick(self, ctx, member, reason):
         """Kick a member. (Staff Only)"""
         try:
             try:
@@ -35,8 +36,13 @@ class Moderation:
             except IndexError:
                 await ctx.send("Please mention a user.")
                 return
+            message = "You have been kicked from {} by {} for the following reason:\n{}".format(guild.name, ctx.message.author, reason)
+            await self.dm(member, message)
             await member.kick()
             await ctx.send("I've kicked {}.".format(member))
+            logchannel = self.bot.logs_channel
+            log_msg = ":boot: {} was kicked by {} for the following reason:\n{}".format(member, ctx.message.author, reason)
+            await logchannel.send(log_msg)
         except discord.errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
 
