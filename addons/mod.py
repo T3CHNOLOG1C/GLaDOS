@@ -93,13 +93,15 @@ class Moderation:
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
-    async def lockdown(self, ctx):
+    async def lockdown(self, ctx, reason):
         """
         Lock down a channel
         """
         channel = ctx.channel
         await channel.set_permissions(ctx.guild.default_role, send_messages=False)
         await channel.send(":lock: EVERYONE SHUT THE FUCK UP, PLEASE!")
+        log_msg = ":lock: {} locked by {}.".format(ctx.channel.name, ctx.message.author)
+        await bot.logs_channel.send(log_msg)
         
     
     # WARN STUFF
