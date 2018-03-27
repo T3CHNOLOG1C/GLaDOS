@@ -100,8 +100,9 @@ class Moderation:
         channel = ctx.channel
         await channel.set_permissions(ctx.guild.default_role, send_messages=False)
         await channel.send(":lock: EVERYONE SHUT THE FUCK UP, PLEASE!")
-        log_msg = ":lock: {} locked by {}.".format(ctx.channel.name, ctx.message.author)
-        await bot.logs_channel.send(log_msg)
+        log_msg = ":lock: {} locked by {}.\nReason: {}".format(ctx.channel.name, ctx.message.author, reason)
+        logchannel = self.bot.logs_channel
+        await logchannel.send(log_msg)
         
     
     # WARN STUFF
