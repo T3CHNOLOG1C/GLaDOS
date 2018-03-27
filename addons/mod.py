@@ -25,9 +25,10 @@ class Moderation:
             await member.send(message)
         except:
             pass
+        
     @commands.has_permissions(kick_members=True)
     @commands.command()
-    async def kick(self, ctx, member):
+    async def kick(self, ctx, member, reason):
         """Kick a member. (Staff Only)"""
         try:
             try:
@@ -35,14 +36,19 @@ class Moderation:
             except IndexError:
                 await ctx.send("Please mention a user.")
                 return
+            dm_msg = "You have been kicked from {} by {} for the following reason:\n{}".format(ctx.guild.name, ctx.message.author, reason)
+            await self.dm(member, dm_msg)
             await member.kick()
             await ctx.send("I've kicked {}.".format(member))
+            logchannel = self.bot.logs_channel
+            log_msg = ":boot: {} was kicked by {} for the following reason:\n{}".format(member, ctx.message.author, reason)
+            await logchannel.send(log_msg)
         except discord.errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
 
     @commands.has_permissions(kick_members=True)
     @commands.command()
-    async def multikick(self, ctx, *, members):
+    async def multikick(self, ctx, *, members, reason):
         """Kick multiple members. (Staff Only)"""
         try:
             mention_check = ctx.message.mentions[0]
@@ -51,11 +57,16 @@ class Moderation:
             return
         for member in ctx.message.mentions:
             try:
+                dm_msg = "You have been involved in a multi-kick from {} by {} for the following reason:\n{}".format(ctx.guild.name, ctx.message.author, reason)
+                await self.dm(member, dm_msg)
                 await member.kick()
                 await ctx.send("Kicked {}.".format(member))
+                log_msg = ":boot::boot::boot: Multi-kick by {} has kicked {} for the following reason: {}".format(ctx.message.author, member, reason)
+                logchannel = self.bot.logs_channel
+                await logchannel.send(log_msg)
             except discord.errors.Forbidden:
                 await ctx.send("💢 Couldn't kick {}".format(member))
-
+                
     @commands.has_permissions(ban_members=True)
     @commands.command()
     async def ban(self, ctx, member=""):
@@ -69,8 +80,13 @@ class Moderation:
         else:
             try:
                 member = ctx.message.mentions[0]
+                dm_msg = "You have been banned from {} by {} for the following reason:\n{}".format(ctx.guild.name, ctx.message.author, reason)
+                await self.dm(member, dm_msg)
                 await member.ban(delete_message_days=0)
                 await ctx.send("I've banned {}.".format(member))
+                logchannel = self.bot.logs_channel
+                log_msg = ":hammer: {} was banned by {} for the following reason:\n{}".format(member, ctx.message.author, reason)
+                await logchannel.send(log_msg)
             except discord.errors.Forbidden:
                 await ctx.send("💢 I dont have permission to do this.")
     
@@ -88,18 +104,38 @@ class Moderation:
             try:
                 await member.ban(delete_message_days=0)
                 await ctx.send("Banned {}.".format(member))
+                log_msg = ":hammer::hammer::hammer: Multi-ban by {} has banned {} for the following reason: {}".format(ctx.message.author, member, reason)
+                logchannel = self.bot.logs_channel
+                await logchannel.send(log_msg)
             except discord.errors.Forbidden:
                 await ctx.send("💢 Couldn't ban {}".format(member))
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
-    async def lockdown(self, ctx):
+    async def lockdown(self, ctx, reason):
         """
         Lock down a channel
         """
         channel = ctx.channel
         await channel.set_permissions(ctx.guild.default_role, send_messages=False)
         await channel.send(":lock: EVERYONE SHUT THE FUCK UP, PLEASE!")
+        log_msg = ":lock: #{} locked by @{}.\nReason: {}".format(ctx.channel.name, ctx.message.author, reason)
+        logchannel = self.bot.logs_channel
+        await logchannel.send(log_msg)
+        
+        
+    @commands.has_permissions(manage_messages=True)
+    @commands.command()
+    async def unlock(self, ctx):
+        """
+        Unlock a channel
+        """
+        channel = ctx.channel
+        await channel.set_permissions(ctx.guild.default_role, send_messages=True)
+        await channel.send(":unlock: Channel Unlocked")
+        log_msg = ":unlock: #{} unlocked by @{}".format(ctx.channel.name, ctx.message.author)
+        logchannel = self.bot.logs_channel
+        await logchannel.send(log_msg)
         
     
     # WARN STUFF
