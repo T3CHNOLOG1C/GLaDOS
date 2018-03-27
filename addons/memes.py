@@ -14,58 +14,58 @@ class Memes:
 
     # SSS memes
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def gudie(self, ctx):
         """Follow the Gudie to become a l33t Corbenik hax0r."""
         return await ctx.send("https://gudie.racklab.xyz/")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def rip(self, ctx):
         """F"""
         msg = await ctx.send("Press F to pay respects.")
         await msg.add_reaction("🇫")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def t3ch(self, ctx):
         """Goddamn Nazimod"""
         return await ctx.send("https://i.imgur.com/4kANai8.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def bigsmoke(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/vo5l6Fo.jpg\nALL YOU HAD TO DO WAS FOLLOW THE DAMN GUIDE CJ!")
  
-    @commands.command(hidden=true)
+    @commands.command()
     async def bigorder(self, ctx):
         """Memes."""
         await ctx.send("I'll have two number 9s, a number 9 large, a number 6 with extra dip, a number 7, two number 45s, one with cheese, and a large soda.")
  
-    @commands.command(hidden=true)
+    @commands.command()
     async def heil(self, ctx):
         """SIEG HEIL"""
         await ctx.send("HEIL T3CH!")
         
-    @commands.command(hidden=true)
+    @commands.command()
     async def lenny(self, ctx):
         """( ͡° ͜ʖ ͡°)"""
         await ctx.send("( ͡° ͜ʖ ͡°)")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def brickdurr(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/hzuXOHP.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def birds(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/fVAx5oh.png")
 	
-    @commands.command(hidden=true)
+    @commands.command()
     async def kina(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/8Mm5ZvB.jpg")
 	
-    @commands.command(hidden=true)
+    @commands.command()
     async def macboy(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/IpQC6IF.png")
@@ -171,188 +171,188 @@ class Memes:
 
 
     # Kurisu memes
-    @commands.command(hidden=true)
+    @commands.command()
     async def s_99(self, ctx):
         """Memes."""
         await ctx.send("**ALL HAIL BRITANNIA!**")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def screams(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/j0Dkv2Z.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def eeh(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/2SBC1Qo.jpg")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def dubyadud(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/Sohsi8s.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def megumi(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/GMRp1dj.jpg")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def inori(self, ctx):
         """Memes."""
         await ctx.send("https://i.imgur.com/WLncIsi.gif")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def inori3(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/so8thgu.gifv")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def inori4(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/267IXh1.gif")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def inori5(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/lKcsiBP.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def inori6(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/SIJzpau.gifv")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def shotsfired(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/zf2XrNk.gifv")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def rusure(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/dqh3fNi.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def r34(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/sjQZKBF.gif")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def permabrocked(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/ARsOh3p.jpg")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def knp(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/EsJ191C.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def lucina(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/tnWSXf7.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def lucina2(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/ZPMveve.jpg")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def xarec(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/A59RbRT.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def clap(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/UYbIZYs.gifv")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def ayyy(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/bgvuHAd.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def hazel(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/vpu8bX3.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def thumbsup(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/hki1IIs.gifv")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def pbanjo(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/sBJKzuK.png")
 
     # Cute commands :3
-    @commands.command(hidden=true)
+    @commands.command()
     async def headpat(self, ctx):
         """Cute"""
         await ctx.send("http://i.imgur.com/7V6gIIW.jpg")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def headpat2(self, ctx):
         """Cute"""
         await ctx.send("http://i.imgur.com/djhHX0n.gifv")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def sudoku(self, ctx):
         """Cute"""
         await ctx.send("http://i.imgur.com/VHlIZRC.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def baka(self, ctx):
         """Cute"""
         await ctx.send("http://i.imgur.com/OyjCHNe.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def mugi(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/lw80tT0.gif")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def lisp(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/RQeZErU.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def headrub(self, ctx):
         """Cute"""
         await ctx.send("http://i.imgur.com/j6xSoKv.jpg")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def blackalabi(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/JzFem4y.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def nom(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/p1r53ni.jpg")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def soghax(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/oQJy2eN.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def whatisr(self, ctx):
         """MEMES?"""
         await ctx.send("http://i.imgur.com/Z8HhfzJ.jpg")
 	
-    @commands.command(hidden=true)
+    @commands.command()
     async def sn0w(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/sFD5uSB.png")
 
-    @commands.command(hidden=true)
+    @commands.command()
     async def helpers(self, ctx):
         """MEMES?"""
         await ctx.send("http://i.imgur.com/0v1EgMX.png")
     
-    @commands.command(hidden=true)
+    @commands.command()
     async def concern(self, ctx):
         """MEMES?"""
         await ctx.send("https://i.imgur.com/cWXBb5g.png")
@@ -375,7 +375,7 @@ class Memes:
             )
 
     @commands.cooldown (rate=1, per=10.0, type=commands.BucketType.channel)
-    @commands.command(hidden=true)
+    @commands.command()
     async def gnulinux(self, ctx,):
         """GNU/Linux Copy Pasta"""
         await ctx.send("""```I'd just like to interject for a moment. What you're referring to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
