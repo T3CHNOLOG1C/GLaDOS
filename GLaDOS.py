@@ -61,7 +61,7 @@ async def on_command_error(ctx, error):
         tb = traceback.format_exception(type(error), error, error.__traceback__)
         print(''.join(tb))
         botdev_channel = bot.botdev_channel
-        await bot.botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
+        await botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
 
 @bot.event
 async def on_error(ctx, event_method, *args, **kwargs):
