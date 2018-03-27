@@ -158,9 +158,9 @@ class Moderation:
         except IndexError:
             return await ctx.send("Please mention a user.")
 
-        if self.bot.staff_role in member.roles and not self.bot.owner_role in author.roles:
+        if bot.staff_role in member.roles and not bot.owner_role in author.roles:
             return await ctx.send("You cannot warn other staff members!")
-        elif self.bot.owner_role in member.roles:
+        elif bot.owner_role in member.roles:
             return await ctx.send("💢 I don't have the permission to do that!")
         
         with open("database/warns.json", "r") as f:
@@ -186,7 +186,7 @@ class Moderation:
             "author_id": author.id,
         })
         await ctx.send("🚩 I've warned {}. The user now has {} warns.".format(member, amount_of_warns))
-        await self.dm(member, "You have been warned in █▀█ █▄█ ▀█▀ for the following reason :\n\n{}\n\n".format(reason))
+        await self.dm(member, "You have been warned in {} for the following reason :\n\n{}\n\n".format(ctx.guild.name, reason))
 
         if amount_of_warns == 1:
             await self.dm(member, "This is your first warning. The next warning will automatically kick you from the server.")
