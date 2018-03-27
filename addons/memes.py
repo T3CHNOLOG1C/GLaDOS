@@ -276,7 +276,7 @@ class Memes:
         """Memes."""
         await ctx.send("http://i.imgur.com/vpu8bX3.png")
 
-    @commands.command(hidden=truehidden=true)
+    @commands.command(hidden=true)
     async def thumbsup(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/hki1IIs.gifv")
