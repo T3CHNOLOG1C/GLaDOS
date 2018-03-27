@@ -264,7 +264,27 @@ class Moderation:
         except KeyError:
             return await ctx.send("This user doesn't have any warns!")
 
-
+    @commands.has_permissions(manage_roles=True)
+    @commands.command()
+    async def approve(self, ctx, member)
+        """Approve members"""
+        try:
+            member = ctx.message.mentions[0]
+        except IndexError:
+            return await ctx.send("Please mention a user.")
+        if self.bot.approved_role not in member.roles:
+            try:
+                await member.add_roles(self.bot.approved_role)
+                dm_msg = "You have been approved by {}, welcome to {}!".format(ctx.message.author, ctx.guild.name)
+                await self.dm(member, dm_msg)
+                logchannel = self.bot.logs_channel
+                log_msg = ":thumbsup: {} was approved by {}.".format(member, ctx.message.author)
+                await logchannel.send(log_msg)
+            except discord.errors.Forbidden:
+                await ctx.send("💢 I dont have permission to do this.")
+        elif self.bot.approved_role in member.roles:
+            await ctx.send("This member is already approved!")
+            
     @commands.has_permissions(manage_roles=True)
     @commands.command()
     async def mute(self, ctx, member: 
