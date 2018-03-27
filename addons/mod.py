@@ -266,7 +266,7 @@ class Moderation:
 
     @commands.has_permissions(manage_roles=True)
     @commands.command()
-    async def approve(self, ctx, member)
+    async def approve(self, ctx, member):
         """Approve members"""
         try:
             member = ctx.message.mentions[0]
