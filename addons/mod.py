@@ -75,8 +75,13 @@ class Moderation:
         else:
             try:
                 member = ctx.message.mentions[0]
+                dm_msg = "You have been banned from {} by {} for the following reason:\n{}".format(ctx.guild.name, ctx.message.author, reason)
+                await self.dm(member, dm_msg)
                 await member.ban(delete_message_days=0)
                 await ctx.send("I've banned {}.".format(member))
+                logchannel = self.bot.logs_channel
+                log_msg = ":hammer: {} was banned by {} for the following reason:\n{}".format(member, ctx.message.author, reason)
+                await logchannel.send(log_msg)
             except discord.errors.Forbidden:
                 await ctx.send("💢 I dont have permission to do this.")
     
