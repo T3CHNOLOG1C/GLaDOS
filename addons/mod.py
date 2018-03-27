@@ -262,6 +262,9 @@ class Moderation:
         try:
             js.pop(str(member.id))
             await ctx.send("Cleared all of {}'s warns!".format(member.mention))
+            log_msg = "🚩:wastebasket: {} had all of their warns cleared by {}.".format(member, ctx.message.author)
+            logchannel = self.bot.logs_channel
+            await logchannel.send(log_msg)
             with open("database/warns.json", "w") as f:
                 json.dump(js, f, indent=2, separators=(',', ':'))
         except KeyError:
