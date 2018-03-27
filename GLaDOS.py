@@ -181,15 +181,6 @@ async def restart(ctx):
     if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
         await ctx.send("`Restarting, please wait...`")
         execv("python3 GLaDOS.py", argv)
-        
-@bot.command(hidden=True)
-async def roletest(ctx, addon: str):
-    """"""
-    dev = ctx.message.author
-    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
-        await ctx.send("True")
-    else:
-        await ctx.send("False")
 
 # Run the bot
 bot.run(config['Main']['token'])
