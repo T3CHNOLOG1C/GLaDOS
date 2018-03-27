@@ -60,6 +60,7 @@ async def on_command_error(ctx, error):
         botdev_msg = "Exception occured in `{0.command}` in {0.message.channel.mention}".format(ctx)
         tb = traceback.format_exception(type(error), error, error.__traceback__)
         print(''.join(tb))
+        botdev_channel = self.bot.botdev_channel
         await bot.botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
 
 @bot.event
@@ -72,7 +73,8 @@ async def on_error(ctx, event_method, *args, **kwargs):
     print(''.join(tb))
     botdev_msg += '\n```' + ''.join(tb) + '\n```'
     botdev_msg += '\nargs: `{}`\n\nkwargs: `{}`'.format(args, kwargs)
-    # await bot.botdev_channel.send(botdev_msg)
+    botdev_channel = self.bot.botdev_channel
+    await botdev_channel.send(botdev_msg)
     print(args)
     print(kwargs)
 
