@@ -158,7 +158,7 @@ class Moderation:
         except IndexError:
             return await ctx.send("Please mention a user.")
 
-        if bot.staff_role in member.roles and not bot.owner_role in author.roles:
+        if bot.admin_role in member.roles and not bot.owner_role in author.roles:
             return await ctx.send("You cannot warn other staff members!")
         elif bot.owner_role in member.roles:
             return await ctx.send("💢 I don't have the permission to do that!")
