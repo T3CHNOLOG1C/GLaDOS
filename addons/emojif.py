@@ -58,6 +58,15 @@ class Emojif:
 
         return await ctx.send("<@{}> {}".format(member, msg))
 
+    @emojif.command()
+    async def list(self, ctx):
+        """List all animated emojis that the bot can use."""
+        
+        output = ""
+        for e in sorted(self.bot.emojis):
+            output += '**`:{}:`** -> {}\n'.format(e.name, str(e))
+        await ctx.send("__List of animated emojis :__\n\n" + output)
+
     @commands.has_permissions(administrator=True)
     @emojif.command()
     async def globaltoggle(self, ctx):
