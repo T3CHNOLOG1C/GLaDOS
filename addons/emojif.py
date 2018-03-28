@@ -22,13 +22,7 @@ class Emojif:
         except KeyError:
             self.emojif_active = True
         
-        self.emojif_list = {}
-        for g in bot.guilds:
-            for e in g.emojis:
-                if e.animated:
-                    self.emojif_list[e.name] = e
-
-        print("{} addon loaded.\n{}\n{}\n{}".format(self.__class__.__name__, self.emojif_list, self.emojif_settings, self.emojif_active))
+        print("{} addon loaded.".format(self.__class__.__name__))
 
     @commands.group(name='emojif')
     async def emojif(self, ctx):
@@ -107,12 +101,14 @@ class Emojif:
             return
 
         content = message.content
-        msg_emojis = re.findall(':\\w*:', content)
+        msg_emojis = re.findall(':\\w+:', content)
+        client_emojis = tuple(e.name for e in self.bot.emojis if e.animated)
         for i, e in enumerate(msg_emojis):
-            if e[1:-1] not in self.emojif_list:
+            if e[1:-1] not in client_emojis:
                 msg_emojis.pop(i)
         if len(msg_emojis) == 0:
             return
+        print(msg_emojis)
 
 
         # At this point we can be sure that the message contains
@@ -131,8 +127,9 @@ class Emojif:
             attachments = ""
         formatted_author = "`{}`:".format(author.display_name)
         formatted_content = content.replace('@everyone', '`@everyone`').replace('@here', '`@here`')
-        for e in msg_emojis:
-            formatted_content = formatted_content.replace(e, str(self.emojif_list[e[1:-1]]))
+        for e in set(msg_emojis):
+            found_emoji = discord.utils.get(self.bot.emojis, name=e[1:-1])
+            formatted_content = formatted_content.replace(e, str(found_emoji))
 
         await message.delete()
 
