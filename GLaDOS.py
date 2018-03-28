@@ -28,7 +28,7 @@ if not os.path.isfile("database/emojif.json"):
         f.write('{}')
 
 bot_prefix = ["sudo", "."]
-bot = commands.Bot(command_prefix=bot_prefix, description="GLaDOS, a general purpose discord bot.", max_messages=10000)
+bot = commands.Bot(command_prefix=bot_prefix, description="GLaDOS, a general purpose discord bot.", max_messages=10000, pm_help=True)
 
 # Read config.ini
 config = configparser.ConfigParser()
