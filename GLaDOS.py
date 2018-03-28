@@ -36,6 +36,52 @@ bot = commands.Bot(command_prefix=bot_prefix, description="GLaDOS, a general pur
 config = configparser.ConfigParser()
 config.read("config.ini")
 
+@bot.event
+async def on_ready():
+
+    for guild in bot.guilds:
+        bot.guild = guild
+
+    # Roles
+    
+    bot.owner_role = discord.utils.get(guild.roles, name="T3CH")
+    bot.admin_role = discord.utils.get(guild.roles, name="Nazis")
+    bot.botdev_role = discord.utils.get(guild.roles, name="BotDev")
+    bot.nsfw_role = discord.utils.get(guild.roles, name="NSFW")
+    bot.muted_role = discord.utils.get(guild.roles, name="Muted")
+    bot.approved_role = discord.utils.get(guild.roles, name="Approved")
+
+    # Channels
+    bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
+    bot.botdev_channel = discord.utils.get(guild.channels, name="botdev")
+    bot.botdms_channel = discord.utils.get(guild.channels, name="bot-dm")
+    bot.logs_channel = discord.utils.get(guild.channels, name="admin-logs")
+
+    # Ignored users
+    with open("database/ignored_users.json", "r") as f:
+        ignored_users = json.load(f)["users"]
+    bot.ignored_users = ignored_users
+
+    # Load addons
+    addons = [
+        'addons.speak',
+        'addons.misc',
+        'addons.memes',
+        'addons.mod',
+        'addons.emojif',
+     ]
+
+    # Notify user if an addon fails to load.
+    for addon in addons:
+        try:
+            bot.load_extension(addon)
+        except Exception as e:
+            print("Failed to load {} :\n{} : {}".format(addon, type(e).__name__, e))
+
+    bot.all_ready = True
+
+    print("Client logged in as {}, in the following guild : {}".format(bot.user.name, guild.name))
+
 # Handle errors
 # Taken from 
 # https://github.com/916253/Kurisu/blob/31b1b747e0d839181162114a6e5731a3c58ee34f/run.py#L88
@@ -63,7 +109,8 @@ async def on_command_error(ctx, error):
         botdev_msg = "Exception occured in `{0.command}` in {0.message.channel.mention}".format(ctx)
         tb = traceback.format_exception(type(error), error, error.__traceback__)
         print(''.join(tb))
-        await bot.botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
+        botdev_channel = bot.botdev_channel
+        await botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
 
 @bot.event
 async def on_error(ctx, event_method, *args, **kwargs):
@@ -75,67 +122,12 @@ async def on_error(ctx, event_method, *args, **kwargs):
     print(''.join(tb))
     botdev_msg += '\n```' + ''.join(tb) + '\n```'
     botdev_msg += '\nargs: `{}`\n\nkwargs: `{}`'.format(args, kwargs)
-    await bot.botdev_channel.send(botdev_msg)
+    botdev_channel = bot.botdev_channel
+    await botdev_channel.send(botdev_msg)
     print(args)
     print(kwargs)
 
 
-# Parse configuration for channel and role names
-@bot.event
-async def on_ready():
-
-    for guild in bot.guilds:
-        bot.guild = guild
-
-    # Role Configuration Parsing
-    preconfig_owner_role = config['Roles']['owner']
-    preconfig_admin_role = config['Roles']['admin']
-    preconfig_botdev_role = config['Roles']['botdev']
-    preconfig_nsfw_role = config['Roles']['nsfw']
-
-    # Roles
-    bot.owner_role = discord.utils.get(guild.roles, name=preconfig_owner_role)
-    bot.admin_role = discord.utils.get(guild.roles, name=preconfig_admin_role)
-    bot.botdev_role = discord.utils.get(guild.roles, name=preconfig_botdev_role)
-    bot.nsfw_role = discord.utils.get(guild.roles, name=preconfig_nsfw_role)
-
-    # Channel Configuration Parsing
-    preconfig_announcements_channel = config['Channels']['announcements']
-    preconfig_botdev_channel = config['Channels']['botdev']
-    preconfig_botdms_channel = config['Channels']['botdms']
-    preconfig_adminlogs_channel = config['Channels']['adminlogs']
-
-    # Channels
-    bot.announcements_channel = discord.utils.get(guild.channels, name=preconfig_announcements_channel)
-    bot.botdev_channel = discord.utils.get(guild.channels, name=preconfig_botdev_channel)
-    bot.botdms_channel = discord.utils.get(guild.channels, name=preconfig_botdms_channel)
-    bot.logs_channel = discord.utils.get(guild.channels, name=preconfig_adminlogs_channel)
-
-    # Ignored users
-    with open("database/ignored_users.json", "r") as f:
-        ignored_users = json.load(f)["users"]
-    bot.ignored_users = ignored_users
-
-    # Load addons
-    addons = [
-        'addons.speak',
-        'addons.misc',
-        'addons.memes',
-        'addons.mod',
-        'addons.emojif',
-     ]
-
-    # Notify user if an addon fails to load.
-    for addon in addons:
-        try:
-            bot.load_extension(addon)
-        except Exception as e:
-            print("Failed to load {} :\n{} : {}".format(addon, type(e).__name__, e))
-
-    bot.all_ready = True
-
-    print("Client logged in as {}, in the following guild : {}".format(bot.user.name, guild.name))
-    
 # Core commands
 @bot.command(hidden=True)
 async def unload(ctx, addon: str):
@@ -162,6 +154,8 @@ async def reload(ctx, addon : str):
         except Exception as e:
             await ctx.send('💢 Failed!\n```\n{}: {}\n```'.format(type(e).__name__, e))
 
+            # Will add back later
+
 @bot.command(hidden=True, name="pull", aliases=["pacman"])
 async def pull(ctx, pip=None):
     """Pull new changes from Git and restart.\nAppend -p or --pip to this command to also update python modules from requirements.txt."""
@@ -184,6 +178,7 @@ async def pull(ctx, pip=None):
             await ctx.send("`{} is not in the sudoers file. This incident will be reported.`".format(ctx.message.author.display_name))
         else:
             await ctx.send("Only bot devs and / or owners can use this command")
+            
 
 @bot.command()
 async def restart(ctx):
@@ -192,15 +187,6 @@ async def restart(ctx):
     if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
         await ctx.send("`Restarting, please wait...`")
         execv("python3 GLaDOS.py", argv)
-        
-@bot.command(hidden=True)
-async def roletest(ctx, addon: str):
-    """"""
-    dev = ctx.message.author
-    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
-        await ctx.send("True")
-    else:
-        await ctx.send("False")
 
 # Run the bot
 bot.run(config['Main']['token'])

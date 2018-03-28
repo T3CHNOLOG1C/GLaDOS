@@ -1,19 +1,6 @@
 [Main]
 token = {TOKEN HERE}
 
-[Roles]
-owner = "ROLE NAME HERE"
-admin = "ROLE NAME HERE"
-botdev = "ROLE NAME HERE"
-nsfw = "ROLE NAME HERE"
-
-[Channels]
-announcements = "CHANNEL NAME HERE"
-botdev = "CHANNEL NAME HERE"
-botdms = "CHANNEL NAME HERE"
-adminlogs = "CHANNEL NAME HERE"
-
-
 [Google]
 API_Key = {API KEY HERE}
 ; get one here : https://console.developers.google.com/project/_/apiui/credential
