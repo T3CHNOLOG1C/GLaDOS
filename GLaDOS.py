@@ -179,14 +179,12 @@ async def pull(ctx, pip=None):
         else:
             await ctx.send("Only bot devs and / or owners can use this command")
             
-
+@commands.has_permissions(administrator=True)
 @bot.command()
 async def restart(ctx):
     """Restart the bot (Staff Only)"""
-    dev = ctx.message.author
-    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
-        await ctx.send("`Restarting, please wait...`")
-        execv("python3 GLaDOS.py", argv)
+    await ctx.send("`Restarting, please wait...`")
+    execv("python3 GLaDOS.py", argv)
 
 # Run the bot
 bot.run(config['Main']['token'])
