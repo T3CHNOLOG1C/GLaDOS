@@ -40,9 +40,13 @@ class Moderation:
             await self.dm(member, dm_msg)
             await member.kick()
             await ctx.send("I've kicked {}.".format(member))
+            
+            emb = discord.Embed(title="Member Kicked", colour=discord.Colour.red())
+            emb.add_field(name="Member:", value=member.name, inline=True)
+            emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
+            emb.add_field(name="Reason:", value=reason, inline=True)
             logchannel = self.bot.logs_channel
-            log_msg = ":boot: {} was kicked by {} for the following reason:\n{}".format(member, ctx.message.author, reason)
-            await logchannel.send(log_msg)
+            await logchannel.send("", embed=emb)
         except discord.errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
 
