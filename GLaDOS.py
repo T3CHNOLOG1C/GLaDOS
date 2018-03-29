@@ -77,6 +77,7 @@ async def on_ready():
         'addons.mod',
         'addons.emojif',
         'addons.colors',
+        'addons.events'
      ]
 
     # Notify user if an addon fails to load.
