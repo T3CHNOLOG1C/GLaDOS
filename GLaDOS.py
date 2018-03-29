@@ -49,6 +49,15 @@ async def on_ready():
     bot.muted_role = discord.utils.get(guild.roles, name="Muted")
     bot.approved_role = discord.utils.get(guild.roles, name="Approved")
 
+    # Color Roles
+    bot.green_role = discord.utils.get(guild.roles, name="Green")
+    bot.blue_role = discord.utils.get(guild.roles, name="Blue")
+    bot.orange_role = discord.utils.get(guild.roles, name="Orange")
+    bot.white_role = discord.utils.get(guild.roles, name="White")
+    bot.black_role = discord.utils.get(guild.roles, name="Black")
+    bot.sand_role = discord.utils.get(guild.roles, name="Sand")
+    bot.pink_role = discord.utils.get(guild.roles, name="Pink")
+
     # Channels
     bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
     bot.botdev_channel = discord.utils.get(guild.channels, name="botdev")
@@ -67,6 +76,7 @@ async def on_ready():
         'addons.memes',
         'addons.mod',
         'addons.emojif',
+        'addons.colors',
      ]
 
     # Notify user if an addon fails to load.
