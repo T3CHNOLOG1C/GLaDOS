@@ -340,7 +340,7 @@ class Moderation:
     async def embedtest(self, ctx):
         """testing embed functionality"""
         emb = discord.Embed(title="test", colour=discord.Colour.green())
-        emb.add_field(name="field1", value="lol", inline=true)
+        emb.add_field(name="field1", value="lol", inline=True)
         ctx.send("", emb)
 
 
