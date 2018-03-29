@@ -336,7 +336,12 @@ class Moderation:
         except discord.errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
 
-
+    @commands.command()
+    async def embedtest(self, ctx):
+        """testing embed functionality"""
+        emb = discord.Embed(title="test", colour=discord.Colour.green())
+        emb.add_field(name="field1", value="lol", inline=true)
+        ctx.send("", emb)
 
 
 def setup(bot):
