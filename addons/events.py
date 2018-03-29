@@ -20,6 +20,15 @@ class Events:
         emb.set_thumbnail(url=user.avatar_url)
         logchannel = self.bot.memberlogs_channel
         await logchannel.send("", embed=emb)
+        
+    async def on_member_remove(self, member):
+        user = member
+        geturl = await self.bot.get_user_info(user.id)
+        emb = discord.Embed(title="Member Left", colour=discord.Colour.green())
+        emb.add_field(name="Member:", value=member.name, inline=True)
+        emb.set_thumbnail(url=user.avatar_url)
+        logchannel = self.bot.memberlogs_channel
+        await logchannel.send("", embed=emb)
 
 def setup(bot):
     bot.add_cog(Events(bot))
