@@ -13,7 +13,7 @@ class Events:
         print("{} addon loaded.".format(self.__class__.__name__))
         
     @bot.event
-    async def on_member_join(member):
+    async def on_member_join(self, member):
         user = member
         geturl = await self.bot.get_user_info(user)
         emb = discord.Embed(title="Member Joined", colour=discord.Colour.green())
