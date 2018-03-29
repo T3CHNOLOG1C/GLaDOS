@@ -1,13 +1,11 @@
-#!/usr/bin/env python3.6
-
-import datetime
-
+#!/usr/bin/env python3
+import time
 import discord
 from discord.ext import commands
 
 class Events:
     """
-    Various bot events
+    bot events
     """
 
     def __init__(self, bot):
@@ -23,6 +21,7 @@ class Events:
         emb.set_thumbnail(url=user.avatar_url)
         logchannel = self.bot.memberlogs_channel
         await logchannel.send("", embed=emb)
-    
+
 def setup(bot):
     bot.add_cog(Events(bot))
+            
