@@ -136,9 +136,11 @@ class Moderation:
         channel = ctx.channel
         await channel.set_permissions(ctx.guild.default_role, send_messages=True)
         await channel.send(":unlock: Channel Unlocked")
-        log_msg = ":unlock: #{} unlocked by @{}".format(ctx.channel.name, ctx.message.author)
+        emb = discord.Embed(title="Unlock", colour=discord.Colour.gold())
+        emb.add_field(name="Channel:", value=ctx.channel.name, inline=True)
+        emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
         logchannel = self.bot.logs_channel
-        await logchannel.send(log_msg)
+        await logchannel.send("", embed=emb)
         
     
     # WARN STUFF
@@ -339,13 +341,6 @@ class Moderation:
         except discord.errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
 
-    @commands.command()
-    async def embedtest(self, ctx):
-        """testing embed functionality"""
-        emb = discord.Embed(title="Lockdown", colour=discord.Colour.gold())
-        emb.add_field(name="Channel:", value=ctx.channel.name, inline=True)
-        emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
-        await logchannel.send("", embed=emb)
 
 
 def setup(bot):
