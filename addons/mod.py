@@ -40,7 +40,6 @@ class Moderation:
             await self.dm(member, dm_msg)
             await member.kick()
             await ctx.send("I've kicked {}.".format(member))
-            
             emb = discord.Embed(title="Member Kicked", colour=discord.Colour.red())
             emb.add_field(name="Member:", value=member.name, inline=True)
             emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
@@ -88,9 +87,12 @@ class Moderation:
                 await self.dm(member, dm_msg)
                 await member.ban(delete_message_days=0)
                 await ctx.send("I've banned {}.".format(member))
+                emb = discord.Embed(title="Member Banned", colour=discord.Colour.red())
+                emb.add_field(name="Member:", value=member.name, inline=True)
+                emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
+                emb.add_field(name="Reason:", value=reason, inline=True)
                 logchannel = self.bot.logs_channel
-                log_msg = ":hammer: {} was banned by {} for the following reason:\n{}".format(member, ctx.message.author, reason)
-                await logchannel.send(log_msg)
+                await logchannel.send("", embed=emb)
             except discord.errors.Forbidden:
                 await ctx.send("💢 I dont have permission to do this.")
     
@@ -196,9 +198,13 @@ class Moderation:
         })
         await ctx.send("🚩 I've warned {}. The user now has {} warns.".format(member, amount_of_warns))
         await self.dm(member, "You have been warned in {} for the following reason :\n\n{}\n\n".format(ctx.guild.name, reason))
-        log_msg = "🚩 {} was warned by {} for the following reason:\n{}\nThis was warn #{}".format(member, ctx.message.author, reason, amount_of_warns)
+        emb = discord.Embed(title="Member Warned", colour=discord.Colour.orange())
+        emb.add_field(name="Member:", value=member.name, inline=True)
+        emb.add_field(name="Warning Number:", value=amount_of_warns, inline=True)
+        emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
+        emb.add_field(name="Reason:", value=reason, inline=True)
         logchannel = self.bot.logs_channel
-        await logchannel.send(log_msg)
+        await logchannel.send("", embed=emb)
 
         if amount_of_warns == 1:
             await self.dm(member, "This is your first warning. The next warning will automatically kick you from the server.")
@@ -271,9 +277,11 @@ class Moderation:
         try:
             js.pop(str(member.id))
             await ctx.send("Cleared all of {}'s warns!".format(member.mention))
-            log_msg = "🚩:wastebasket: {} had all of their warns cleared by {}.".format(member, ctx.message.author)
+            emb = discord.Embed(title="Member Warns Cleared", colour=discord.Colour.orange())
+            emb.add_field(name="Member:", value=member.name, inline=True)
+            emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
             logchannel = self.bot.logs_channel
-            await logchannel.send(log_msg)
+            await logchannel.send("", embed=emb)
             with open("database/warns.json", "w") as f:
                 json.dump(js, f, indent=2, separators=(',', ':'))
         except KeyError:
@@ -293,9 +301,11 @@ class Moderation:
                 dm_msg = "You have been approved by {}, welcome to {}!".format(ctx.message.author, ctx.guild.name)
                 await self.dm(member, dm_msg)
                 await ctx.send(":thumbsup: {} has been approved".format(member.name))
+                emb = discord.Embed(title="Member Approved", colour=discord.Colour.blue())
+                emb.add_field(name="Member:", value=member.name, inline=True)
+                emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
                 logchannel = self.bot.logs_channel
-                log_msg = ":thumbsup: {} was approved by {}.".format(member, ctx.message.author)
-                await logchannel.send(log_msg)
+                await logchannel.send("", embed=emb)
             except discord.errors.Forbidden:
                 await ctx.send("💢 I dont have permission to do this.")
         elif self.bot.approved_role in member.roles:
