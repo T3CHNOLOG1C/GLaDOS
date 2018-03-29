@@ -119,9 +119,12 @@ class Moderation:
         channel = ctx.channel
         await channel.set_permissions(ctx.guild.default_role, send_messages=False)
         await channel.send(":lock: EVERYONE SHUT THE FUCK UP, PLEASE!")
-        log_msg = ":lock: #{} locked by @{}.\nReason: {}".format(ctx.channel.name, ctx.message.author, reason)
+        emb = discord.Embed(title="Lockdown", colour=discord.Colour.gold())
+        emb.add_field(name="Channel:", value=ctx.channel.name, inline=True)
+        emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
+        emb.add_field(name="Reason:", value=reason, inline=True)
         logchannel = self.bot.logs_channel
-        await logchannel.send(log_msg)
+        await logchannel.send("", embed=emb)
         
         
     @commands.has_permissions(manage_messages=True)
@@ -339,9 +342,10 @@ class Moderation:
     @commands.command()
     async def embedtest(self, ctx):
         """testing embed functionality"""
-        emb = discord.Embed(title="test", colour=discord.Colour.green())
-        emb.add_field(name="field1", value="lol", inline=True)
-        await ctx.send("", embed=emb)
+        emb = discord.Embed(title="Lockdown", colour=discord.Colour.gold())
+        emb.add_field(name="Channel:", value=ctx.channel.name, inline=True)
+        emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
+        await logchannel.send("", embed=emb)
 
 
 def setup(bot):
