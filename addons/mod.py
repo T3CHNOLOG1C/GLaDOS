@@ -28,7 +28,7 @@ class Moderation:
         
     @commands.has_permissions(kick_members=True)
     @commands.command()
-    async def kick(self, ctx, member, reason):
+    async def kick(self, ctx, member, reason=""):
         """Kick a member. (Staff Only)"""
         try:
             try:
@@ -52,7 +52,7 @@ class Moderation:
 
     @commands.has_permissions(kick_members=True)
     @commands.command()
-    async def multikick(self, ctx, *, members, reason):
+    async def multikick(self, ctx, *, members, reason=""):
         """Kick multiple members. (Staff Only)"""
         try:
             mention_check = ctx.message.mentions[0]
@@ -73,7 +73,7 @@ class Moderation:
                 
     @commands.has_permissions(ban_members=True)
     @commands.command()
-    async def ban(self, ctx, member, reason):
+    async def ban(self, ctx, member, reason=""):
         """Ban a member. (Staff Only)"""
         owner = ctx.message.guild.owner
         if len(ctx.message.mentions) == 0:
@@ -96,7 +96,7 @@ class Moderation:
     
     @commands.has_permissions(ban_members=True)
     @commands.command()
-    async def multiban(self, ctx, *, members):
+    async def multiban(self, ctx, *, members, reason=""):
         """Ban many members. (Staff Only)"""
 
         try:
@@ -116,13 +116,13 @@ class Moderation:
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
-    async def lockdown(self, ctx, reason):
+    async def lockdown(self, ctx, reason=""):
         """
         Lock down a channel
         """
         channel = ctx.channel
         await channel.set_permissions(ctx.guild.default_role, send_messages=False)
-        await channel.send(":lock: EVERYONE SHUT THE FUCK UP, PLEASE!")
+        await channel.send(":lock: Channel locked. The given reason is: {}".format(reason))
         emb = discord.Embed(title="Lockdown", colour=discord.Colour.gold())
         emb.add_field(name="Channel:", value=ctx.channel.name, inline=True)
         emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
@@ -151,7 +151,7 @@ class Moderation:
 
     @commands.has_permissions(administrator=True)
     @commands.command()
-    async def warn(self, ctx, member, *, reason):
+    async def warn(self, ctx, member, *, reason=""):
         """
         Warn members. (Staff Only)
         A user ID can be used instead of mentionning the user.
@@ -292,6 +292,7 @@ class Moderation:
                 await member.add_roles(self.bot.approved_role)
                 dm_msg = "You have been approved by {}, welcome to {}!".format(ctx.message.author, ctx.guild.name)
                 await self.dm(member, dm_msg)
+                await ctx.send(":thumbsup: {} has been approved".format(member.name))
                 logchannel = self.bot.logs_channel
                 log_msg = ":thumbsup: {} was approved by {}.".format(member, ctx.message.author)
                 await logchannel.send(log_msg)
