@@ -15,7 +15,7 @@ class Events:
     @bot.event
     async def on_member_join(member):
         user = member
-        geturl = await bot.get_user_info(user)
+        geturl = await self.bot.get_user_info(user)
         emb = discord.Embed(title="Member Joined", colour=discord.Colour.green())
         emb.add_field(name="Member:", value=member.name, inline=True)
         emb.set_thumbnail(url=user.avatar_url)
@@ -24,4 +24,3 @@ class Events:
 
 def setup(bot):
     bot.add_cog(Events(bot))
-            
