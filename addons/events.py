@@ -12,7 +12,6 @@ class Events:
         self.bot = bot
         print("{} addon loaded.".format(self.__class__.__name__))
         
-    @bot.event
     async def on_member_join(self, member):
         user = member
         geturl = await self.bot.get_user_info(user)
