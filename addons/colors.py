@@ -15,7 +15,7 @@ class Colors:
         print("{} addon loaded.".format(self.__class__.__name__))
         
     @commands.command(pass_context=True)
-    async def setcolor(self, ctx, color):
+    async def color(self, ctx, color):
         """Choose your colored role."""
         user = ctx.message.author
         await ctx.message.delete()
@@ -75,12 +75,6 @@ class Colors:
     async def listcolors(self, ctx):
         """List available colors"""
         await ctx.send(":art: **__Colored roles:__**\n" + "- green\n- blue\n- orange\n- white\n- black\n- sand\n- pink")
-        
-    @commands.command(pass_context=True)
-    async def colortest(self, ctx):
-        """test cog"""
-        await ctx.send("Color cog loaded and working :thumbsup:")
-
 
 def setup(bot):
     bot.add_cog(Colors(bot))
