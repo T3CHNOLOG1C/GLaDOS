@@ -341,7 +341,7 @@ class Moderation:
         """testing embed functionality"""
         emb = discord.Embed(title="test", colour=discord.Colour.green())
         emb.add_field(name="field1", value="lol", inline=True)
-        ctx.send(emb)
+        await ctx.send(emb)
 
 
 def setup(bot):
