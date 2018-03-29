@@ -170,7 +170,7 @@ async def pull(ctx, pip=None):
                 "requirements.txt"])
             pip_text = " and updated python dependencies"
         await ctx.send("Pulled changes{}! Restarting...".format(pip_text))
-        execv("python3.6 GLaDOS.py", argv)
+        call(["python3.6", "GLaDOS.py"])
     else:
         if "pacman" in ctx.message.content:
             await ctx.send("`{} is not in the sudoers file. This incident will be reported.`".format(ctx.message.author.display_name))
@@ -182,7 +182,7 @@ async def pull(ctx, pip=None):
 async def restart(ctx):
     """Restart the bot (Staff Only)"""
     await ctx.send("`Restarting, please wait...`")
-    execv("python3.6 GLaDOS.py", argv)
+    call(["python3.6", "GLaDOS.py"])
 
 # Run the bot
 bot.run(config['Main']['token'])
