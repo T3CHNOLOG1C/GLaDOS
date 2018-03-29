@@ -63,6 +63,7 @@ async def on_ready():
     bot.botdev_channel = discord.utils.get(guild.channels, name="botdev")
     bot.botdms_channel = discord.utils.get(guild.channels, name="bot-dm")
     bot.logs_channel = discord.utils.get(guild.channels, name="admin-logs")
+    bot.memberlogs_channel = discord.utils.get(guild.channels, name="member-logs")
 
     # Ignored users
     with open("database/ignored_users.json", "r") as f:
