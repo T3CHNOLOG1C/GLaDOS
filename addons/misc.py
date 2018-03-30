@@ -34,24 +34,6 @@ class Misc:
         """About GLaDOS."""
         return await ctx.send("View my source code here: https://github.com/T3CHNOLOG1C/GLaDOS")
         
-    @commands.command(pass_context=True)
-    async def togglechannel(self, ctx, channel):
-        """Toggle access to some hidden channels"""
-
-        user = ctx.message.author
-        await ctx.message.delete()
-
-        if channel == "nsfw":
-
-            if self.bot.nsfw_role in user.roles:
-                await user.remove_roles(self.bot.nsfw_role)
-                await user.send("Access to NSFW channels revoked.")
-            else:
-                await user.add_roles(self.bot.nsfw_role)
-                await user.send("Access to NSFW channels granted.")
-        else:
-            await user.send("{} is not a togglable channel.".format(channel))
-
     @commands.has_permissions(manage_messages=True)
     @commands.command()
     async def clear(self, ctx, amount):
