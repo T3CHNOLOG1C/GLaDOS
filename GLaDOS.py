@@ -48,6 +48,7 @@ async def on_ready():
     bot.nsfw_role = discord.utils.get(guild.roles, name="NSFW")
     bot.muted_role = discord.utils.get(guild.roles, name="Muted")
     bot.approved_role = discord.utils.get(guild.roles, name="Approved")
+    bot.mk8d_role = discord.utils.get(guild.roles, name="MK8D")
 
     # Color Roles
     bot.green_role = discord.utils.get(guild.roles, name="Green")
@@ -78,7 +79,8 @@ async def on_ready():
         'addons.mod',
         'addons.emojif',
         'addons.colors',
-        'addons.events'
+        'addons.events',
+        'addons.toggle'
      ]
 
     # Notify user if an addon fails to load.
