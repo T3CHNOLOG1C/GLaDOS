@@ -310,12 +310,11 @@ class Moderation:
                 await ctx.send("💢 I dont have permission to do this.")
         elif self.bot.approved_role in member.roles:
             await ctx.send("This member is already approved!")
-            
+
     @commands.has_permissions(manage_roles=True)
     @commands.command()
-    async def mute(self, ctx, member: 
-        discord.Member):
-        """Mutes a user (Staff only)"""
+    async def mute(self, ctx, member, *, reason=""):
+        """Mutes a user. (Staff Only)"""
         try:
             member = ctx.message.mentions[0]
         except IndexError:
@@ -323,38 +322,52 @@ class Moderation:
         
         if self.bot.muted_role in member.roles:
             return await ctx.send("{} is already muted!".format(member))
-
+        
         try:
-            await member.add_roles(self.bot.muted_role, reason="You have been muted, reason: {}.".format(
-                ctx.message.author
-                ))
-            await ctx.send(f"{member} can no longer speak!")
-            await self.dm(member, "You have been muted. You will be DM'ed when a mod unmutes you.\n**Do not ask mods to unmute you, as doing so might extend the duration of the mute!**")
-
+            await member.add_roles(self.bot.muted_role)
+            await ctx.send("{} can no longer speak!".format(member))
+            if reason == "":
+                msg = "You have been muted in {} by {}. You will be DM'ed when a mod unmutes you.\n**Do not ask mods to unmute you, as doing so might extend the duration of the mute**".format(ctx.guild.name, ctx.message.author)
+            else:
+                msg = "You have been muted in {} by {}. The given reason is {}. You will be DM'ed when a mod unmutes you.\n**Do not ask mods to unmute you, as doing so might extend the duration of the mute**".format(ctx.guild.name, ctx.message.author, reason)
+            await self.dm(member, msg)
+            emb = discord.Embed(title="Member Muted", colour=discord.Colour.purple())
+            emb.add_field(name="Member:", value=member, inline=True)
+            emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
+            if reason == "":
+                emb.add_field(name="Reason:", value="No reason was given.", inline=True)
+            else:
+                emb.add_field(name="Reason:", value=reason, inline=True)
+            logchannel = self.bot.logs_channel
+            await logchannel.send("", embed=emb)
         except discord.errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
 
     @commands.has_permissions(manage_roles=True)
     @commands.command()
     async def unmute(self, ctx, member):
-        """Unmutes a user (Staff only)"""
+        """Unmutes a user. (Staff Only)"""
         try:
             member = ctx.message.mentions[0]
         except IndexError:
             return await ctx.send("Please mention a user.")
-
+        
         if self.bot.muted_role not in member.roles:
-            return await ctx.send("{} isn't muted!".format(member))
-
+            return await ctx.send("{} is not muted!".format(member.name))
+        
         try:
-            await member.remove_roles(self.bot.muted_role, reason="Unmuted by {}.".format(
-                ctx.message.author
-               ))
-            await ctx.send("{} can now speak again!".format(member))
-            await self.dm(member, "You have been unmuted.")
-
+            await member.remove_roles(self.bot.muted_role)
+            await ctx.send("{} is no longer muted!".format(member))
+            msg = "You have been unmuted in {}.".format(ctx.guild.name)
+            await self.dm(member, msg)
+            emb = discord.Embed(title="Member Unmuted", colour=discord.Colour.purple())
+            emb.add_field(name="Member:", value=member, inline=True)
+            emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
+            logchannel = self.bot.logs_channel
+            await logchannel.send("", embed=emb)
         except discord.errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
+
 
 
 
