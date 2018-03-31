@@ -353,7 +353,7 @@ class Moderation:
             return await ctx.send("Please mention a user.")
         
         if self.bot.muted_role not in member.roles:
-            return await ctx.send("{} is not muted!".format(member.name))
+            return await ctx.send("{} is not muted!".format(member))
         
         try:
             await member.remove_roles(self.bot.muted_role)
