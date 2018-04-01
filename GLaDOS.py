@@ -61,7 +61,7 @@ async def on_ready():
 
     # Channels
     bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
-    bot.botdev_channel = discord.utils.get(guild.channels, name="botdev")
+    bot.botdev_channel = discord.utils.get(guild.channels, name="bot-dev")
     bot.botdms_channel = discord.utils.get(guild.channels, name="bot-dm")
     bot.logs_channel = discord.utils.get(guild.channels, name="admin-logs")
     bot.memberlogs_channel = discord.utils.get(guild.channels, name="member-logs")
