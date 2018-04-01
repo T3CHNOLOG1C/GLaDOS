@@ -229,7 +229,7 @@ class Moderation:
         if amount_of_warns == 1:
             await self.dm(member, "This is your first warning. The next warning will automatically mute you.")
         elif amount_of_warns == 2:
-            await self.dm(member, "This is your second warning, so you've been muted. You will be unmuted whenever the admin who warned you decides to unmute you.\n You will be DM'ed when a mod unmutes you.\n**Do not ask mods to unmute you, as doing so might extend the duration of the mute**")
+            await self.dm(member, "This is your second warning, so you've been muted. You will be unmuted whenever the admin who warned you decides to unmute you.\nYou will be DM'ed when a mod unmutes you.\n**Do not ask mods to unmute you, as doing so might extend the duration of the mute**")
             await self.dm(member, "Your next warn will result in being kicked from the server.")
             await member.add_roles(self.bot.muted_role)
         elif amount_of_warns == 3:
