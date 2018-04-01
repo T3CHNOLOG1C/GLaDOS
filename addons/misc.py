@@ -17,12 +17,7 @@ class Misc:
     @commands.command(pass_context=True)
     async def ping(self, ctx):
         """Pong!"""
-        # https://github.com/appu1232/Discord-Selfbot/blob/master/cogs/misc.py#L595
-        msgtime = ctx.message.created_at.now()
-        await (await self.bot.ws.ping())
-        now = datetime.datetime.now()
-        ping = now - msgtime
-        return await ctx.send(":ping_pong:! Response Time: {} ms".format(str(ping.microseconds / 1000.0)))
+        return await ctx.send(":ping_pong:! Pong! (This command will be rewritten eventually.")
 
     @commands.command(pass_context=True, aliases=['mc'])
     async def membercount(self, ctx):
