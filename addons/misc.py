@@ -21,7 +21,7 @@ class Misc:
         currtime = datetime.datetime.now()
         latency = currtime - mtime
         ptime = str(latency.microseconds / 1000.0)
-        return await ctx.send(":ping_pong:! Pong! Response time: {}".format(ptime))
+        return await ctx.send(":ping_pong:! Pong! Response time: {} ms".format(ptime))
 
     @commands.command(pass_context=True, aliases=['mc'])
     async def membercount(self, ctx):
