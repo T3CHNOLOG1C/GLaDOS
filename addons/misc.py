@@ -17,7 +17,10 @@ class Misc:
     @commands.command(pass_context=True)
     async def ping(self, ctx):
         """Pong!"""
-        return await ctx.send(":ping_pong:! Pong! (This command will be rewritten eventually.")
+        mtime = ctx.message.created_at
+        currtime = datetime.utcnow()
+        latency = currtime - mtime
+        return await ctx.send(":ping_pong:! Pong! Response time: {}".format(latency))
 
     @commands.command(pass_context=True, aliases=['mc'])
     async def membercount(self, ctx):
