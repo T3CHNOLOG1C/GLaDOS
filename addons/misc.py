@@ -50,5 +50,32 @@ class Misc:
         except discord.errors.Forbidden:
             await ctx.say("💢 I don't have permission to do this.")
 
+    @commands.has_permissions(administrator=True)
+    @commands.command()
+    async def userinfo(self, ctx, member):
+        try:
+            member = ctx.message.mentions[0]
+        except IndexError:
+            await ctx.send("Please mention a user.")
+            return
+        uname = member.name
+        discrim = member.discriminator
+        Uid = member.id
+        displayName = member.display_name
+        isBot = member.bot
+        aviUrl = member.avatar_url
+        cTime = member.created_at
+        jTime = member.joined_at
+        str1 = "Member: {}#{}".format(uname, discrim)
+        str2 = "ID: {}".format(Uid)
+        if displayName == uname:
+            displayName = "None"
+        str3 = "Nickname: {}".format(displayName)
+        str4 = "Bot: {}".format(str(isBot))
+        str5 = "Avatar URL: {}".format(aviUrl)
+        str6 = "Account Created: {}".format(cTime)
+        str7 = "Joined Server: {}".format(jTime)
+        await ctx.send(str1 + "\n" + str2 + "\n" + str3 + "\n" + str4 + "\n" + str5 + "\n" + str6 + "\n" + str7)
+            
 def setup(bot):
     bot.add_cog(Misc(bot))
