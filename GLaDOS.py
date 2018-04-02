@@ -73,15 +73,15 @@ async def on_ready():
 
     # Load addons
     addons = [
-        'addons.speak',
-        'addons.misc',
-        'addons.memes',
-        'addons.mod',
-        'addons.emojif',
         'addons.colors',
+        'addons.emojif',
         'addons.events',
-        'addons.toggle'
-     ]
+        'addons.memes',
+        'addons.misc',
+        'addons.mod',
+        'addons.speak',
+        'addons.toggle',
+    ]
 
     # Notify user if an addon fails to load.
     for addon in addons:
