@@ -53,7 +53,7 @@ class Speak:
         dmchannel = self.bot.botdms_channel
         await dmchannel.send(logOutput)
         
-    @bot.event
+    # Log incoming dms if user is not ignored    
     async def on_message(self, message):
         if isinstance(message.channel, discord.abc.PrivateChannel) and message.author.id not in self.bot.ignored_users:
             author = message.author
