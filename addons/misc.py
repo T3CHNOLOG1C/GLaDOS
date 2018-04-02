@@ -52,7 +52,7 @@ class Misc:
 
     @commands.has_permissions(administrator=True)
     @commands.command()
-    async def userinfo(self, ctx, member)
+    async def userinfo(self, ctx, member):
         try:
             member = ctx.message.mentions[0]
         except IndexError:
@@ -73,7 +73,7 @@ class Misc:
         str3 = "Nickname: {}".format(displayName)
         str4 = "Bot: {}".format(str(isBot))
         str5 = "Avatar URL: {}".format(aviUrl)
-        str6 = "Account Createed: {}".format(cTime)
+        str6 = "Account Created: {}".format(cTime)
         str7 = "Joined Server: {}".format(jTime)
         await ctx.send(str1 + "\n" + str2 + "\n" + str3 + "\n" + str4 + "\n" + str5 + "\n" + str6 + "\n" + str7)
             
