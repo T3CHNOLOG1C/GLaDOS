@@ -63,19 +63,25 @@ class Misc:
         Uid = member.id
         displayName = member.display_name
         isBot = member.bot
-        aviUrl = member.avatar_url
         cTime = member.created_at
         jTime = member.joined_at
-        str1 = "Member: {}#{}".format(uname, discrim)
-        str2 = "ID: {}".format(Uid)
+        str1 = "{}#{}".format(uname, discrim)
+        str2 = "{}".format(Uid)
         if displayName == uname:
             displayName = "None"
-        str3 = "Nickname: {}".format(displayName)
-        str4 = "Bot: {}".format(str(isBot))
-        str5 = "Avatar URL: {}".format(aviUrl)
-        str6 = "Account Created: {}".format(cTime)
-        str7 = "Joined Server: {}".format(jTime)
-        await ctx.send(str1 + "\n" + str2 + "\n" + str3 + "\n" + str4 + "\n" + str5 + "\n" + str6 + "\n" + str7)
+        str3 = "{}".format(displayName)
+        str4 = "{}".format(str(isBot))
+        str5 = "{}".format(cTime)
+        str6 = "{}".format(jTime)
+        emb = discord.Embed(title="Userinfo", color= 0x00ff00)
+        emb.add_field(name="Member", value=str1 + "\n", inline=True)
+        emb.add_field(name="ID", value=str2 + "\n", inline=True)
+        emb.add_field(name="Nickname", value=str3 + "\n", inline=True)
+        emb.add_field(name="Bot?", value=str4 + "\n", inline=True)
+        emb.add_field(name="Account Created", value=str5 + "\n", inline=True)
+        emb.add_field(name="Joined Server", value=str6 + "\n", inline=True)
+        emb.set_thumbnail(url=member.avatar_url)
+        await ctx.send("", embed=emb)
             
 def setup(bot):
     bot.add_cog(Misc(bot))
