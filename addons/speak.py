@@ -58,7 +58,7 @@ class Speak:
         if isinstance(message.channel, discord.abc.PrivateChannel) and message.author.id not in self.bot.ignored_users:
             author = message.author
             logOutput = "{} 📨 {}\n".format(author, self.bot.user)
-            logOutput += "Message Content: {}".format(message)
+            logOutput += "Message Content: {}".format(message.content)
             dmchannel = self.bot.botdms_channel
             await dmchannel.send(logOutput)
         
