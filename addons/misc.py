@@ -18,7 +18,7 @@ class Misc:
     async def ping(self, ctx):
         """Pong!"""
         mtime = ctx.message.created_at
-        currtime = datetime.now()
+        currtime = datetime.datetime.now()
         latency = currtime - mtime
         ptime = str(latency.microseconds / 1000.0)
         return await ctx.send(":ping_pong:! Pong! Response time: {}".format(ptime))
