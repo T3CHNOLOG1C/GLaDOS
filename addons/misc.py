@@ -50,7 +50,6 @@ class Misc:
         except discord.errors.Forbidden:
             await ctx.say("💢 I don't have permission to do this.")
 
-    @commands.has_permissions(administrator=True)
     @commands.command()
     async def userinfo(self, ctx, member):
         try:
