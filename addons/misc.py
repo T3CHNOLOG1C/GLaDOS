@@ -18,9 +18,10 @@ class Misc:
     async def ping(self, ctx):
         """Pong!"""
         mtime = ctx.message.created_at
-        currtime = datetime.utcnow()
+        currtime = datetime.now()
         latency = currtime - mtime
-        return await ctx.send(":ping_pong:! Pong! Response time: {}".format(latency))
+        ptime = str(latency.microseconds / 1000.0)
+        return await ctx.send(":ping_pong:! Pong! Response time: {}".format(ptime))
 
     @commands.command(pass_context=True, aliases=['mc'])
     async def membercount(self, ctx):
