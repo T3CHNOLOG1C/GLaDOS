@@ -52,7 +52,17 @@ class Speak:
         logOutput += "Message Content: {}".format(message)
         dmchannel = self.bot.botdms_channel
         await dmchannel.send(logOutput)
-
+        
+    # Log incoming dms if user is not ignored    
+    async def on_message(self, message):
+        if isinstance(message.channel, discord.abc.PrivateChannel) and message.author.id not in self.bot.ignored_users:
+            author = message.author
+            logOutput = "{} 📨 {}\n".format(author, self.bot.user)
+            logOutput += "Message Content: {}".format(message.content)
+            dmchannel = self.bot.botdms_channel
+            await dmchannel.send(logOutput)
+        
+            
     @commands.has_permissions(administrator=True)
     @commands.command()
     async def answer(self, ctx, *, message=''):
