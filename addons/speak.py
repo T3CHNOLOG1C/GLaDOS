@@ -55,12 +55,15 @@ class Speak:
         
     # Log incoming dms if user is not ignored    
     async def on_message(self, message):
-        if isinstance(message.channel, discord.abc.PrivateChannel) and message.author.id not in self.bot.ignored_users and message.author not == self.bot.user:
-            author = message.author
-            logOutput = "{} 📨 {}\n".format(author, self.bot.user)
-            logOutput += "Message Content: {}".format(message.content)
-            dmchannel = self.bot.botdms_channel
-            await dmchannel.send(logOutput)
+        if isinstance(message.channel, discord.abc.PrivateChannel) and message.author.id not in self.bot.ignored_users:
+            if message.author.id == self.ClientUser.id:
+                pass
+            else:
+                author = message.author
+                logOutput = "{} 📨 {}\n".format(author, self.bot.user)
+                logOutput += "Message Content: {}".format(message.content)
+                dmchannel = self.bot.botdms_channel
+                await dmchannel.send(logOutput)
         
             
     @commands.has_permissions(administrator=True)
