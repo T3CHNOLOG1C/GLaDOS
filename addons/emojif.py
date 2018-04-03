@@ -63,7 +63,7 @@ class Emojif:
         """List all animated emojis that the bot can use."""
         
         output = ""
-        for e in sorted(self.bot.emojis):
+        for e in self.bot.emojis:
             output += '**`:{}:`** -> {}\n'.format(e.name, str(e))
         await ctx.send("__List of animated emojis :__\n\n" + output)
 
@@ -117,7 +117,6 @@ class Emojif:
                 msg_emojis.pop(i)
         if len(msg_emojis) == 0:
             return
-        print(msg_emojis)
 
 
         # At this point we can be sure that the message contains
