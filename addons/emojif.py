@@ -64,6 +64,8 @@ class Emojif:
         
         output = ""
         for e in self.bot.emojis:
+            if not e.animated:
+                continue
             output += '**`:{}:`** -> {}\n'.format(e.name, str(e))
         await ctx.send("__List of animated emojis :__\n\n" + output)
 
