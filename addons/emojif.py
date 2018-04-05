@@ -136,7 +136,7 @@ class Emojif:
         else:
             attachments = ""
         formatted_author = "`{}`:".format(author.display_name)
-        formatted_content = content.replace('@everyone', '`@everyone`').replace('@here', '`@here`')
+        formatted_content = content.replace('@everyone', '`@`everyone').replace('@here', '`@`here')
         for e in set(msg_emojis):
             found_emoji = discord.utils.get(self.bot.emojis, name=e[1:-1])
             formatted_content = formatted_content.replace(e, str(found_emoji))
