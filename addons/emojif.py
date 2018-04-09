@@ -144,7 +144,7 @@ class Emojif:
             if found_emoji.animated:
                 animated_emojis.append(found_emoji)
 
-        Make sure the message contains at least one animated emoji
+        # Make sure the message contains at least one animated emoji
         if len(animated_emojis) == 0:
             return
 
