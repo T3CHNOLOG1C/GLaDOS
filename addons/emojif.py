@@ -122,7 +122,7 @@ class Emojif:
 
 
         # At this point we can be sure that the message contains
-        # an animated emoji, that the author isn't a bot,
+        # a server emoji, that the author isn't a bot,
         # that the user activated Emojifs for themselves and
         # that Emojifs are globally on. We can now format the message,
         # delete the original one, and post the new one.
@@ -137,9 +137,16 @@ class Emojif:
             attachments = ""
         formatted_author = "`{}`:".format(author.display_name)
         formatted_content = content.replace('@everyone', '`@`everyone').replace('@here', '`@`here')
+        animated_emojis = []
         for e in set(msg_emojis):
-            found_emoji = discord.utils.get(self.bot.emojis, name=e[1:-1])
+            found_emoji = discord.utils.get(self.bot.emojis.animated, name=e[1:-1])
             formatted_content = formatted_content.replace(e, str(found_emoji))
+            if found_emoji.animated:
+                animated_emojis.append(found_emoji)
+
+        Make sure the message contains at least one animated emoji
+        if len(animated_emojis) == 0:
+            return
 
         await message.delete()
 
