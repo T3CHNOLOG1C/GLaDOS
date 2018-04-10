@@ -139,7 +139,7 @@ class Emojif:
         formatted_content = content.replace('@everyone', '`@`everyone').replace('@here', '`@`here')
         animated_emojis = []
         for e in set(msg_emojis):
-            found_emoji = discord.utils.get(self.bot.emojis.animated, name=e[1:-1])
+            found_emoji = discord.utils.get(self.bot.emojis, name=e[1:-1])
             formatted_content = formatted_content.replace(e, str(found_emoji))
             if found_emoji.animated:
                 animated_emojis.append(found_emoji)
