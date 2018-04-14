@@ -50,23 +50,23 @@ class Toggle:
                 await user.add_roles(self.bot.mk8d_role)
                 await user.send("Joined MK8D role")
 
-        elif role == "CSGO":
+        elif role == "csgo":
             if self.bot.csgo_role in user.roles:
                 await user.remove_roles(self.bot.csgo_role)
-                await user.send("Left CSGO role")
+                await user.send("Left csgo role")
 
             else:
                 await user.add_roles(self.bot.csgo_role)
-                await user.send("Joined CSGO role")
+                await user.send("Joined csgo role")
 
-        elif role == "PUBG":
+        elif role == "pubg":
             if self.bot.pubg_role in user.roles:
                 await user.remove_roles(self.bot.pubg_role)
-                await user.send("Left PUBG role")
+                await user.send("Left pubg role")
 
             else:
                 await user.add_roles(self.bot.pubg_role)
-                await user.send("Joined PUBG role")
+                await user.send("Joined pubg role")
 
       
         else:
