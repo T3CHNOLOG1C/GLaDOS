@@ -49,6 +49,8 @@ async def on_ready():
     bot.muted_role = discord.utils.get(guild.roles, name="Muted")
     bot.approved_role = discord.utils.get(guild.roles, name="Approved")
     bot.mk8d_role = discord.utils.get(guild.roles, name="MK8D")
+    bot.csgo_role = discord.utils.get(guild.roles, name="CS: Russian Offensive")
+    bot.pubg_role = discord.utils.get(guild.roles, name="pubg:battlebusters")
 
     # Color Roles
     bot.green_role = discord.utils.get(guild.roles, name="Green")
