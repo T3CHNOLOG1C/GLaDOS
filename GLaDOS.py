@@ -199,6 +199,16 @@ async def restart(ctx):
     """Restart the bot (Staff Only)"""
     await ctx.send("`Restarting, please wait...`")
     call(["python3.6", "GLaDOS.py"])
+    
+    
+@commands.has_role("BotDev")
+@bot.command()
+async def quit(ctx):
+    """Shutdowns the bot"""
+    await ctx.send('Shutdown!')
+    print("\nBot Quit By User")
+    await bot.logout()
+
 
 # Run the bot
 bot.run(config['Main']['token'])
