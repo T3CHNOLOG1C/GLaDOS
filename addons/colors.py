@@ -105,7 +105,7 @@ class Colors:
                 await user.send("Color Teal added.")
             elif applied_colors[0] == self.bot.teal_role:
                 await user.remove_roles(self.bot.teal_role)
-                await user.send("Color pink removed.")
+                await user.send("Color teal removed.")
             else:
                 await user.send("You already have a color!")
         else:
