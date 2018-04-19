@@ -62,11 +62,20 @@ class Toggle:
         elif role == "pubg":
             if self.bot.pubg_role in user.roles:
                 await user.remove_roles(self.bot.pubg_role)
-                await user.send("Left pubg role")
+                await user.send("Left PUBG role")
 
             else:
                 await user.add_roles(self.bot.pubg_role)
-                await user.send("Joined pubg role")
+                await user.send("Joined PUBG role")
+
+        elif role == "cah":
+            if self.bot.cah_role in user.roles:
+                await user.remove_roles(self.bot.cah_role)
+                await user.send("Left CAH role")
+
+            else:
+                await user.add_roles(self.bot.cah_role)
+                await user.send("Joined CAH role")
 
       
         else:

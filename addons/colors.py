@@ -29,6 +29,7 @@ class Colors:
             self.bot.black_role,
             self.bot.sand_role,
             self.bot.pink_role,
+            self.bot.teal_role,
         ]
         applied_colors = []
         for color in colors:
@@ -94,6 +95,16 @@ class Colors:
                 await user.send("Color pink added.")
             elif applied_colors[0] == self.bot.pink_role:
                 await user.remove_roles(self.bot.pink_role)
+                await user.send("Color pink removed.")
+            else:
+                await user.send("You already have a color!")
+
+        elif str == "teal":
+            if not applied_colors:
+                await user.add_roles(self.bot.teal_role)
+                await user.send("Color Teal added.")
+            elif applied_colors[0] == self.bot.teal_role:
+                await user.remove_roles(self.bot.teal_role)
                 await user.send("Color pink removed.")
             else:
                 await user.send("You already have a color!")
