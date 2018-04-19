@@ -51,6 +51,7 @@ async def on_ready():
     bot.mk8d_role = discord.utils.get(guild.roles, name="MK8D")
     bot.csgo_role = discord.utils.get(guild.roles, name="CS: Russian Offensive")
     bot.pubg_role = discord.utils.get(guild.roles, name="pubg:battlebusters")
+    bot.cah_role = discord.utils.get(guild.roles, name="CAH")
 
     # Color Roles
     bot.green_role = discord.utils.get(guild.roles, name="Green")
@@ -60,6 +61,7 @@ async def on_ready():
     bot.black_role = discord.utils.get(guild.roles, name="Black")
     bot.sand_role = discord.utils.get(guild.roles, name="Sand")
     bot.pink_role = discord.utils.get(guild.roles, name="Pink")
+    bot.teal_role = discord.utils.get(guild.roles, name="Teal")
 
     # Channels
     bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
