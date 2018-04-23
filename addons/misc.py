@@ -26,7 +26,7 @@ class Misc:
     @commands.command(pass_context=True, aliases=['mc'])
     async def membercount(self, ctx):
         """Prints current member count"""
-        return await ctx.send("{} currently has {} members!".format(self.bot.guild.name, self.bot.guild.members))
+        return await ctx.send("{} currently has {} members!".format(ctx.guild.name, len(ctx.guild.members)))
     
     @commands.command()
     async def about(self, ctx):
