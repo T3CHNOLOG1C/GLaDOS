@@ -17,3 +17,5 @@ A mostly-general purpose discord bot (designed to be forked in uses outside of i
 - Rapptz for discord.py
 
 - [Brick](https://github.com/T3CHNOLOG1C/Brick) for various pieces of code which are slowly being rewritten.
+
+- [Griffin](https://github.com/GriffinG1) for his work on the color addon.
