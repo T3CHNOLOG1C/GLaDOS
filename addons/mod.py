@@ -57,12 +57,14 @@ class Moderation:
                 
     @commands.has_permissions(ban_members=True)
     @commands.command()
-    async def ban(self, ctx, roles, member, *, reason=""):
+    async def ban(self, ctx, user="", *, reason=""):
         """Ban a member. (Staff Only)"""
         owner = ctx.message.guild.owner
-        user = ctx.message.author
-        if ctx.message.author == owner:
-            await ctx.send("Yes daddy Kevin?")
+        if len(ctx.message.mentions) == 0:
+            if ctx.message.author == owner:
+                await ctx.send("Yes daddy t3ch?")
+            else:
+                await ctx.send("Please mention a user.")
         else:
             try:
                 member = ctx.message.mentions[0]
@@ -72,7 +74,7 @@ class Moderation:
                     dm_msg = "You have been banned from {} for the following reason:\n{}".format(ctx.guild.name, reason)
                 if member == ctx.message.author:
                     await ctx.send("no u")
-                if self.bot.staff_role in user.roles:
+                if self.bot.admin_role in member.roles:
                     await ctx.send("You may not ban another staffer")
                 else:
                     await self.dm(member, dm_msg)
