@@ -3,6 +3,7 @@ __pycache__
 *.json
 *.swp
 database
-.vs/ 
+.vs/
+.vscode/
 *.pyc
 database/

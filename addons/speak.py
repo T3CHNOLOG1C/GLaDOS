@@ -59,29 +59,21 @@ class Speak:
             if message.author.id == self.bot.user.id:
                 pass
             else:
-                author = message.author
-                logOutput = "{} 📨 {}\n".format(author, self.bot.user)
-                logOutput += "Message Content: {}".format(message.content)
                 dmchannel = self.bot.botdms_channel
-                await dmchannel.send(logOutput)
+                author = message.author
+                if message.attachments == []:
+                    logOutput = "{} 📨 {}\n".format(author, self.bot.user)
+                    logOutput += "Message Content: {}".format(message.content)
+                    await dmchannel.send(logOutput)
+                else:
+                    logOutput = "{} 📨 {}\n".format(author, self.bot.user)
+                    logOutput += "Message Content: {}\n".format(message.content)
+                    logOutput += "Attachments: \n"
+                    for attachment in message.attachments:
+                        logOutput += "{}\n".format(attachment.url)
+                    await dmchannel.send(logOutput)
+
         
-            
-    @commands.has_permissions(administrator=True)
-    @commands.command()
-    async def answer(self, ctx, *, message=''):
-        """Answer to the latest DM (Staff Only)"""
-
-        async for m in self.bot.botdms_channel.history(limit=250):
-                try:
-                    if m.author == self.bot.user:
-                        member = m.mentions[0]
-                        break
-                    else:
-                        continue
-                except IndexError:
-                    continue
-        await self.memberDM(ctx, member, message)
-
     @commands.has_permissions(administrator=True)
     @commands.command()
     async def ignore(self, ctx, member):
