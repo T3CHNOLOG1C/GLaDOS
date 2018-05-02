@@ -100,9 +100,7 @@ class Moderation:
         """Ban a member by user id. (Staff Only)"""
         owner = ctx.message.guild.owner
         member = discord.Object(uid)
-        if ctx.message.author not == owner:
-            return await ctx.send("Only the server owner can ban by id!")
-        else:
+        if ctx.message.author == owner:
             try:
                 await ctx.guild.ban(member)
                 await ctx.send("I've banned ID: {}.".format(uid))
@@ -117,6 +115,8 @@ class Moderation:
                 await logchannel.send("", embed=emb)
             except discord.errors.Forbidden:
                 await ctx.send("💢 I dont have permission to do this.")
+        else:
+            return await ctx.send("Only the server owner can ban by id!")
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
