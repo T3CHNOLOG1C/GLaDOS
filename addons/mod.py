@@ -100,7 +100,7 @@ class Moderation:
         """Ban a member by user id. (Staff Only)"""
         owner = ctx.message.guild.owner
         member = discord.Object(uid)
-        if ctx.message.author == ctx.guild.owner:
+        if ctx.message.author == ctx.message.guild.owner:
             try:
                 await ctx.guild.ban(member)
                 await ctx.send("I've banned ID: {}.".format(uid))
