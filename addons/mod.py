@@ -34,8 +34,12 @@ class Moderation:
             try:
                 member = ctx.message.mentions[0]
             except IndexError:
-                await ctx.send("Please mention a user.")
-                return
+                return await ctx.send("Please mention a user.")
+                
+            if member == ctx.message.author:
+                return await ctx.send("You cannot kick yourself!")
+            if self.bot.admin_role in member.roles and (self.bot.owner_role not in ctx.message.author.roles):
+                return await ctx.send("You may not kick another staffer")
             if reason == "":
                 dm_msg="You have been kicked from {}.".format(ctx.guild.name)
             else:
@@ -63,40 +67,35 @@ class Moderation:
             member = ctx.message.mentions[0]
         except IndexError:
             if ctx.message.author == owner:
-                await ctx.send("Yes daddy t3ch?")
-                return
+                return await ctx.send("Yes daddy t3ch?")
             else:
-                await ctx.send("Please mention a user.")
-                return
+                return await ctx.send("Please mention a user.")
+        if member == ctx.message.author:
+            return await ctx.send("You cannot ban yourself!")
         if self.bot.admin_role in member.roles and (self.bot.owner_role not in ctx.message.author.roles):
-                await ctx.send("You may not ban another staffer")
+            return await ctx.send("You may not ban another staffer")
         else:
             try:
                 if reason == "":
                     dm_msg = "You have been banned from {}.".format(ctx.guild.name)
                 else:
                     dm_msg = "You have been banned from {} for the following reason:\n{}".format(ctx.guild.name, reason)
-                if member == ctx.message.author:
-                    await ctx.send("You cannot ban yourself!")
-                    return
-                else:
-                    await self.dm(member, dm_msg)
-                    await member.ban(delete_message_days=0)
-                    await ctx.send("I've banned {}.".format(member))
-                    emb = discord.Embed(title="Member Banned", colour=discord.Colour.red())
-                    emb.add_field(name="Member:", value=member.name, inline=True)
-                    emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
-                    if reason == "":
-                        reason = "No reason specified."
-                    emb.add_field(name="Reason:", value=reason, inline=True)
-                    logchannel = self.bot.logs_channel
-                    await logchannel.send("", embed=emb)
+                await self.dm(member, dm_msg)
+                await member.ban(delete_message_days=0)
+                await ctx.send("I've banned {}.".format(member))
+                emb = discord.Embed(title="Member Banned", colour=discord.Colour.red())
+                emb.add_field(name="Member:", value=member.name, inline=True)
+                emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
+                if reason == "":
+                    reason = "No reason specified."
+                emb.add_field(name="Reason:", value=reason, inline=True)
+                logchannel = self.bot.logs_channel
+                await logchannel.send("", embed=emb)
             except discord.errors.Forbidden:
                 await ctx.send("💢 I dont have permission to do this.")
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
-
     async def lockdown(self, ctx, *, reason=""):
         """
         Lock down a channel
@@ -154,7 +153,8 @@ class Moderation:
             member = ctx.message.mentions[0]
         except IndexError:
             return await ctx.send("Please mention a user.")
-
+        if member == ctx.message.author:
+            return await ctx.send("You cannot warn yourself!")
         if self.bot.admin_role in member.roles and not self.bot.owner_role in author.roles:
             return await ctx.send("You cannot warn other staff members!")
         elif self.bot.owner_role in member.roles:
@@ -265,6 +265,10 @@ class Moderation:
         with open("database/warns.json", "r") as f:
             js = json.load(f)
 
+        if member == ctx.message.author and (self.bot.owner_role not in ctx.message.author.roles):
+            return await ctx.send("You cannot clear your own warns!")
+        if self.bot.admin_role in member.roles and (self.bot.owner_role not in ctx.message.author.roles):
+            return await ctx.send("You cannot clear another staffer's warns")
         try:
             js.pop(str(member.id))
             await ctx.send("Cleared all of {}'s warns!".format(member.mention))
@@ -311,6 +315,11 @@ class Moderation:
         except IndexError:
             return await ctx.send("Please mention a user.")
         
+        if member == ctx.message.author and (self.bot.owner_role not in ctx.message.author.roles):
+            return await ctx.send("You cannot mute yourself!")
+        if self.bot.admin_role in member.roles and (self.bot.owner_role not in ctx.message.author.roles):
+            return await ctx.send("You cannot mute other staffers!")
+
         if self.bot.muted_role in member.roles:
             return await ctx.send("{} is already muted!".format(member))
         
@@ -342,11 +351,16 @@ class Moderation:
             member = ctx.message.mentions[0]
         except IndexError:
             return await ctx.send("Please mention a user.")
-        
-        if self.bot.muted_role not in member.roles:
-            return await ctx.send("{} is not muted!".format(member))
+
+
+        if self.bot.admin_role in member.roles and (self.bot.owner_role not in ctx.message.author.roles):
+            return await ctx.send("You cannot unmute other staffers!")
         
         try:
+            if self.bot.muted_role not in member.roles:
+                return await ctx.send("{} is not muted!".format(member))
+            if member == ctx.message.author:
+                return await ctx.send("You cannot unmute yourself! How did you even manage to send this if you are muted?")
             await member.remove_roles(self.bot.muted_role)
             await ctx.send("{} is no longer muted!".format(member))
             msg = "You have been unmuted in {}.".format(ctx.guild.name)
