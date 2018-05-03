@@ -105,7 +105,6 @@ class Moderation:
                 await ctx.guild.ban(member)
                 await ctx.send("I've banned ID: {}.".format(uid))
                 emb = discord.Embed(title="Member Banned by ID", colour=discord.Colour.red())
-                emb.add_field(name="Member:", value=member.name, inline=True)
                 emb.add_field(name="ID:", value=uid, inline=True)
                 emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
                 if reason == "":
