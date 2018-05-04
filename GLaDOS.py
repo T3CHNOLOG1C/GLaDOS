@@ -83,6 +83,7 @@ async def on_ready():
         'addons.memes',
         'addons.misc',
         'addons.mod',
+        'addons.warn',
         'addons.speak',
         'addons.toggle',
     ]
