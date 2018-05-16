@@ -96,7 +96,7 @@ async def on_ready():
 
     bot.all_ready = True
 
-    print("Client logged in as {}, in the following guild : {}".format(bot.user.name, guild.name))
+    print("Client logged in as {}, in the following guild : {}".format(bot.user.name, bot.guild.name))
 
 # Handle errors
 # Taken from 
