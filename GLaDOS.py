@@ -40,35 +40,34 @@ async def on_ready():
     for guild in bot.guilds:
         bot.guild = guild
 
-    # Roles
-    
-    bot.owner_role = discord.utils.get(guild.roles, name="T3CH")
-    bot.admin_role = discord.utils.get(guild.roles, name="Nazis")
-    bot.botdev_role = discord.utils.get(guild.roles, name="BotDev")
-    bot.nsfw_role = discord.utils.get(guild.roles, name="NSFW")
-    bot.muted_role = discord.utils.get(guild.roles, name="Muted")
-    bot.approved_role = discord.utils.get(guild.roles, name="Approved")
-    bot.mk8d_role = discord.utils.get(guild.roles, name="MK8D")
-    bot.csgo_role = discord.utils.get(guild.roles, name="CS: Russian Offensive")
-    bot.pubg_role = discord.utils.get(guild.roles, name="pubg:battlebusters")
-    bot.cah_role = discord.utils.get(guild.roles, name="CAH")
+        # Roles
+        bot.owner_role = discord.utils.get(guild.roles, name="T3CH")
+        bot.admin_role = discord.utils.get(guild.roles, name="Nazis")
+        bot.botdev_role = discord.utils.get(guild.roles, name="BotDev")
+        bot.nsfw_role = discord.utils.get(guild.roles, name="NSFW")
+        bot.muted_role = discord.utils.get(guild.roles, name="Muted")
+        bot.approved_role = discord.utils.get(guild.roles, name="Approved")
+        bot.mk8d_role = discord.utils.get(guild.roles, name="MK8D")
+        bot.csgo_role = discord.utils.get(guild.roles, name="CS: Russian Offensive")
+        bot.pubg_role = discord.utils.get(guild.roles, name="pubg:battlebusters")
+        bot.cah_role = discord.utils.get(guild.roles, name="CAH")
 
-    # Color Roles
-    bot.green_role = discord.utils.get(guild.roles, name="Green")
-    bot.blue_role = discord.utils.get(guild.roles, name="Blue")
-    bot.orange_role = discord.utils.get(guild.roles, name="Orange")
-    bot.white_role = discord.utils.get(guild.roles, name="White")
-    bot.black_role = discord.utils.get(guild.roles, name="Black")
-    bot.sand_role = discord.utils.get(guild.roles, name="Sand")
-    bot.pink_role = discord.utils.get(guild.roles, name="Pink")
-    bot.teal_role = discord.utils.get(guild.roles, name="Teal")
+        # Color Roles
+        bot.green_role = discord.utils.get(guild.roles, name="Green")
+        bot.blue_role = discord.utils.get(guild.roles, name="Blue")
+        bot.orange_role = discord.utils.get(guild.roles, name="Orange")
+        bot.white_role = discord.utils.get(guild.roles, name="White")
+        bot.black_role = discord.utils.get(guild.roles, name="Black")
+        bot.sand_role = discord.utils.get(guild.roles, name="Sand")
+        bot.pink_role = discord.utils.get(guild.roles, name="Pink")
+        bot.teal_role = discord.utils.get(guild.roles, name="Teal")
 
-    # Channels
-    bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
-    bot.botdev_channel = discord.utils.get(guild.channels, name="bot-dev")
-    bot.botdms_channel = discord.utils.get(guild.channels, name="bot-dm")
-    bot.logs_channel = discord.utils.get(guild.channels, name="admin-logs")
-    bot.memberlogs_channel = discord.utils.get(guild.channels, name="member-logs")
+        # Channels
+        bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
+        bot.botdev_channel = discord.utils.get(guild.channels, name="bot-dev")
+        bot.botdms_channel = discord.utils.get(guild.channels, name="bot-dm")
+        bot.logs_channel = discord.utils.get(guild.channels, name="admin-logs")
+        bot.memberlogs_channel = discord.utils.get(guild.channels, name="member-logs")
 
     # Ignored users
     with open("database/ignored_users.json", "r") as f:
