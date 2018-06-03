@@ -98,20 +98,28 @@ class Moderation:
     @commands.command()
     async def banid(self, ctx, uid="", *, reason=""):
         """Ban a member by user id. (Staff Only)"""
-        member = discord.Object(uid)
         try:
-            await ctx.guild.ban(member)
-            await ctx.send("I've banned ID: {}.".format(uid))
-            emb = discord.Embed(title="Member Banned by ID", colour=discord.Colour.red())
-            emb.add_field(name="ID:", value=uid, inline=True)
-            emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
-            if reason == "":
-                reason = "No reason specified."
-            emb.add_field(name="Reason:", value=reason, inline=True)
-            logchannel = self.bot.logs_channel
-            await logchannel.send("", embed=emb)
-        except discord.errors.Forbidden:
-            await ctx.send("💢 I dont have permission to do this.")
+            member = ctx.message.mentions[0]
+        except IndexError:
+            return await ctx.send("Please mention a user.")
+        if member == ctx.message.author:
+            return await ctx.send("You cannot ban yourself!")
+        if self.bot.admin_role in member.roles and (self.bot.owner_role not in ctx.message.author.roles):
+            return await ctx.send("You may not ban another staffer")
+        else:    
+            try:
+                await ctx.guild.ban(member)
+                await ctx.send("I've banned ID: {}.".format(uid))
+                emb = discord.Embed(title="Member Banned by ID", colour=discord.Colour.red())
+                emb.add_field(name="ID:", value=uid, inline=True)
+                emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
+                if reason == "":
+                    reason = "No reason specified."
+                emb.add_field(name="Reason:", value=reason, inline=True)
+                logchannel = self.bot.logs_channel
+                await logchannel.send("", embed=emb)
+            except discord.errors.Forbidden:
+                await ctx.send("💢 I dont have permission to do this.")
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
