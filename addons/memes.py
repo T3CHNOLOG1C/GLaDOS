@@ -389,6 +389,11 @@ There really is a Linux, and these people are using it, but it is just a part of
     async def kina(self, ctx):
         """kona"""
         await ctx.send("https://imgur.com/W3u6CoR")
+	
+    @commands.command()
+    async def kina1(self, ctx):
+        """kona1"""
+        await ctx.send("https://imgur.com/FDnh7mu")
 
 def setup(bot):
     bot.add_cog(Memes(bot))
