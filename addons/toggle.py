@@ -44,51 +44,61 @@ class Toggle:
         if role == "MK8D":
             if self.bot.mk8d_role in user.roles:
                 await user.remove_roles(self.bot.mk8d_role)
-                await user.send("Left MK8D role")
+                msg = "Left MK8D role"
+                await self.dm(member, msg)
 
             else:
                 await user.add_roles(self.bot.mk8d_role)
-                await user.send("Joined MK8D role")
+                msg = "Joined MK8D role"
+                await self.dm(member, msg)
 
         elif role == "csgo":
             if self.bot.csgo_role in user.roles:
                 await user.remove_roles(self.bot.csgo_role)
-                await user.send("Left csgo role")
+                msg = "Left csgo role"
+                await self.dm(member, msg)
 
             else:
                 await user.add_roles(self.bot.csgo_role)
-                await user.send("Joined csgo role")
+                msg = "Joined csgo role"
+                await self.dm(member, msg)
 
         elif role == "pubg":
             if self.bot.pubg_role in user.roles:
                 await user.remove_roles(self.bot.pubg_role)
-                await user.send("Left PUBG role")
+                msg = "Left PUBG role"
+                await self.dm(member, msg)
 
             else:
                 await user.add_roles(self.bot.pubg_role)
-                await user.send("Joined PUBG role")
+                msg = "Joined PUBG role"
+                await self.dm(member, msg)
 
         elif role == "cah":
             if self.bot.cah_role in user.roles:
                 await user.remove_roles(self.bot.cah_role)
-                await user.send("Left CAH role")
+                msg = "Left CAH role"
+                await self.dm(member, msg)
 
             else:
                 await user.add_roles(self.bot.cah_role)
-                await user.send("Joined CAH role")
+                msg = "Joined CAH role"
+                await self.dm(member, msg)
 
         elif role == "spla2n":
             if self.bot.spla2n_role in user.roles:
                 await user.remove_roles(self.bot.spla2n_role)
-                await user.send("Left Splatoon 2 role")
+                msg = "Left Splatoon 2 role"
+                await self.dm(member, msg)
 
             else:
                 await user.add_roles(self.bot.spla2n_role)
-                await user.send("Joined Splatoon 2 role")
+                msg = "Joined Splatoon 2 role"
+                await self.dm(member, msg)
       
         else:
-            await user.send("{} is not a togglable role".format(role))
-
+            msg = "{} is not a togglable role".format(role)
+            await self.dm(member, msg)
 
 def setup(bot):
     bot.add_cog(Toggle(bot))
