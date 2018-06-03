@@ -77,6 +77,14 @@ class Toggle:
                 await user.add_roles(self.bot.cah_role)
                 await user.send("Joined CAH role")
 
+        elif role == "spla2n":
+            if self.bot.cah_role in user.roles:
+                await user.remove_roles(self.bot.spla2n_role)
+                await user.send("Left Splatoon 2 role")
+
+            else:
+                await user.add_roles(self.bot.spla2n_role)
+                await user.send("Joined Splatoon 2 role")
       
         else:
             await user.send("{} is not a togglable role".format(role))
