@@ -96,6 +96,17 @@ class Toggle:
                 msg = "Joined Splatoon 2 role"
                 await self.dm(user, msg)
       
+        elif role == "redeclipse":
+            if self.bot.redeclipse_role in user.roles:
+                await user.remove_roles(self.bot.redeclipse_role)
+                msg = "Left Red Eclipse role"
+                await self.dm(user, msg)
+
+            else:
+                await user.add_roles(self.bot.redeclipse_role)
+                msg = "Joined Red Eclipse role"
+                await self.dm(user, msg)
+      
         else:
             msg = "{} is not a togglable role".format(role)
             await self.dm(user, msg)

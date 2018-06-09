@@ -52,6 +52,7 @@ async def on_ready():
         bot.pubg_role = discord.utils.get(guild.roles, name="pubg:battlebusters")
         bot.cah_role = discord.utils.get(guild.roles, name="CAH")
         bot.spla2n_role = discord.utils.get(guild.roles, name="Splatoon 2")
+        bot.redeclipse_role = discord.utils.get(guild.roles, name="Red Eclipse")
 
         # Color Roles
         bot.green_role = discord.utils.get(guild.roles, name="Green")
