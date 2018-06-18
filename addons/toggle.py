@@ -107,7 +107,7 @@ class Toggle:
                 msg = "Joined Red Eclipse role"
                 await user.send(msg)
                 
-       elif role == "titanfall":
+        elif role == "titanfall":
             if self.bot.titanfall_role in user.roles:
                 await user.remove_roles(self.bot.titanfall_role)
                 msg = "Left Titanfall role"
@@ -118,7 +118,7 @@ class Toggle:
                 msg = "Joined Titanfall role"
                 await user.send(msg)
       
-       elif role == "smash":
+        elif role == "smash":
             if self.bot.smashbros_role in user.roles:
                 await user.remove_roles(self.bot.smashbros_role)
                 msg = "Left Smash Bros role"
@@ -129,7 +129,7 @@ class Toggle:
                 msg = "Joined Smash Bros role"
                 await user.send(msg)
       
-       elif role == "fortnite":
+        elif role == "fortnite":
             if self.bot.fortnite_role in user.roles:
                 await user.remove_roles(self.bot.fortnite_role)
                 msg = "Left Fortnite role"
