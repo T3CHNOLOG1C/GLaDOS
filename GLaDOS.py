@@ -53,6 +53,10 @@ async def on_ready():
         bot.cah_role = discord.utils.get(guild.roles, name="CAH")
         bot.spla2n_role = discord.utils.get(guild.roles, name="Splatoon 2")
         bot.redeclipse_role = discord.utils.get(guild.roles, name="Red Eclipse")
+        bot.titanfall_role = discord.utils.get(guild.roles, name="Titanfall")
+        bot.smashbros_role= discord.utils.get(guild.roles, name="Super Smash Bros")
+        bot.fortnite_role = discord.utils.get(guild.roles, name="Fort█▀█ █▄█ ▀█▀")
+
 
         # Color Roles
         bot.green_role = discord.utils.get(guild.roles, name="Green")
