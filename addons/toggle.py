@@ -106,6 +106,39 @@ class Toggle:
                 await user.add_roles(self.bot.redeclipse_role)
                 msg = "Joined Red Eclipse role"
                 await user.send(msg)
+                
+       elif role == "titanfall":
+            if self.bot.titanfall_role in user.roles:
+                await user.remove_roles(self.bot.titanfall_role)
+                msg = "Left Titanfall role"
+                await user.send(msg)
+
+            else:
+                await user.add_roles(self.bot.titanfall_role)
+                msg = "Joined Titanfall role"
+                await user.send(msg)
+      
+       elif role == "smash":
+            if self.bot.smashbros_role in user.roles:
+                await user.remove_roles(self.bot.smashbros_role)
+                msg = "Left Smash Bros role"
+                await user.send(msg)
+
+            else:
+                await user.add_roles(self.bot.smashbros_role)
+                msg = "Joined Smash Bros role"
+                await user.send(msg)
+      
+       elif role == "fortnite":
+            if self.bot.fortnite_role in user.roles:
+                await user.remove_roles(self.bot.fortnite_role)
+                msg = "Left Fortnite role"
+                await user.send(msg)
+
+            else:
+                await user.add_roles(self.bot.fortnite_role)
+                msg = "Joined Fortnite role"
+                await user.send(msg)
       
         else:
             msg = "{} is not a togglable role".format(role)
