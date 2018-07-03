@@ -24,7 +24,7 @@ class Warn:
         except:
             pass
 
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_roles=True)
     @commands.command()
     async def warn(self, ctx, member, *, reason=""):
         """
@@ -43,7 +43,7 @@ class Warn:
             return await ctx.send("Please mention a user.")
         if member == ctx.message.author:
             return await ctx.send("You cannot warn yourself!")
-        if self.bot.admin_role in member.roles and not self.bot.owner_role in author.roles:
+        if self.bot.staff_role in member.roles and not self.bot.owner_role in author.roles:
             return await ctx.send("You cannot warn other staff members!")
         elif self.bot.owner_role in member.roles:
             return await ctx.send("💢 I don't have the permission to do that!")
@@ -140,7 +140,7 @@ class Warn:
         
         await ctx.send("", embed=embed)
 
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_roles=True)
     @commands.command()
     async def clearwarns(self, ctx, member):
         """Clear all of someone's warns. (Staff only)"""
