@@ -1,7 +1,6 @@
 #!/usr/bin/env python3.6
 
 import datetime
-
 import discord
 from discord.ext import commands
 
@@ -49,6 +48,8 @@ class Colors:
             self.bot.sand_role,
             self.bot.pink_role,
             self.bot.teal_role,
+            self.bot.red_role,
+            self.bot.purple_role,
         ]
         applied_colors = []
         for color in colors:
@@ -75,13 +76,17 @@ class Colors:
             await self.change(ctx, self.bot.pink_role, lang, cur_color, user)
         elif str == "teal":
             await self.change(ctx, self.bot.teal_role, lang, cur_color, user)
+        elif str == "purple":
+            await self.change(ctx, self.bot.purple_role, lang, cur_color, user)
+        elif str == "red":
+            await self.change(ctx, self.bot.red_role, lang, cur_color, user)
         else:
             await ctx.send("{} `{}` is not a permissible {}.".format(user.mention, str, lang), delete_after=5)
 
     @commands.command(pass_context=True, aliases=['listcolours', 'listcolor', 'listcolour'])
     async def listcolors(self, ctx):
         """List available colors"""
-        await ctx.send(":art: **__{}ed roles:__**\n- green\n- blue\n- orange\n- white\n- black\n- sand\n- pink\n- teal".format("Color" if ctx.invoked_with == "listcolor" or ctx.invoked_with == "listcolors" else "Colour"))
+        await ctx.send(":art: **__{}ed roles:__**\n- green\n- blue\n- orange\n- white\n- black\n- sand\n- pink\n- teal\n- red\n- purple\n".format("Color" if ctx.invoked_with == "listcolor" or ctx.invoked_with == "listcolors" else "Colour"))
 
 def setup(bot):
     bot.add_cog(Colors(bot))
