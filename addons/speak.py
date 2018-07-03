@@ -40,7 +40,7 @@ class Speak:
         except discord.errors.Forbidden:
             await self.bot.logs_channel.send("Couldn't send message to {}.".format(member.mention))
 
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_messages=True)
     @commands.command()
     async def dm(self, ctx, member, *, message=''):
         """DM a user. (Staff Only)"""
@@ -74,7 +74,7 @@ class Speak:
                     await dmchannel.send(logOutput)
 
         
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_messages=True)
     @commands.command()
     async def ignore(self, ctx, member):
         """
@@ -113,7 +113,5 @@ class Speak:
                 await ctx.send("Added {} to ignored users.".format(member.mention))
             with open("database/ignored_users.json", "w") as f:
                 json.dump(js, f, indent=2, separators=(',', ':'))
-
-
 def setup(bot):
     bot.add_cog(Speak(bot))
