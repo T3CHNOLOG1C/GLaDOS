@@ -27,7 +27,7 @@ if not os.path.isfile("database/emojif.json"):
     with open("database/emojif.json", "w") as f:
         f.write('{}')
 
-bot_prefix = ["sudo", "."]
+bot_prefix = ["sudo", ".", "!"]
 bot = commands.Bot(command_prefix=bot_prefix, description="GLaDOS, a general purpose discord bot.", max_messages=10000, pm_help=True)
 
 # Read config.ini
@@ -40,13 +40,18 @@ async def on_ready():
     for guild in bot.guilds:
         bot.guild = guild
 
-        # Roles
-        bot.owner_role = discord.utils.get(guild.roles, name="T3CH")
-        bot.admin_role = discord.utils.get(guild.roles, name="Nazis")
+        # Moderation Roles
+        bot.owner_role = discord.utils.get(guild.roles, name="Nazi Overlords (Owners)")
+        bot.admin_role = discord.utils.get(guild.roles, name="Nazis (Admins)")
+        bot.mod_role = discord.utils.get(guild.roles, name="Special Snowflakes (SS)")
+        bot.staff_role = discord.utils.get(guild.roles, name="Staff")
         bot.botdev_role = discord.utils.get(guild.roles, name="BotDev")
         bot.nsfw_role = discord.utils.get(guild.roles, name="NSFW")
         bot.muted_role = discord.utils.get(guild.roles, name="Muted")
         bot.approved_role = discord.utils.get(guild.roles, name="Approved")
+
+
+        # Game Roles
         bot.mk8d_role = discord.utils.get(guild.roles, name="MK8D")
         bot.csgo_role = discord.utils.get(guild.roles, name="CS: Russian Offensive")
         bot.pubg_role = discord.utils.get(guild.roles, name="pubg:battlebusters")
@@ -67,6 +72,8 @@ async def on_ready():
         bot.sand_role = discord.utils.get(guild.roles, name="Sand")
         bot.pink_role = discord.utils.get(guild.roles, name="Pink")
         bot.teal_role = discord.utils.get(guild.roles, name="Teal")
+        bot.red_role = discord.utils.get(guild.roles, name="Red")
+        bot.purple_role = discord.utils.get(guild.roles, name="Purple")
 
         # Channels
         bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
