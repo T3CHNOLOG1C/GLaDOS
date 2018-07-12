@@ -38,8 +38,7 @@ class Toggle:
         """toggle some hidden roles"""
         
         user = ctx.message.author
-        await ctx.message.delete()
-
+        
         if role == "":
             embed = discord.Embed(title="Toggleable Roles:", color=discord.Color.dark_teal())
             embed.description = """
