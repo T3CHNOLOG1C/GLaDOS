@@ -48,25 +48,28 @@ class Speak:
         member = ctx.message.mentions[0]
         await self.memberDM(ctx, member, message)
         author = ctx.message.author
-        logOutput = "{} --> 📤 --> {}\n".format(author, member)
+        logOutput = "{} --> 📤 --> {} | \n".format(author, member, member.id)
         logOutput += "Message Content: {}".format(message)
         dmchannel = self.bot.botdms_channel
         await dmchannel.send(logOutput)
         
     # Log incoming dms if user is not ignored    
     async def on_message(self, message):
-        if isinstance(message.channel, discord.abc.PrivateChannel) and message.author.id not in self.bot.ignored_users:
+        if isinstance(message.channel, discord.abc.PrivateChannel):
+            author = message.author
             if message.author.id == self.bot.user.id:
                 pass
+            else if message.author.id in self.bot.ignored_users:
+                ignored_user_message = "Sorry, your message `{}` could not be delivered due to you being blocked from messaging the bot. If you believe this is in error, too fucking bad.".format(message)
+                await self.memberDM(ctx, author, ignored_user_message)
             else:
                 dmchannel = self.bot.botdms_channel
-                author = message.author
                 if message.attachments == []:
-                    logOutput = "{} 📨 {}\n".format(author, self.bot.user)
+                    logOutput = "{} | {} 📨 {}\n".format(author, author.id, self.bot.user)
                     logOutput += "Message Content: {}".format(message.content)
                     await dmchannel.send(logOutput)
                 else:
-                    logOutput = "{} 📨 {}\n".format(author, self.bot.user)
+                    logOutput = "{} | {} 📨 {}\n".format(author, author.id, self.bot.user)
                     logOutput += "Message Content: {}\n".format(message.content)
                     logOutput += "Attachments: \n"
                     for attachment in message.attachments:
