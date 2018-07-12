@@ -60,8 +60,8 @@ class Speak:
             if message.author.id == self.bot.user.id:
                 pass
             elif message.author.id in self.bot.ignored_users:
-                ignored_user_message = "Sorry, your message `{}` could not be delivered due to you being blocked from messaging the bot. If you believe this is in error, too fucking bad.".format(message)
-                await self.memberDM(ctx, author, ignored_user_message)
+                ignored_user_message = "Sorry, your message `{}` could not be delivered due to you being blocked from messaging the bot. If you believe this is in error, too fucking bad.".format(message.content)
+                await author.send(ignored_user_message)
             else:
                 dmchannel = self.bot.botdms_channel
                 if message.attachments == []:
