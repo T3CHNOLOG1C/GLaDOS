@@ -97,7 +97,7 @@ class Toggle:
             else:
                 await user.add_roles(self.bot.cah_role)
                 msg = "Joined CAH role"
-                await user.send(msg)
+                await ctx.send(msg)
 
         elif role == "spla2n":
             if self.bot.spla2n_role in user.roles:
