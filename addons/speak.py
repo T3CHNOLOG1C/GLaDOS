@@ -1,6 +1,6 @@
 #!/usr/bin/python3.6
 import json
-from discord import channel, errors, abc, Embed, Color
+from discord import TextChannel, errors, abc, Embed, Color
 from discord.ext import commands
 
 class Speak:
@@ -14,7 +14,7 @@ class Speak:
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
-    async def speak(self, ctx, destination: channel, *, message: str):
+    async def speak(self, ctx, destination: TextChannel, *, message: str):
         """Make the bot speak (Staff Only)"""
         await ctx.message.delete()
         await destination.send(message)
