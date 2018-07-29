@@ -112,8 +112,8 @@ class Warn:
         with open("database/warns.json", "w") as f:
             dump(js, f, indent=2, separators=(',', ':'))
 
-    @commands.has_permissions(manage_roles=True, aliases=["unwarn","delwarn"])
-    @commands.command()
+    @commands.has_permissions(manage_roles=True)
+    @commands.command(aliases=["unwarn","delwarn"])
     async def deletewarn(self, ctx, member: discord.Member, number: int):
         """
         Unwarn members. (Staff Only)
