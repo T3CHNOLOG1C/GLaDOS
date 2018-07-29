@@ -1,6 +1,6 @@
 #!/usr/bin/python3.6
 import json
-import discord
+from discord import channel, errors, abc, Embed, Color
 from discord.ext import commands
 
 class Speak:
@@ -9,22 +9,21 @@ class Speak:
     def __init__(self, bot):
         self.bot = bot
         print("{} addon loaded.".format(self.__class__.__name__))
-        
+
 
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
-    async def speak(self, ctx, destination, *, message):
+    async def speak(self, ctx, destination: channel, *, message: str):
         """Make the bot speak (Staff Only)"""
         await ctx.message.delete()
-        if len(ctx.message.channel_mentions) > 0:
-            channel = ctx.message.channel_mentions[0]
-            await channel.send(message)
+        await destination.send(message)
+
 
     async def memberDM(self, ctx, member, message):
         """Check for various parameters before DM'ing a member"""
         try:
-            if len(ctx.message.attachments) > 0:
+            if ctx.message.attachments:
                 attachments = " ".join(attachment.url for attachment in ctx.message.attachments)
                 message = "{} {}".format(message, attachments)
             else:
@@ -37,7 +36,7 @@ class Speak:
                 await member.send(message[2000:])
             else:
                 await member.send(message)
-        except discord.errors.Forbidden:
+        except errors.Forbidden:
             await self.bot.logs_channel.send("Couldn't send message to {}.".format(member.mention))
 
     @commands.has_permissions(manage_messages=True)
@@ -48,19 +47,22 @@ class Speak:
         member = ctx.message.mentions[0]
         await self.memberDM(ctx, member, message)
         author = ctx.message.author
-        logOutput = "{} --> 📤 --> {} | \n".format(author, member, member.id)
+        logOutput = "{} --> 📤 --> {} | \n".format(author, member)
         logOutput += "Message Content: {}".format(message)
         dmchannel = self.bot.botdms_channel
         await dmchannel.send(logOutput)
-        
-    # Log incoming dms if user is not ignored    
+
+    # Log incoming dms if user is not ignored
     async def on_message(self, message):
-        if isinstance(message.channel, discord.abc.PrivateChannel):
+        if isinstance(message.channel, abc.PrivateChannel):
             author = message.author
             if message.author.id == self.bot.user.id:
                 pass
             elif message.author.id in self.bot.ignored_users:
-                ignored_user_message = "Sorry, your message `{}` could not be delivered due to you being blocked from messaging the bot. If you believe this is in error, too fucking bad.".format(message.content)
+                ignored_user_message = ("Sorry, your message `{}` could not be delivered due to "
+                                        "you being blocked from messaging the bot. If you believe "
+                                        "this is in error, too fucking bad."
+                                        "".format(message.content))
                 await author.send(ignored_user_message)
             else:
                 dmchannel = self.bot.botdms_channel
@@ -76,7 +78,7 @@ class Speak:
                         logOutput += "{}\n".format(attachment.url)
                     await dmchannel.send(logOutput)
 
-        
+
     @commands.has_permissions(manage_messages=True)
     @commands.command()
     async def ignore(self, ctx, member):
@@ -89,7 +91,7 @@ class Speak:
 
         if member == "list":
             if len(js["users"]) > 0:
-                embed = discord.Embed(title="List of ignored users", color=discord.Color.blue())
+                embed = Embed(title="List of ignored users", color=Color.blue())
                 ignored_users = []
                 for i in js["users"]:
                     u = self.bot.get_user(i)

@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-import time
-import discord
-from discord.ext import commands
+from discord import Embed, Colour
 
 class Events:
     """
@@ -11,20 +9,18 @@ class Events:
     def __init__(self, bot):
         self.bot = bot
         print("{} addon loaded.".format(self.__class__.__name__))
-        
+
     async def on_member_join(self, member):
         user = member
-        geturl = await self.bot.get_user_info(user.id)
-        emb = discord.Embed(title="Member Joined", colour=discord.Colour.green())
+        emb = Embed(title="Member Joined", colour=Colour.green())
         emb.add_field(name="Member:", value=member.name, inline=True)
         emb.set_thumbnail(url=user.avatar_url)
         logchannel = self.bot.memberlogs_channel
         await logchannel.send("", embed=emb)
-        
+
     async def on_member_remove(self, member):
         user = member
-        geturl = await self.bot.get_user_info(user.id)
-        emb = discord.Embed(title="Member Left", colour=discord.Colour.green())
+        emb = Embed(title="Member Left", colour=Colour.green())
         emb.add_field(name="Member:", value=member.name, inline=True)
         emb.set_thumbnail(url=user.avatar_url)
         logchannel = self.bot.memberlogs_channel
@@ -32,8 +28,7 @@ class Events:
 
     async def on_member_unban(self, guild, member):
         user = member
-        geturl = await self.bot.get_user_info(user.id)
-        emb = discord.Embed(title="Member Unbanned", colour=discord.Colour.red())
+        emb = Embed(title="Member Unbanned", colour=Colour.red())
         emb.add_field(name="Member:", value=member.name, inline=True)
         emb.set_thumbnail(url=user.avatar_url)
         logchannel = self.bot.logs_channel

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3.6
 
-import json
-import re
+from json import load, dump
+from re import findall
 
-import discord
+from discord.utils import get
 from discord.ext import commands
 
 class Emojif:
@@ -16,12 +16,12 @@ class Emojif:
     def __init__(self, bot):
         self.bot = bot
         with open("database/emojif.json", "r") as f:
-            self.emojif_settings = json.load(f)
+            self.emojif_settings = load(f)
         try:
             self.emojif_active = self.emojif_settings['status']
         except KeyError:
             self.emojif_active = True
-        
+
         print("{} addon loaded.".format(self.__class__.__name__))
 
     @commands.group(name='emojif')
@@ -37,7 +37,7 @@ class Emojif:
 
         member = str(ctx.message.author.id)
         with open("database/emojif.json", "r") as f:
-            js = json.load(f)
+            js = load(f)
 
         try:
             if js[member]:
@@ -54,14 +54,14 @@ class Emojif:
             msg = "Your messages containing animated emotes will now be replaced."
 
         with open("database/emojif.json", "w") as f:
-            json.dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, indent=2, separators=(',', ':'))
 
         return await ctx.send("<@{}> {}".format(member, msg))
 
     @emojif.command()
     async def list(self, ctx):
         """List all animated emojis that the bot can use."""
-        
+
         output = ""
         for e in self.bot.emojis:
             if not e.animated:
@@ -75,7 +75,7 @@ class Emojif:
         """Globally enable or disable Emojif. (Mods only)"""
 
         with open("database/emojif.json", "r") as f:
-            js = json.load(f)
+            js = load(f)
 
         try:
             if js['status']:
@@ -92,8 +92,8 @@ class Emojif:
             msg = "Emojif is now globally disabled."
 
         with open("database/emojif.json", "w") as f:
-            json.dump(js, f, indent=2, separators=(',', ':'))
-        
+            dump(js, f, indent=2, separators=(',', ':'))
+
         return await ctx.send(msg)
 
     async def on_message(self, message):
@@ -101,7 +101,7 @@ class Emojif:
         Replace messages that should contain animated emojis with
         their animated counterpart
         """
-        
+
         if self.emojif_active is False:
             return
         author = message.author
@@ -112,7 +112,7 @@ class Emojif:
             return
 
         content = message.content
-        msg_emojis = re.findall(':\\w+:', content)
+        msg_emojis = findall(':\\w+:', content)
         client_emojis = tuple(e.name for e in self.bot.emojis if e.animated)
         for i, e in enumerate(msg_emojis):
             if e[1:-1] not in client_emojis:
@@ -139,13 +139,13 @@ class Emojif:
         formatted_content = content.replace('@everyone', '`@`everyone').replace('@here', '`@`here')
         animated_emojis = []
         for e in set(msg_emojis):
-            found_emoji = discord.utils.get(self.bot.emojis, name=e[1:-1])
+            found_emoji = get(self.bot.emojis, name=e[1:-1])
             formatted_content = formatted_content.replace(e, str(found_emoji))
             if found_emoji.animated:
                 animated_emojis.append(found_emoji)
 
         # Make sure the message contains at least one animated emoji
-        if len(animated_emojis) == 0:
+        if not animated_emojis:
             return
 
         await message.delete()
@@ -156,9 +156,9 @@ class Emojif:
             await message.channel.send("{} {}".format(formatted_author, formatted_content))
             await message.channel.send(attachments)
         else:
-            await message.channel.send("{} {} {}".format(formatted_author, formatted_content, attachments))
-      
+            await message.channel.send("{} {} {}".format(formatted_author, formatted_content,
+                                                         attachments))
+
 
 def setup(bot):
     bot.add_cog(Emojif(bot))
-
