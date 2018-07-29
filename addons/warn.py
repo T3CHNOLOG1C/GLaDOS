@@ -33,11 +33,7 @@ class Warn:
         - Fifth warn : banned
         """
         author = ctx.message.author
-        try:
-            member = ctx.message.mentions[0]
-        except IndexError:
-            await ctx.send("Please mention a user.")
-            return
+
         if member == ctx.message.author:
             await ctx.send("You cannot warn yourself!")
             return
@@ -116,7 +112,7 @@ class Warn:
         with open("database/warns.json", "w") as f:
             dump(js, f, indent=2, separators=(',', ':'))
 
-    @commands.has_permissions(manage_roles=True, aliases=["unwarn"])
+    @commands.has_permissions(manage_roles=True, aliases=["unwarn","delwarn"])
     @commands.command()
     async def deletewarn(self, ctx, member: discord.Member, number: int):
         """
@@ -124,11 +120,6 @@ class Warn:
         A user ID can be used instead of mentionning the userself.
         """
         author = ctx.message.author
-        try:
-            member = ctx.message.mentions[0]
-        except IndexError:
-            await ctx.send("Please mention a user.")
-            return
         if member == ctx.message.author:
             await ctx.send("You cannot remove a warn from yourself!")
             return
