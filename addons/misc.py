@@ -11,6 +11,7 @@ except ImportError:
 import discord
 from discord.ext import commands
 
+
 class Misc:
     """
     Miscellaneous commands
@@ -36,6 +37,7 @@ class Misc:
         await ctx.send("{} currently has {} members!"
                        "".format(ctx.guild.name, len(ctx.guild.members)))
         return
+
 
     @commands.command()
     async def about(self, ctx):
@@ -66,12 +68,11 @@ class Misc:
             await ctx.say("💢 I don't have permission to do this.")
 
     @commands.command()
-    async def userinfo(self, ctx, member):
+    async def userinfo(self, ctx):
         try:
             member = ctx.message.mentions[0]
         except IndexError:
-            await ctx.send("Please mention a user.")
-            return
+            member = ctx.message.author
         uname = member.name
         discrim = member.discriminator
         Uid = member.id
@@ -99,3 +100,4 @@ class Misc:
 
 def setup(bot):
     bot.add_cog(Misc(bot))
+
