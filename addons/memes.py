@@ -89,7 +89,7 @@ class Memes:
 
     @commands.cooldown(rate=1, per=10.0, type=commands.BucketType.channel)
     @commands.command()
-    async def xkyup(self, ctx, variant=""):
+    async def xkyup(self, ctx, variant: str = ""):
         """
         MEMES???
         This meme has multiple variants : fr, es, it, jp, de, pl, pt, nl, se, bees
@@ -215,7 +215,7 @@ class Memes:
 
         else:
             try:
-                variant = variant.replace('@everyone', '`@`everyone').replace('@here', '`@`here')
+                variant = await commands.clean_content().convert(ctx, variant)
                 words = variant.split(',')
                 await ctx.send(
                     "I'm so sorry, I was a fucking retard for saying words that would get me in "
@@ -514,7 +514,8 @@ class Memes:
     @commands.command()
     async def beepbeep(self, ctx, *, roast: str = "Roast"):
         """Bope"""
-        await ctx.send("Your {} is Ready".format(roast.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere")))
+        roast = await commands.clean_content().convert(ctx, roast)
+        await ctx.send("Your {} is Ready".format(roast))
 
 def setup(bot):
     bot.add_cog(Memes(bot))

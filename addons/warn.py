@@ -43,6 +43,9 @@ class Warn:
         elif self.bot.owner_role in member.roles:
             await ctx.send("💢 I don't have the permission to do that!")
             return
+        elif ctx.me is author:
+            await ctx.send("I should not warn myself!")
+            return
 
         with open("database/warns.json", "r") as f:
             js = load(f) # https://hastebin.com/ejizaxasav.scala

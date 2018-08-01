@@ -54,7 +54,7 @@ class Toggle:
             """
             await ctx.send("", embed=embed)
 
-
+        role = await commands.clean_content().convert(ctx, role)
         elif role.lower() == "mk8d":
             if self.bot.mk8d_role in user.roles:
                 await user.remove_roles(self.bot.mk8d_role)
@@ -136,7 +136,7 @@ class Toggle:
                 await user.add_roles(self.bot.fortnite_role)
                 await ctx.send(joinmsg.format(role.lower()))
         else:
-            msg = "{} is not a togglable role".format(role.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere"))
+            msg = "{} is not a togglable role".format(role)
             await ctx.send(msg)
 
 def setup(bot):
