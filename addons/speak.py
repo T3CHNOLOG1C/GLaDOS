@@ -18,6 +18,16 @@ class Speak:
         """Make the bot speak (Staff Only)"""
         await ctx.message.delete()
         await destination.send(message)
+        try:
+            emb = Embed(title="Message Sent", colour=Color.orange())
+            emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
+            emb.add_field(name="Send from:", value=ctx.message.channel, inline=True)
+            emb.add_field(name="Send To:", value=destination, inline=True)
+            emb.add_field(name="Message:", value=message, inline=True)
+            logchannel = self.bot.logs_channel
+            await logchannel.send("", embed=emb)
+        except errors.Forbidden:
+            await ctx.send("💢 I dont have permission to do this.")
 
 
     async def memberDM(self, ctx, member, message):
