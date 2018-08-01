@@ -506,6 +506,7 @@ class Memes:
         await ctx.send("https://imgur.com/FDnh7mu")
 
     # fucking piece of shit roast replaced this fucking arse command >:(
+    #fuck you too niggeroni
     @commands.command()
     async def kina3(self, ctx):
         """Memes."""
@@ -514,7 +515,12 @@ class Memes:
     @commands.command()
     async def beepbeep(self, ctx):
         """Bope"""
-        await ctx.send("Your roast is Ready")
+        await ctx.send("Your roast is Ready")    
+        
+    @commands.command()
+    async def negger(self, ctx):
+        """nogger"""
+        await ctx.send("nogger, your mum is a fucking whore like holy shit what a sket she can die lol")
 
 def setup(bot):
     bot.add_cog(Memes(bot))
