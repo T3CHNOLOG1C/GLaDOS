@@ -5,7 +5,7 @@ from json import load
 from subprocess import run
 from os import chdir, makedirs
 from os.path import isfile, dirname, realpath
-from sys import executable
+from sys import executable, exit as sysexit
 
 import discord
 from discord.ext import commands
@@ -153,16 +153,23 @@ async def on_command_error(ctx, error):
 async def on_error(ctx, event_method, *args, **kwargs):
     if isinstance(args[0], commands.errors.CommandNotFound):
         return
-    print('Ignoring exception in {}'.format(event_method))
-    botdev_msg = "Exception occured in {}".format(event_method)
-    tb = format_exc()
-    print(''.join(tb))
-    botdev_msg += '\n```' + ''.join(tb) + '\n```'
-    botdev_msg += '\nargs: `{}`\n\nkwargs: `{}`'.format(args, kwargs)
-    botdev_channel = bot.botdev_channel
-    await botdev_channel.send(botdev_msg)
-    print(args)
-    print(kwargs)
+    elif isinstance(error, (commands.MissingRequiredArgument, commands.BadArgument)):
+        helpm = await bot.formatter.format_help_for(ctx, ctx.command)
+        for m in helpm:
+            await ctx.send(m)
+    elif isinstance(error, commands.CheckFailure):
+        pass
+    else:
+        print('Ignoring exception in {}'.format(event_method))
+        botdev_msg = "Exception occured in {}".format(event_method)
+        tb = format_exc()
+        print(''.join(tb))
+        botdev_msg += '\n```' + ''.join(tb) + '\n```'
+        botdev_msg += '\nargs: `{}`\n\nkwargs: `{}`'.format(args, kwargs)
+        botdev_channel = bot.botdev_channel
+        await botdev_channel.send(botdev_msg)
+        print(args)
+        print(kwargs)
 
 
 # Core commands
@@ -226,5 +233,13 @@ async def restart(ctx):
     await ctx.send("`Restarting, please wait...`")
     run([executable, "GLaDOS.py"])
 
+@commands.has_permissions(administrator=True)
+@bot.command()
+async def stop(ctx):
+    """Stop the bot (Staff Only)"""
+    await ctx.send("`Exiting...`")
+    await bot.logout()
+
 # Run the bot
-bot.run(config['Main']['token'])
+if __name__ == "__main__":
+    bot.run(config['Main']['token'])

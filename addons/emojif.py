@@ -117,7 +117,7 @@ class Emojif:
         for i, e in enumerate(msg_emojis):
             if e[1:-1] not in client_emojis:
                 msg_emojis.pop(i)
-        if len(msg_emojis) == 0:
+        if not msg_emojis:
             return
 
 
@@ -131,7 +131,7 @@ class Emojif:
         # Manage attachements / images
         # Post URL instead of saving then reuploading image,
         # to save time, bandwidth, and disk usage.
-        if len(message.attachments) > 0:
+        if not message.attachments:
             attachments = " ".join(attachment.url for attachment in message.attachments)
         else:
             attachments = ""

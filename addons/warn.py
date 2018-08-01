@@ -43,7 +43,7 @@ class Warn:
         elif self.bot.owner_role in member.roles:
             await ctx.send("💢 I don't have the permission to do that!")
             return
-        elif ctx.me is author:
+        elif ctx.me is member:
             await ctx.send("I should not warn myself!")
             return
 
@@ -116,7 +116,7 @@ class Warn:
             dump(js, f, indent=2, separators=(',', ':'))
 
     @commands.has_permissions(manage_roles=True)
-    @commands.command(aliases=["unwarn","delwarn"])
+    @commands.command(aliases=["unwarn", "delwarn"])
     async def deletewarn(self, ctx, member: discord.Member, number: int):
         """
         Unwarn members. (Staff Only)

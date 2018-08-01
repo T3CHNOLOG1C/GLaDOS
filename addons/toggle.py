@@ -18,6 +18,7 @@ class Toggle:
         """Toggle access to some hidden channels"""
 
         user = ctx.message.author
+        channel = await commands.clean_content().convert(ctx, channel)
         await ctx.message.delete()
 
         if channel == "nsfw":
@@ -29,7 +30,7 @@ class Toggle:
                 await user.add_roles(self.bot.nsfw_role)
                 await user.send("Access to NSFW channels granted.")
         else:
-            await user.send("{} is not a togglable channel.".format(channel.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere")))
+            await user.send("{} is not a togglable channel.".format(channel))
 
     @commands.command(pass_context=True)
     async def togglerole(self, ctx, role=""):
@@ -38,6 +39,8 @@ class Toggle:
         user = ctx.message.author
         joinmsg = "Joined {0} role"
         leavemsg = "Left {0} role"
+
+        role = await commands.clean_content().convert(ctx, role)
 
         if role == "":
             embed = discord.Embed(title="Toggleable Roles:", color=discord.Color.dark_teal())
@@ -54,14 +57,15 @@ class Toggle:
             """
             await ctx.send("", embed=embed)
 
-        role = await commands.clean_content().convert(ctx, role)
         elif role.lower() == "mk8d":
             if self.bot.mk8d_role in user.roles:
                 await user.remove_roles(self.bot.mk8d_role)
                 await ctx.send(leavemsg.format(role.upper()))
 
             else:
+                print("before error")
                 await user.add_roles(self.bot.mk8d_role)
+                print("after error")
                 await ctx.send(joinmsg.format(role.upper()))
 
         elif role.lower() == "spla2n":
