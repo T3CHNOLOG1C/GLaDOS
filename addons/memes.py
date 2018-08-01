@@ -514,7 +514,12 @@ class Memes:
     @commands.command()
     async def beepbeep(self, ctx, *, roast: str = "Roast"):
         """Bope"""
-        await ctx.send("Your {} is Ready".format(roast.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere"))
+        await ctx.send("Your {} is Ready".format(roast.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere")))
+
+    @commands.command()
+    async def watermelon(self, ctx, *, watermelon: str = "Watermelon"):
+        """Bope"""
+        await ctx.send("Nibba give me mah {}".format(melon.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere")))
 
 def setup(bot):
     bot.add_cog(Memes(bot))
