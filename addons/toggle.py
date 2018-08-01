@@ -29,7 +29,7 @@ class Toggle:
                 await user.add_roles(self.bot.nsfw_role)
                 await user.send("Access to NSFW channels granted.")
         else:
-            await user.send("{} is not a togglable channel.".format(channel.replace('@everyone', '`@`everyone').replace('@here', '`@`here')))
+            await user.send("{} is not a togglable channel.".format(channel.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere")))
 
     @commands.command(pass_context=True)
     async def togglerole(self, ctx, role=""):
@@ -136,7 +136,7 @@ class Toggle:
                 await user.add_roles(self.bot.fortnite_role)
                 await ctx.send(joinmsg.format(role.lower()))
         else:
-            msg = "{} is not a togglable role".format(role.replace('@everyone', '`@`everyone').replace('@here', '`@`here'))
+            msg = "{} is not a togglable role".format(role.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere"))
             await ctx.send(msg)
 
 def setup(bot):
