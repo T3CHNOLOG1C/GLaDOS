@@ -153,7 +153,7 @@ async def on_command_error(ctx, error):
 async def on_error(ctx, event_method, *args, **kwargs):
     if isinstance(args[0], commands.errors.CommandNotFound):
         return
-    elif isinstance(error, (commands.MissingRequiredArgument, commands.BadArgument)):
+    elif isinstance(error, (commands.errors.MissingRequiredArgument, commands.errors.BadArgument)):
         helpm = await bot.formatter.format_help_for(ctx, ctx.command)
         for m in helpm:
             await ctx.send(m)
