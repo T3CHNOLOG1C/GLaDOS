@@ -1,9 +1,0 @@
-config.ini
-__pycache__
-*.json
-*.swp
-database
-.vs/
-.vscode/
-*.pyc
-database/
