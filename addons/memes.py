@@ -514,7 +514,7 @@ class Memes:
     @commands.command()
     async def beepbeep(self, ctx, *, roast: str = "Roast"):
         """Bope"""
-        await ctx.send("Your {} is Ready".format(roast.replace('@everyone', '`@`everyone').replace('@here', '`@`here')))
+        await ctx.send("Your {} is Ready".format(roast.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere"))
 
 def setup(bot):
     bot.add_cog(Memes(bot))
