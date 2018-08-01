@@ -1,7 +1,7 @@
 from json import load, dump
 from time import strftime, localtime
 
-import discord
+from discord import Member, Embed, Colour
 from discord.ext import commands
 
 
@@ -13,7 +13,7 @@ class Warn:
         self.bot = bot
         print("{} addon loaded.".format(self.__class__.__name__))
 
-    async def dm(self, member: discord.Member, message: str):
+    async def dm(self, member: Member, message: str):
         """DM the user and catch an eventual exception."""
         try:
             await member.send(message)
@@ -22,7 +22,7 @@ class Warn:
 
     @commands.has_permissions(manage_roles=True)
     @commands.command()
-    async def warn(self, ctx, member: discord.Member, *, reason: str = ""):
+    async def warn(self, ctx, member: Member, *, reason: str = ""):
         """
         Warn members. (Staff Only)
         A user ID can be used instead of mentionning the user.
@@ -76,7 +76,7 @@ class Warn:
         else:
             await self.dm(member, "You have been warned in {} for the following reason :\n{}\n"
                                   "".format(ctx.guild.name, reason))
-        emb = discord.Embed(title="Member Warned", colour=discord.Colour.orange())
+        emb = Embed(title="Member Warned", colour=Colour.orange())
         emb.add_field(name="Member:", value=member, inline=True)
         emb.add_field(name="Warning Number:", value=amount_of_warns, inline=True)
         emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
@@ -117,7 +117,7 @@ class Warn:
 
     @commands.has_permissions(manage_roles=True)
     @commands.command(aliases=["unwarn", "delwarn"])
-    async def deletewarn(self, ctx, member: discord.Member, number: int):
+    async def deletewarn(self, ctx, member: Member, number: int):
         """
         Unwarn members. (Staff Only)
         A user ID can be used instead of mentionning the userself.
@@ -153,7 +153,7 @@ class Warn:
         await ctx.send("🚩 I've deleted the {} warn of {}. The user now has {} warns."
                        "".format(number, member, amount_of_warns))
         await self.dm(member, "One of you warns in {} has been removed.".format(ctx.guild.name))
-        emb = discord.Embed(title="Member Unwarned", colour=discord.Colour.orange())
+        emb = Embed(title="Member Unwarned", colour=Colour.orange())
         emb.add_field(name="Member:", value=member, inline=True)
         emb.add_field(name="Removed Warning Number:", value=number, inline=True)
         emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
@@ -165,21 +165,19 @@ class Warn:
             dump(js, f, indent=2, separators=(',', ':'))
 
     @commands.command()
-    async def listwarns(self, ctx):
+    async def listwarns(self, ctx, member: Member = None):
         """
         List your own warns or someone else's warns.
         Only the staff can view someone else's warns
         """
-
-        try:
-            member = ctx.message.mentions[0]
-            if self.bot.staff_role in ctx.message.author.roles:
-                has_perms = True
-            else:
-                has_perms = False
-        except IndexError:
+        if not member:
             member = ctx.message.author
+
+        if self.bot.staff_role in ctx.message.author.roles:
             has_perms = True
+        else:
+            has_perms = False
+
         if not has_perms:
             return await ctx.send("{} You don't have permission to list other member's warns!"
                                   "".format(ctx.message.author.mention))
@@ -190,7 +188,7 @@ class Warn:
         userid = str(member.id)
         if userid not in js:
             return await ctx.send("No warns found!")
-        embed = discord.Embed(color=member.colour)
+        embed = Embed(color=member.colour)
         embed.set_author(name="List of warns for {} :".format(member), icon_url=member.avatar_url)
 
         for nbr, warn in enumerate(js[userid]["warns"]):
@@ -204,7 +202,7 @@ class Warn:
 
     @commands.has_permissions(manage_roles=True)
     @commands.command()
-    async def clearwarns(self, ctx, member):
+    async def clearwarns(self, ctx, member: Member):
         """Clear all of someone's warns. (Staff only)"""
         try:
             member = ctx.message.mentions[0]
@@ -222,7 +220,7 @@ class Warn:
         try:
             js.pop(str(member.id))
             await ctx.send("Cleared all of {}'s warns!".format(member.mention))
-            emb = discord.Embed(title="Member Warns Cleared", colour=discord.Colour.orange())
+            emb = Embed(title="Member Warns Cleared", colour=Colour.orange())
             emb.add_field(name="Member:", value=member, inline=True)
             emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
             logchannel = self.bot.logs_channel
@@ -231,10 +229,6 @@ class Warn:
                 dump(js, f, indent=2, separators=(',', ':'))
         except KeyError:
             return await ctx.send("This user doesn't have any warns!")
-
-
-
-
 
 def setup(bot):
     bot.add_cog(Warn(bot))
