@@ -515,7 +515,7 @@ class Memes:
     async def beepbeep(self, ctx, *, roast: str = "Roast"):
         """Bope"""
         roast = await commands.clean_content().convert(ctx, roast)
-        await ctx.send("Your {} is Ready".format(roast))
+        await ctx.send("Your {} is ready".format(roast))
 
     @commands.command()
     async def t3ch(self, ctx, *, arg="server, sss, weeb, shack mod, trap role, channel, shitposting, cancerous"):
