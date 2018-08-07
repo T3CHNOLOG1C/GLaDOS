@@ -1,4 +1,4 @@
-from configparser import ConfigParser
+﻿m configparser import ConfigParser
 from asyncio import sleep
 from traceback import format_exception, format_exc
 from json import load, dump
@@ -28,7 +28,6 @@ if not isfile("database/config.json"):
 config = load(open("database/config.json", "r"))
 
 bot = commands.Bot(command_prefix=config['prefix'] , description="GLaDOS, a general purpose discord bot.",
-
                    max_messages=10000, pm_help=True)
 
 # Migrate data from config.ini to config.json
