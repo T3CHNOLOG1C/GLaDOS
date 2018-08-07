@@ -8,9 +8,9 @@ A mostly-general purpose discord bot (designed to be forked in uses outside of i
 
 ## How to use :
 
-1. Copy config.ini.example to config.ini and fill in the blank fields.
+1. Copy config.ini.example to config.ini and fill in the blank fields. [Data in config.ini gets migrated to a json. If you need to edit it edit config.json]
 2. Edit role and channel names in `GLaDOS.py`
-3. Run `python3.6 GLaDOS.py`
+3. Run `python3.6 GLaDOS.py` on linux or `py -3.6 GLaDOS.py` on windows
 
 ## Credits
 

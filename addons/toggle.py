@@ -1,4 +1,4 @@
-import discord
+from discord import Color, Embed
 from discord.ext import commands
 
 
@@ -33,17 +33,24 @@ class Toggle:
             await user.send("{} is not a togglable channel.".format(channel))
 
     @commands.command(pass_context=True)
-    async def togglerole(self, ctx, role=""):
+    async def togglerole(self, ctx, *, role: str = None):
         """toggle some hidden roles"""
 
+        """
+        TODO:
+            - put all roles and their keywords in a json
+        """
+
+        if not role:
+            role = ""
         user = ctx.message.author
         joinmsg = "Joined {0} role"
         leavemsg = "Left {0} role"
 
         role = await commands.clean_content().convert(ctx, role)
 
-        if role == "":
-            embed = discord.Embed(title="Toggleable Roles:", color=discord.Color.dark_teal())
+        if not role:
+            embed = Embed(title="Toggleable Roles:", color=Color.dark_teal())
             embed.description = """
             - :race_car: Mario Kart 8 Deluxe: MK8D
             - :squid: Splatoon 2: spla2n
@@ -54,6 +61,7 @@ class Toggle:
             - :robot: Titanfall (2): titanfall
             - :boxing_glove: Super Smash Bros.: smash
             - :shopping_cart: Fortnite: fortnite
+            - ::shield: Rainbow Six Siege: r6s
             """
             await ctx.send("", embed=embed)
 
@@ -139,6 +147,7 @@ class Toggle:
             else:
                 await user.add_roles(self.bot.fortnite_role)
                 await ctx.send(joinmsg.format(role.lower()))
+
         else:
             msg = "{} is not a togglable role".format(role)
             await ctx.send(msg)

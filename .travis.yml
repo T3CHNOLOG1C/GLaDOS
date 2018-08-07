@@ -15,10 +15,13 @@ python:
 
 install:
   - pip install -r requirements.txt
+  - pip install pyflakes
 
 script:
   - python -m compileall ./GLaDOS.py
   - python -m compileall ./addons/*.py
+  - pyflakes ./GLaDOS.py
+  - find ./addons -iname "*.py" | xargs pyflakes
 
 cache:
   - pip

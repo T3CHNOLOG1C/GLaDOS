@@ -1,13 +1,14 @@
 ﻿from configparser import ConfigParser
 from asyncio import sleep
 from traceback import format_exception, format_exc
-from json import load
+from json import load, dump
 from subprocess import run
-from os import chdir, makedirs
+from os import chdir, makedirs, remove
 from os.path import isfile, dirname, realpath
 from sys import executable, exit as sysexit
 
-import discord
+from discord import errors
+from discord.utils import get
 from discord.ext import commands
 
 # Change to script's directory
@@ -16,23 +17,34 @@ chdir(path)
 
 # Create database
 makedirs("database", exist_ok=True)
-if not isfile("database/warns.json"):
-    with open("database/warns.json", "w") as f:
-        f.write('{}')
-if not isfile("database/ignored_users.json"):
-    with open("database/ignored_users.json", "w") as f:
-        f.write('{"users": []}')
+
 if not isfile("database/emojif.json"):
     with open("database/emojif.json", "w") as f:
         f.write('{}')
+if not isfile("database/config.json"):
+    with open("database/config.json", "w") as f:
+        dump({'prefix':[".", "sudo "], 'token':'', 'api':{'google':''}}, f)
 
-bot_prefix = ["sudo ", "."]
-bot = commands.Bot(command_prefix=bot_prefix, description="GLaDOS, a general purpose discord bot.",
+config = load(open("database/config.json", "r"))
+
+bot = commands.Bot(command_prefix=config['prefix'] , description="GLaDOS, a general purpose discord bot.",
                    max_messages=10000, pm_help=True)
 
-# Read config.ini
-config = ConfigParser()
-config.read("config.ini")
+# Migrate data from config.ini to config.json
+if isfile("config.ini"):
+    ini = ConfigParser()
+    ini.read("config.ini")
+
+    if ini['Main']['token'] != '{TOKEN HERE}' and not config['token']:
+        config['token'] = ini['Main']['token']
+
+    if ini['Google']['API_Key'] != '{API KEY HERE}' and not config['api']['google']:
+        config['api']['google'] = ini['Google']['API_Key']
+
+    with open("database/config.json", "w") as f:
+        dump(config, f)
+
+    remove('config.ini')
 
 @bot.event
 async def on_ready():
@@ -41,50 +53,57 @@ async def on_ready():
         bot.guild = guild
 
         # Moderation Roles
-        bot.owner_role = discord.utils.get(guild.roles, name="Nazi Overlords (Owners)")
-        bot.admin_role = discord.utils.get(guild.roles, name="Nazis (Admins)")
-        bot.mod_role = discord.utils.get(guild.roles, name="Special Snowflakes (SS)")
-        bot.staff_role = discord.utils.get(guild.roles, name="Staff")
-        bot.botdev_role = discord.utils.get(guild.roles, name="BotDev")
-        bot.nsfw_role = discord.utils.get(guild.roles, name="NSFW")
-        bot.muted_role = discord.utils.get(guild.roles, name="Muted")
-        bot.approved_role = discord.utils.get(guild.roles, name="Approved")
+        bot.owner_role = get(guild.roles, name="Nazi Overlords (Owners)")
+        bot.admin_role = get(guild.roles, name="Nazis (Admins)")
+        bot.mod_role = get(guild.roles, name="Special Snowflakes (SS)")
+        bot.staff_role = get(guild.roles, name="Staff")
+        bot.botdev_role = get(guild.roles, name="BotDev")
+        bot.nsfw_role = get(guild.roles, name="NSFW")
+        bot.muted_role = get(guild.roles, name="Muted")
+        bot.approved_role = get(guild.roles, name="Approved")
 
 
         # Game Roles
-        bot.mk8d_role = discord.utils.get(guild.roles, name="MK8D")
-        bot.csgo_role = discord.utils.get(guild.roles, name="CS: Russian Offensive")
-        bot.pubg_role = discord.utils.get(guild.roles, name="pubg:battlebusters")
-        bot.cah_role = discord.utils.get(guild.roles, name="CAH")
-        bot.spla2n_role = discord.utils.get(guild.roles, name="Splatoon 2")
-        bot.redeclipse_role = discord.utils.get(guild.roles, name="Red Eclipse")
-        bot.titanfall_role = discord.utils.get(guild.roles, name="Titanfall")
-        bot.smashbros_role = discord.utils.get(guild.roles, name="Super Smash Bros")
-        bot.fortnite_role = discord.utils.get(guild.roles, name="Fort█▀█ █▄█ ▀█▀")
+        bot.mk8d_role = get(guild.roles, name="MK8D")
+        bot.csgo_role = get(guild.roles, name="CS: Russian Offensive")
+        bot.pubg_role = get(guild.roles, name="pubg:battlebusters")
+        bot.cah_role = get(guild.roles, name="CAH")
+        bot.spla2n_role = get(guild.roles, name="Splatoon 2")
+        bot.redeclipse_role = get(guild.roles, name="Red Eclipse")
+        bot.titanfall_role = get(guild.roles, name="Titanfall")
+        bot.smashbros_role = get(guild.roles, name="Super Smash Bros")
+        bot.fortnite_role = get(guild.roles, name="Fort█▀█ █▄█ ▀█▀")
 
 
         # Color Roles
-        bot.green_role = discord.utils.get(guild.roles, name="Green")
-        bot.blue_role = discord.utils.get(guild.roles, name="Blue")
-        bot.orange_role = discord.utils.get(guild.roles, name="Orange")
-        bot.white_role = discord.utils.get(guild.roles, name="White")
-        bot.black_role = discord.utils.get(guild.roles, name="Black")
-        bot.sand_role = discord.utils.get(guild.roles, name="Sand")
-        bot.pink_role = discord.utils.get(guild.roles, name="Pink")
-        bot.teal_role = discord.utils.get(guild.roles, name="Teal")
-        bot.red_role = discord.utils.get(guild.roles, name="Red")
-        bot.purple_role = discord.utils.get(guild.roles, name="Purple")
+        bot.green_role = get(guild.roles, name="Green")
+        bot.blue_role = get(guild.roles, name="Blue")
+        bot.orange_role = get(guild.roles, name="Orange")
+        bot.white_role = get(guild.roles, name="White")
+        bot.black_role = get(guild.roles, name="Black")
+        bot.sand_role = get(guild.roles, name="Sand")
+        bot.pink_role = get(guild.roles, name="Pink")
+        bot.teal_role = get(guild.roles, name="Teal")
+        bot.red_role = get(guild.roles, name="Red")
+        bot.purple_role = get(guild.roles, name="Purple")
 
         # Channels
-        bot.announcements_channel = discord.utils.get(guild.channels, name="announcements")
-        bot.botdev_channel = discord.utils.get(guild.channels, name="bot-dev")
-        bot.botdms_channel = discord.utils.get(guild.channels, name="bot-dm")
-        bot.logs_channel = discord.utils.get(guild.channels, name="admin-logs")
-        bot.memberlogs_channel = discord.utils.get(guild.channels, name="member-logs")
+        bot.announcements_channel = get(guild.channels, name="announcements")
+        bot.botdev_channel = get(guild.channels, name="bot-dev")
+        bot.botdms_channel = get(guild.channels, name="bot-dm")
+        bot.logs_channel = get(guild.channels, name="admin-logs")
+        bot.memberlogs_channel = get(guild.channels, name="member-logs")
 
     # Ignored users
-    with open("database/ignored_users.json", "r") as f:
-        ignored_users = load(f)["users"]
+
+    try:
+        with open("database/ignored_users.json", "r") as config:
+            ignored_users = load(config)
+    except FileNotFoundError:
+        with open("database/ignored_users.json", "w") as config:
+            config.write({"users": []})
+            ignored_users = {"users": []}
+
     bot.ignored_users = ignored_users
 
     # Load addons
@@ -130,7 +149,7 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.errors.CommandOnCooldown):
         try:
             await ctx.message.delete()
-        except discord.errors.NotFound:
+        except errors.NotFound:
             pass
         message = await ctx.message.channel.send("{} This command was used {:.2f}s ago and is on "
                                                  "cooldown. Try again in {:.2f}s."
@@ -157,7 +176,7 @@ async def on_error(ctx, event_method, *args, **kwargs):
         helpm = await bot.formatter.format_help_for(ctx, ctx.command)
         for m in helpm:
             await ctx.send(m)
-    elif isinstance(error, commands.CheckFailure):
+    elif isinstance(args[0], commands.CheckFailure):
         pass
     else:
         print('Ignoring exception in {}'.format(event_method))
@@ -232,6 +251,8 @@ async def restart(ctx):
     """Restart the bot (Staff Only)"""
     await ctx.send("`Restarting, please wait...`")
     run([executable, "GLaDOS.py"])
+    sysexit()
+
 
 @commands.has_permissions(administrator=True)
 @bot.command()
@@ -239,7 +260,8 @@ async def stop(ctx):
     """Stop the bot (Staff Only)"""
     await ctx.send("`Exiting...`")
     await bot.logout()
+    sysexit()
 
 # Run the bot
 if __name__ == "__main__":
-    bot.run(config['Main']['token'])
+    bot.run(config['token'])
