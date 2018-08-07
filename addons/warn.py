@@ -47,8 +47,13 @@ class Warn:
             await ctx.send("I should not warn myself!")
             return
 
-        with open("database/warns.json", "r") as f:
-            js = load(f) # https://hastebin.com/ejizaxasav.scala
+        try:
+            with open("database/warns.json", "r") as config:
+                js = load(config)
+        except FileNotFoundError:
+            with open("database/warns.json", "w") as config:
+                config.write('{}')
+                js = {}
 
         userid = str(member.id)
         if userid not in js:
