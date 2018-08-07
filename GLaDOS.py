@@ -23,7 +23,7 @@ if not isfile("database/emojif.json"):
         f.write('{}')
 if not isfile("database/config.json"):
     with open("database/config.json", "w") as f:
-        dump({'prefix':[".", "sudo"], 'token':'', 'api':{'google':''}}, f)
+        dump({'prefix':[".", "sudo "], 'token':'', 'api':{'google':''}}, f)
 
 config = load(open("database/config.json", "r"))
 
