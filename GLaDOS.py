@@ -5,7 +5,7 @@ from json import load, dump
 from subprocess import run
 from os import chdir, makedirs, remove
 from os.path import isfile, dirname, realpath
-from sys import executable
+from sys import executable, exit as sysexit
 
 from discord import errors
 from discord.utils import get
@@ -251,6 +251,8 @@ async def restart(ctx):
     """Restart the bot (Staff Only)"""
     await ctx.send("`Restarting, please wait...`")
     run([executable, "GLaDOS.py"])
+    sysexit()
+
 
 @commands.has_permissions(administrator=True)
 @bot.command()
@@ -258,6 +260,7 @@ async def stop(ctx):
     """Stop the bot (Staff Only)"""
     await ctx.send("`Exiting...`")
     await bot.logout()
+    sysexit()
 
 # Run the bot
 if __name__ == "__main__":
