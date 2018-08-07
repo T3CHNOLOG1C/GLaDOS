@@ -23,11 +23,12 @@ if not isfile("database/emojif.json"):
         f.write('{}')
 if not isfile("database/config.json"):
     with open("database/config.json", "w") as f:
-        dump({'prefix':[".", "sudo"], 'token':'', 'api':{'google':''}}, f)
+        dump({'prefix':[".", "sudo "], 'token':'', 'api':{'google':''}}, f)
 
 config = load(open("database/config.json", "r"))
 
 bot = commands.Bot(command_prefix=config['prefix'] , description="GLaDOS, a general purpose discord bot.",
+
                    max_messages=10000, pm_help=True)
 
 # Migrate data from config.ini to config.json
