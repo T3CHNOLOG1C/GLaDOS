@@ -1,5 +1,5 @@
 #!/usr/bin/python3.6
-import json
+from json import load, dump
 from discord import TextChannel, errors, abc, Embed, Color
 from discord.ext import commands
 
@@ -97,7 +97,7 @@ class Speak:
         If you use .ignore list, it will list all ignored members instead.
         """
         with open("database/ignored_users.json", "r") as f:
-            js = json.load(f)
+            js = load(f)
 
         if member == "list":
             if len(js["users"]) > 0:
@@ -127,6 +127,6 @@ class Speak:
                 self.bot.ignored_users.append(member.id)
                 await ctx.send("Added {} to ignored users.".format(member.mention))
             with open("database/ignored_users.json", "w") as f:
-                json.dump(js, f, indent=2, separators=(',', ':'))
+                dump(js, f, indent=2, separators=(',', ':'))
 def setup(bot):
     bot.add_cog(Speak(bot))
