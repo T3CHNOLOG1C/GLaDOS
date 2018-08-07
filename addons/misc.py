@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.6
 
-import datetime
+from datetime.datetime import now
 from os import devnull
 from subprocess import Popen, PIPE
 try:
@@ -8,7 +8,7 @@ try:
 except ImportError:
     DEVNULL = open(devnull, 'r+b', 0)
 
-import discord
+from discord import Embed, errors
 from discord.ext import commands
 
 
@@ -25,7 +25,7 @@ class Misc:
     async def ping(self, ctx):
         """Pong!"""
         mtime = ctx.message.created_at
-        currtime = datetime.datetime.now()
+        currtime = now()
         latency = currtime - mtime
         ptime = str(latency.microseconds / 1000.0)
         await ctx.send(":ping_pong:! Pong! Response time: {} ms".format(ptime))
@@ -64,7 +64,7 @@ class Misc:
         try:
             await channel.purge(limit=n)
             await ctx.send("🗑️ Cleared {} messages in this channel!".format(amount))
-        except discord.errors.Forbidden:
+        except errors.Forbidden:
             await ctx.say("💢 I don't have permission to do this.")
 
     @commands.command()
@@ -88,7 +88,7 @@ class Misc:
         str4 = "{}".format(str(isBot))
         str5 = "{}".format(cTime)
         str6 = "{}".format(jTime)
-        emb = discord.Embed(title="Userinfo", color=0x00ff00)
+        emb = Embed(title="Userinfo", color=0x00ff00)
         emb.add_field(name="Member", value=str1 + "\n", inline=True)
         emb.add_field(name="ID", value=str2 + "\n", inline=True)
         emb.add_field(name="Nickname", value=str3 + "\n", inline=True)
