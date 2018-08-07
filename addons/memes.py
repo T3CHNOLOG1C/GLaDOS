@@ -25,7 +25,7 @@ class Memes:
         await msg.add_reaction("🇫")
 
     @commands.command()
-    async def t3ch(self, ctx):
+    async def tech(self, ctx):
         """Goddamn Nazimod"""
         return await ctx.send("https://i.imgur.com/4kANai8.png")
 
