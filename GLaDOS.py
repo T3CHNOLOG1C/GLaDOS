@@ -1,4 +1,4 @@
-﻿m configparser import ConfigParser
+﻿from configparser import ConfigParser
 from asyncio import sleep
 from traceback import format_exception, format_exc
 from json import load, dump
