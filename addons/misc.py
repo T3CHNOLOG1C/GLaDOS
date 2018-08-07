@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.6
 
-from datetime.datetime import now
+from datetime import datetime
 from os import devnull
 from subprocess import Popen, PIPE
 try:
@@ -25,7 +25,7 @@ class Misc:
     async def ping(self, ctx):
         """Pong!"""
         mtime = ctx.message.created_at
-        currtime = now()
+        currtime = datetime.now()
         latency = currtime - mtime
         ptime = str(latency.microseconds / 1000.0)
         await ctx.send(":ping_pong:! Pong! Response time: {} ms".format(ptime))
