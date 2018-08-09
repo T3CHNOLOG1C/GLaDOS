@@ -61,7 +61,6 @@ class Toggle:
             - :robot: Titanfall (2): titanfall
             - :boxing_glove: Super Smash Bros.: smash
             - :shopping_cart: Fortnite: fortnite
-            - ::shield: Rainbow Six Siege: r6s
             """
             await ctx.send("", embed=embed)
 
