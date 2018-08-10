@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from discord import Embed, Colour
 
+
 class Events:
     """
     bot events
@@ -34,5 +35,7 @@ class Events:
         logchannel = self.bot.logs_channel
         await logchannel.send("", embed=emb)
 
+
 def setup(bot):
     bot.add_cog(Events(bot))
+

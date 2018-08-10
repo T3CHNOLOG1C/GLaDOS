@@ -2,6 +2,7 @@
 
 from discord.ext import commands
 
+
 class Memes:
     """
     ayy lmao
@@ -226,13 +227,11 @@ class Memes:
                     " I should have been thinking before I spoke."
                     "".format(words[0], words[1], words[2], words[3], words[4])
                 )
-            except:
+            except IndexError:
                 await ctx.send("Your syntax is incorrect. Please use the following syntax : "
                                "`.xkyup \"word1,word2,word3,word4,word5\"`. You must specify the 5"
-                               " words."
-                              )
+                               " words.")
                 return
-
 
     # Kurisu memes
     @commands.command()
@@ -421,8 +420,7 @@ class Memes:
         """MEMES?"""
         await ctx.send("https://i.imgur.com/cWXBb5g.png")
 
-
-    ## GIB DONGRODER LAZY DEV
+    # GIB DONGRODER LAZY DEV
     @commands.cooldown(rate=1, per=10.0, type=commands.BucketType.channel)
     @commands.command()
     async def dongroder(self, ctx, variant=""):
@@ -493,8 +491,8 @@ class Memes:
                        "operating system. Linux is normally used in combination with the GNU "
                        "operating system: the whole system is basically GNU with Linux added, "
                        "or GNU/Linux. All the so-called \"Linux\" distributions are really "
-                       "distributions of GNU/Linux.```"
-                      )
+                       "distributions of GNU/Linux.```")
+
     @commands.command()
     async def kina(self, ctx):
         """kona"""
@@ -540,5 +538,7 @@ class Memes:
                        " part of the spirit of {1} is {6}, and overall just more {7} than {1} was "
                        "ever meant to be. goodbye.").format(*replacements)))
 
+
 def setup(bot):
     bot.add_cog(Memes(bot))
+

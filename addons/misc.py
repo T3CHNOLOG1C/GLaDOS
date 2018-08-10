@@ -4,7 +4,7 @@ from datetime import datetime
 from os import devnull
 from subprocess import Popen, PIPE
 try:
-    from subprocess import DEVNULL # Python 3
+    from subprocess import DEVNULL  # Python 3
 except ImportError:
     DEVNULL = open(devnull, 'r+b', 0)
 
@@ -38,7 +38,6 @@ class Misc:
                        "".format(ctx.guild.name, len(ctx.guild.members)))
         return
 
-
     @commands.command()
     async def about(self, ctx):
         """About GLaDOS."""
@@ -46,7 +45,7 @@ class Misc:
                      stdout=PIPE, stdin=DEVNULL, stderr=DEVNULL).communicate()[0]
         if repo:
             await ctx.send("View my source code here: {}".format(repo.decode("utf-8")[:-1]))
-        else: # use base as fallback incase this isn't a git clone
+        else:  # use base as fallback incase this isn't a git clone
             await ctx.send("View my source code here: https://github.com/T3CHNOLOG1C/GLaDOS")
         return
 
@@ -98,5 +97,7 @@ class Misc:
         emb.set_thumbnail(url=member.avatar_url)
         await ctx.send("", embed=emb)
 
+
 def setup(bot):
     bot.add_cog(Misc(bot))
+

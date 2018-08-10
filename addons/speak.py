@@ -3,14 +3,13 @@ from json import load, dump
 from discord import TextChannel, errors, abc, Embed, Color
 from discord.ext import commands
 
+
 class Speak:
     """Give the bot a voice"""
 
     def __init__(self, bot):
         self.bot = bot
         print("{} addon loaded.".format(self.__class__.__name__))
-
-
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
@@ -28,7 +27,6 @@ class Speak:
             await logchannel.send("", embed=emb)
         except errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
-
 
     async def memberDM(self, ctx, member, message):
         """Check for various parameters before DM'ing a member"""
@@ -88,7 +86,6 @@ class Speak:
                         logOutput += "{}\n".format(attachment.url)
                     await dmchannel.send(logOutput)
 
-
     @commands.has_permissions(manage_messages=True)
     @commands.command()
     async def ignore(self, ctx, member):
@@ -128,5 +125,8 @@ class Speak:
                 await ctx.send("Added {} to ignored users.".format(member.mention))
             with open("database/ignored_users.json", "w") as f:
                 dump(js, f, indent=2, separators=(',', ':'))
+
+
 def setup(bot):
     bot.add_cog(Speak(bot))
+

@@ -3,6 +3,7 @@
 from discord import Member, Embed, Colour, errors, Object
 from discord.ext import commands
 
+
 class Moderation:
     """
     Moderation commands
@@ -262,5 +263,7 @@ class Moderation:
         except errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
 
+
 def setup(bot):
     bot.add_cog(Moderation(bot))
+

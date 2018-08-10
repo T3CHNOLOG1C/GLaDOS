@@ -29,7 +29,6 @@ class Colors:
             await ctx.send("{} {} {} removed."
                            "".format(user.mention, lang, color.name.lower()), delete_after=5)
 
-
     @commands.command(pass_context=True, aliases=['colour'])
     async def color(self, ctx, string=""):
         """Choose your colored role."""
@@ -96,5 +95,7 @@ class Colors:
                        "".format("Color" if ctx.invoked_with == "listcolor" or
                                  ctx.invoked_with == "listcolors" else "Colour"))
 
+
 def setup(bot):
     bot.add_cog(Colors(bot))
+

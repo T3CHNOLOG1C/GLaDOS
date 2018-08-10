@@ -37,7 +37,7 @@ class Warn:
         if member == ctx.message.author:
             await ctx.send("You cannot warn yourself!")
             return
-        if self.bot.staff_role in member.roles and not self.bot.owner_role in author.roles:
+        if self.bot.staff_role in member.roles and self.bot.owner_role not in author.roles:
             await ctx.send("You cannot warn other staff members!")
             return
         elif self.bot.owner_role in member.roles:
@@ -99,8 +99,7 @@ class Warn:
                           "This is your second warning, so you've been muted. You will be unmuted "
                           "whenever the admin who warned you decides to unmute you.\nYou will be "
                           "DM'ed when a mod unmutes you.\n**Do not ask mods to unmute you, as "
-                          "doing so might extend the duration of the mute**"
-                         )
+                          "doing so might extend the duration of the mute**")
             await self.dm(member, "Your next warn will result in being kicked from the server.")
             await member.add_roles(self.bot.muted_role)
         elif amount_of_warns == 3:
@@ -131,7 +130,7 @@ class Warn:
         if member == ctx.message.author:
             await ctx.send("You cannot remove a warn from yourself!")
             return
-        if self.bot.staff_role in member.roles and not self.bot.owner_role in author.roles:
+        if self.bot.staff_role in member.roles and self.bot.owner_role not in author.roles:
             await ctx.send("You cannot remove a warn from other staff members!")
             return
         elif self.bot.owner_role in member.roles:
@@ -142,7 +141,7 @@ class Warn:
             return
 
         with open("database/warns.json", "r") as f:
-            js = load(f) # https://hastebin.com/ejizaxasav.scala
+            js = load(f)  # https://hastebin.com/ejizaxasav.scala
 
         userid = str(member.id)
         if userid not in js:
@@ -152,9 +151,8 @@ class Warn:
         else:
             amount_of_warns = len(js[userid]["warns"]) - 1
 
-
         js[userid]["amount"] = amount_of_warns
-        js[userid]["warns"].pop(number-1)
+        js[userid]["warns"].pop(number - 1)
         await ctx.send("🚩 I've deleted the {} warn of {}. The user now has {} warns."
                        "".format(number, member, amount_of_warns))
         await self.dm(member, "One of you warns in {} has been removed.".format(ctx.guild.name))
@@ -235,5 +233,7 @@ class Warn:
         except KeyError:
             return await ctx.send("This user doesn't have any warns!")
 
+
 def setup(bot):
     bot.add_cog(Warn(bot))
+
