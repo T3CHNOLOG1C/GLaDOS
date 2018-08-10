@@ -6,6 +6,7 @@ from re import findall
 from discord.utils import get
 from discord.ext import commands
 
+
 class Emojif:
 
     """
@@ -15,8 +16,12 @@ class Emojif:
 
     def __init__(self, bot):
         self.bot = bot
-        with open("database/emojif.json", "r") as f:
-            self.emojif_settings = load(f)
+        try:
+            with open("database/emojif.json") as f:
+                self.emojif_settings = load(f)
+        except FileNotFoundError:
+            with open("database/emojif.json", "w") as f:
+                f.write('{}')
         try:
             self.emojif_active = self.emojif_settings['status']
         except KeyError:
@@ -36,8 +41,11 @@ class Emojif:
         """Opt in or out of Emojif."""
 
         member = str(ctx.message.author.id)
-        with open("database/emojif.json", "r") as f:
-            js = load(f)
+        try:
+            with open("database/emojif.json") as f:
+                js = load(f)
+        except FileNotFoundError:
+            js = {}
 
         try:
             if js[member]:
@@ -74,8 +82,11 @@ class Emojif:
     async def globaltoggle(self, ctx):
         """Globally enable or disable Emojif. (Mods only)"""
 
-        with open("database/emojif.json", "r") as f:
-            js = load(f)
+        try:
+            with open("database/emojif.json") as f:
+                js = load(f)
+        except FileNotFoundError:
+            js = {}
 
         try:
             if js['status']:
@@ -120,13 +131,11 @@ class Emojif:
         if not msg_emojis:
             return
 
-
         # At this point we can be sure that the message contains
         # a server emoji, that the author isn't a bot,
         # that the user activated Emojifs for themselves and
         # that Emojifs are globally on. We can now format the message,
         # delete the original one, and post the new one.
-
 
         # Manage attachements / images
         # Post URL instead of saving then reuploading image,
@@ -162,3 +171,4 @@ class Emojif:
 
 def setup(bot):
     bot.add_cog(Emojif(bot))
+

@@ -18,9 +18,6 @@ chdir(path)
 # Create database
 makedirs("database", exist_ok=True)
 
-if not isfile("database/emojif.json"):
-    with open("database/emojif.json", "w") as f:
-        f.write('{}')
 if not isfile("database/config.json"):
     with open("database/config.json", "w") as f:
         dump({'prefix': [".", "sudo "], 'token': '', 'api': {'google': ''}}, f)
