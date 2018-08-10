@@ -31,18 +31,6 @@ class Memes:
         return await ctx.send("https://i.imgur.com/4kANai8.png")
 
     @commands.command()
-    async def bigsmoke(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/vo5l6Fo.jpg\n"
-                       "ALL YOU HAD TO DO WAS FOLLOW THE DAMN GUIDE CJ!")
-
-    @commands.command()
-    async def bigorder(self, ctx):
-        """Memes."""
-        await ctx.send("I'll have two number 9s, a number 9 large, a number 6 with extra dip, a "
-                       "number 7, two number 45s, one with cheese, and a large soda.")
-
-    @commands.command()
     async def heil(self, ctx):
         """SIEG HEIL"""
         await ctx.send("HEIL T3CH!")
@@ -240,54 +228,9 @@ class Memes:
         await ctx.send("**ALL HAIL BRITANNIA!**")
 
     @commands.command()
-    async def screams(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/j0Dkv2Z.png")
-
-    @commands.command()
-    async def eeh(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/2SBC1Qo.jpg")
-
-    @commands.command()
     async def dubyadud(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/Sohsi8s.png")
-
-    @commands.command()
-    async def megumi(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/GMRp1dj.jpg")
-
-    @commands.command()
-    async def inori(self, ctx):
-        """Memes."""
-        await ctx.send("https://i.imgur.com/WLncIsi.gif")
-
-    @commands.command()
-    async def inori3(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/so8thgu.gifv")
-
-    @commands.command()
-    async def inori4(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/267IXh1.gif")
-
-    @commands.command()
-    async def inori5(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/lKcsiBP.png")
-
-    @commands.command()
-    async def inori6(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/SIJzpau.gifv")
-
-    @commands.command()
-    async def shotsfired(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/zf2XrNk.gifv")
 
     @commands.command()
     async def rusure(self, ctx):
@@ -295,49 +238,9 @@ class Memes:
         await ctx.send("http://i.imgur.com/dqh3fNi.png")
 
     @commands.command()
-    async def r34(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/sjQZKBF.gif")
-
-    @commands.command()
     async def permabrocked(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/ARsOh3p.jpg")
-
-    @commands.command()
-    async def knp(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/EsJ191C.png")
-
-    @commands.command()
-    async def lucina(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/tnWSXf7.png")
-
-    @commands.command()
-    async def lucina2(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/ZPMveve.jpg")
-
-    @commands.command()
-    async def xarec(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/A59RbRT.png")
-
-    @commands.command()
-    async def clap(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/UYbIZYs.gifv")
-
-    @commands.command()
-    async def ayyy(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/bgvuHAd.png")
-
-    @commands.command()
-    async def hazel(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/vpu8bX3.png")
 
     @commands.command()
     async def thumbsup(self, ctx):
@@ -349,51 +252,15 @@ class Memes:
         """Memes."""
         await ctx.send("http://i.imgur.com/sBJKzuK.png")
 
-    # Cute commands :3
-    @commands.command()
-    async def headpat(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/7V6gIIW.jpg")
-
-    @commands.command()
-    async def headpat2(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/djhHX0n.gifv")
-
-    @commands.command()
-    async def sudoku(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/VHlIZRC.png")
-
-    @commands.command()
-    async def baka(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/OyjCHNe.png")
-
-    @commands.command()
-    async def mugi(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/lw80tT0.gif")
-
     @commands.command()
     async def lisp(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/RQeZErU.png")
 
     @commands.command()
-    async def headrub(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/j6xSoKv.jpg")
-
-    @commands.command()
     async def blackalabi(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/JzFem4y.png")
-
-    @commands.command()
-    async def nom(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/p1r53ni.jpg")
 
     @commands.command()
     async def soghax(self, ctx):
@@ -503,7 +370,6 @@ class Memes:
         """kona1"""
         await ctx.send("https://imgur.com/FDnh7mu")
 
-    # fucking piece of shit roast replaced this fucking arse command >:(
     @commands.command()
     async def kina3(self, ctx):
         """Memes."""
