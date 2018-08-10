@@ -1,19 +1,20 @@
-from discord import Color, Embed
+from json import load, dump
+
+from discord import Embed, Colour
 from discord.ext import commands
+from discord.utils import get
 
 
 class Toggle:
     """
-    Toggle channel and role cmds (not colors)
-
+    Toggle channel and role commands (not colours)
     """
 
     def __init__(self, bot):
         self.bot = bot
         print("{} addon loaded".format(self.__class__.__name__))
 
-
-    @commands.command(pass_context=True)
+    @commands.command()
     async def togglechannel(self, ctx, channel):
         """Toggle access to some hidden channels"""
 
@@ -32,125 +33,100 @@ class Toggle:
         else:
             await user.send("{} is not a togglable channel.".format(channel))
 
-    @commands.command(pass_context=True)
-    async def togglerole(self, ctx, *, role: str = None):
-        """toggle some hidden roles"""
-
+    @commands.has_permissions(manage_roles=True)
+    @commands.command()
+    async def addrole(self, ctx, keyword, emoji, role, *, description):
         """
-        TODO:
-            - put all roles and their keywords in a json
+        Add a new role to the bot's database, or replace one.
+        If you don't need to link the role to a specific emoji,
+        replace the "emoji" argument by "none".
+        Role name is caps sensitive and must be between quotes.
         """
 
-        if not role:
-            role = ""
+        try:
+            with open("database/roles.json") as f:
+                js = load(f)
+        except FileNotFoundError:
+            js = {}
+
+        if emoji.lower() == "none":
+            emoji = ""
+        keyword = keyword.lower()
+
+        js[keyword] = {}
+
+        js[keyword]["emoji"] = emoji
+        js[keyword]["role"] = role
+        js[keyword]["description"] = description
+
+        await ctx.send("Added role `{}` to the database.".format(keyword))
+
+        with open("database/roles.json", "w") as f:
+            dump(js, f, indent=2, separators=(',', ':'))
+
+    @commands.has_permissions(manage_roles=True)
+    @commands.command()
+    async def delrole(self, ctx, keyword):
+        """
+        Delete a role from the bot's database
+        """
+
+        try:
+            with open("database/roles.json") as f:
+                js = load(f)
+        except FileNotFoundError:
+            js = {}
+
+        try:
+            del js[keyword]
+        except KeyError:
+            await ctx.send("This role is not in the database!")
+            return
+
+        with open("database/roles.json", "w") as f:
+            dump(js, f, indent=2, separators=(',', ':'))
+
+    @commands.command()
+    async def togglerole(self, ctx, keyword=""):
+        """
+        Toggle some opt-in roles
+        """
+
         user = ctx.message.author
-        joinmsg = "Joined {0} role"
-        leavemsg = "Left {0} role"
+        keyword = keyword.lower()
 
-        role = await commands.clean_content().convert(ctx, role)
+        try:
+            with open("database/roles.json") as f:
+                js = load(f)
+        except FileNotFoundError:
+            js = {}
 
-        if not role:
-            embed = Embed(title="Toggleable Roles:", color=Color.dark_teal())
-            embed.description = """
-            - :race_car: Mario Kart 8 Deluxe: MK8D
-            - :squid: Splatoon 2: spla2n
-            - :card_box: Cards Against Humanity: cah
-            - :bomb: Counter-Strike: Global Offensive: csgo
-            - :gun: PUBG: pubg
-            - :red_circle: Red Eclipse: redeclipse
-            - :robot: Titanfall (2): titanfall
-            - :boxing_glove: Super Smash Bros.: smash
-            - :shopping_cart: Fortnite: fortnite
-            - ::shield: Rainbow Six Siege: r6s
-            """
-            await ctx.send("", embed=embed)
+        try:
+            rolename = js[keyword]["role"]
+            role = get(ctx.message.guild.roles, name=rolename)
+            if role in user.roles:
+                await user.remove_roles(role)
+                await ctx.send("Left {}".format(rolename))
+                return
+            await user.add_roles(role)
+            await ctx.send("Joined {}".format(rolename))
 
-        elif role.lower() == "mk8d":
-            if self.bot.mk8d_role in user.roles:
-                await user.remove_roles(self.bot.mk8d_role)
-                await ctx.send(leavemsg.format(role.upper()))
+        except KeyError:
+            if keyword == "":
+                embed = Embed(title="List of toggleable roles:", colour=Colour.dark_teal())
+                embed.description = ""
+                for k in js:
+                    embed.description += "- {} {}: `{}`\n".format(
+                        js[k]["emoji"],
+                        js[k]["description"],
+                        k
+                    )
+                await ctx.send("", embed=embed)
+                return
 
-            else:
-                print("before error")
-                await user.add_roles(self.bot.mk8d_role)
-                print("after error")
-                await ctx.send(joinmsg.format(role.upper()))
+            await ctx.send("This role is not in the database!")
 
-        elif role.lower() == "spla2n":
-            if self.bot.spla2n_role in user.roles:
-                await user.remove_roles(self.bot.spla2n_role)
-                await ctx.send(leavemsg.format(role.lower()))
-
-            else:
-                await user.add_roles(self.bot.spla2n_role)
-                await ctx.send(joinmsg.format(role.lower()))
-
-        elif role.lower() == "cah":
-            if self.bot.cah_role in user.roles:
-                await user.remove_roles(self.bot.cah_role)
-                await ctx.send(leavemsg.format(role.lower()))
-
-            else:
-                await user.add_roles(self.bot.cah_role)
-                await ctx.send(joinmsg.format(role.lower()))
-
-        elif role.lower() == "csgo":
-            if self.bot.csgo_role in user.roles:
-                await user.remove_roles(self.bot.csgo_role)
-                await ctx.send(leavemsg.format(role.lower()))
-
-            else:
-                await user.add_roles(self.bot.csgo_role)
-                await ctx.send(joinmsg.format(role.lower()))
-
-        elif role.lower() == "pubg":
-            if self.bot.pubg_role in user.roles:
-                await user.remove_roles(self.bot.pubg_role)
-                await ctx.send(leavemsg.format(role.lower()))
-
-            else:
-                await user.add_roles(self.bot.pubg_role)
-                await ctx.send(joinmsg.format(role.lower()))
-
-        elif role.lower() == "redeclipse":
-            if self.bot.redeclipse_role in user.roles:
-                await user.remove_roles(self.bot.redeclipse_role)
-                await ctx.send(leavemsg.format(role.lower()))
-
-            else:
-                await user.add_roles(self.bot.redeclipse_role)
-                await ctx.send(joinmsg.format(role.lower()))
-
-        elif role.lower() == "titanfall":
-            if self.bot.titanfall_role in user.roles:
-                await user.remove_roles(self.bot.titanfall_role)
-                await ctx.send(leavemsg.format(role.lower()))
-
-            else:
-                await user.add_roles(self.bot.titanfall_role)
-                await ctx.send(joinmsg.format(role.lower()))
-
-        elif role.lower() == "smash":
-            if self.bot.smashbros_role in user.roles:
-                await user.remove_roles(self.bot.smashbros_role)
-                await ctx.send(leavemsg.format(role.lower()))
-
-            else:
-                await user.add_roles(self.bot.smashbros_role)
-                await ctx.send(joinmsg.format(role.lower()))
-
-        elif role.lower() == "fortnite":
-            if self.bot.fortnite_role in user.roles:
-                await user.remove_roles(self.bot.fortnite_role)
-                await ctx.send(leavemsg.format(role.lower()))
-
-            else:
-                await user.add_roles(self.bot.fortnite_role)
-                await ctx.send(joinmsg.format(role.lower()))
-
-        else:
-            msg = "{} is not a togglable role".format(role)
-            await ctx.send(msg)
 
 def setup(bot):
     bot.add_cog(Toggle(bot))
+

@@ -23,11 +23,11 @@ if not isfile("database/emojif.json"):
         f.write('{}')
 if not isfile("database/config.json"):
     with open("database/config.json", "w") as f:
-        dump({'prefix':[".", "sudo "], 'token':'', 'api':{'google':''}}, f)
+        dump({'prefix': [".", "sudo "], 'token': '', 'api': {'google': ''}}, f)
 
 config = load(open("database/config.json", "r"))
 
-bot = commands.Bot(command_prefix=config['prefix'] , description="GLaDOS, a general purpose discord bot.",
+bot = commands.Bot(command_prefix=config['prefix'], description="GLaDOS, a general purpose discord bot.",
                    max_messages=10000, pm_help=True)
 
 # Migrate data from config.ini to config.json
@@ -46,6 +46,7 @@ if isfile("config.ini"):
 
     remove('config.ini')
 
+
 @bot.event
 async def on_ready():
 
@@ -61,19 +62,6 @@ async def on_ready():
         bot.nsfw_role = get(guild.roles, name="NSFW")
         bot.muted_role = get(guild.roles, name="Muted")
         bot.approved_role = get(guild.roles, name="Approved")
-
-
-        # Game Roles
-        bot.mk8d_role = get(guild.roles, name="MK8D")
-        bot.csgo_role = get(guild.roles, name="CS: Russian Offensive")
-        bot.pubg_role = get(guild.roles, name="pubg:battlebusters")
-        bot.cah_role = get(guild.roles, name="CAH")
-        bot.spla2n_role = get(guild.roles, name="Splatoon 2")
-        bot.redeclipse_role = get(guild.roles, name="Red Eclipse")
-        bot.titanfall_role = get(guild.roles, name="Titanfall")
-        bot.smashbros_role = get(guild.roles, name="Super Smash Bros")
-        bot.fortnite_role = get(guild.roles, name="Fort█▀█ █▄█ ▀█▀")
-
 
         # Color Roles
         bot.green_role = get(guild.roles, name="Green")
@@ -131,6 +119,7 @@ async def on_ready():
     print("Client logged in as {}, in the following guild : {}"
           "".format(bot.user.name, bot.guild.name))
 
+
 # Handle errors
 # Taken from
 # https://github.com/916253/Kurisu/blob/31b1b747e0d839181162114a6e5731a3c58ee34f/run.py#L88
@@ -167,6 +156,7 @@ async def on_command_error(ctx, error):
         print(''.join(tb))
         botdev_channel = bot.botdev_channel
         await botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
+
 
 @bot.event
 async def on_error(ctx, event_method, *args, **kwargs):
@@ -205,6 +195,7 @@ async def unload(ctx, addon: str):
             await ctx.send('💢 Error trying to unload the addon:\n```\n{}: {}\n```'
                            ''.format(type(e).__name__, e))
 
+
 @bot.command(name='reload', aliases=['load'], hidden=True)
 async def reload(ctx, addon: str):
     """(Re)loads an addon."""
@@ -219,6 +210,7 @@ async def reload(ctx, addon: str):
             await ctx.send('💢 Failed!\n```\n{}: {}\n```'.format(type(e).__name__, e))
 
             # Will add back later
+
 
 @bot.command(hidden=True, name="pull", aliases=["pacman"])
 async def pull(ctx, pip=None):
@@ -245,6 +237,7 @@ async def pull(ctx, pip=None):
         else:
             await ctx.send("Only bot devs and / or owners can use this command")
 
+
 @commands.has_permissions(administrator=True)
 @bot.command()
 async def restart(ctx):
@@ -265,3 +258,4 @@ async def stop(ctx):
 # Run the bot
 if __name__ == "__main__":
     bot.run(config['token'])
+
