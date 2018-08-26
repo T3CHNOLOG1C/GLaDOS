@@ -1,6 +1,6 @@
 ﻿from configparser import ConfigParser
 from asyncio import sleep
-from traceback import format_exception, format_exc
+from traceback import format_exception
 from json import load, dump
 from subprocess import run
 from os import chdir, makedirs, remove
@@ -116,22 +116,18 @@ async def on_ready():
     print("Client logged in as {}, in the following guild : {}"
           "".format(bot.user.name, bot.guild.name))
 
-
-# Handle errors
-# Taken from
-# https://github.com/916253/Kurisu/blob/31b1b747e0d839181162114a6e5731a3c58ee34f/run.py#L88
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CommandNotFound):
         pass
     if isinstance(error, commands.errors.CheckFailure):
+        # Discussion: ignore failed check
         await ctx.send("{} You don't have permission to use this command."
                        "".format(ctx.message.author.mention))
-    elif isinstance(error, commands.errors.MissingRequiredArgument):
-        formatter = commands.formatter.HelpFormatter()
-        msg = await formatter.format_help_for(ctx, ctx.command)
-        await ctx.send("{} You are missing required arguments.\n{}"
-                       "".format(ctx.message.author.mention, msg[0]))
+    elif isinstance(error, (commands.MissingRequiredArgument, commands.BadArgument)):
+        helpm = await bot.formatter.format_help_for(ctx, ctx.command)
+        for m in helpm:
+            await ctx.send(m)
     elif isinstance(error, commands.errors.CommandOnCooldown):
         try:
             await ctx.message.delete()
@@ -154,31 +150,9 @@ async def on_command_error(ctx, error):
         botdev_channel = bot.botdev_channel
         await botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
 
-
-@bot.event
-async def on_error(ctx, event_method, *args, **kwargs):
-    if isinstance(args[0], commands.errors.CommandNotFound):
-        return
-    elif isinstance(args[0], (commands.errors.MissingRequiredArgument, commands.errors.BadArgument)):
-        helpm = await bot.formatter.format_help_for(ctx, ctx.command)
-        for m in helpm:
-            await ctx.send(m)
-    elif isinstance(args[0], commands.CheckFailure):
-        pass
-    else:
-        print('Ignoring exception in {}'.format(event_method))
-        botdev_msg = "Exception occured in {}".format(event_method)
-        tb = format_exc()
-        print(''.join(tb))
-        botdev_msg += '\n```' + ''.join(tb) + '\n```'
-        botdev_msg += '\nargs: `{}`\n\nkwargs: `{}`'.format(args, kwargs)
-        botdev_channel = bot.botdev_channel
-        await botdev_channel.send(botdev_msg)
-        print(args)
-        print(kwargs)
-
-
 # Core commands
+# TODO
+# - create command decorator for dev roles
 @bot.command(hidden=True)
 async def unload(ctx, addon: str):
     """Unloads an addon."""
@@ -234,7 +208,6 @@ async def pull(ctx, pip=None):
         else:
             await ctx.send("Only bot devs and / or owners can use this command")
 
-
 @commands.has_permissions(administrator=True)
 @bot.command()
 async def restart(ctx):
@@ -242,7 +215,6 @@ async def restart(ctx):
     await ctx.send("`Restarting, please wait...`")
     run([executable, "GLaDOS.py"])
     sysexit()
-
 
 @commands.has_permissions(administrator=True)
 @bot.command()

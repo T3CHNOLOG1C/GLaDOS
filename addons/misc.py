@@ -1,12 +1,6 @@
-#!/usr/bin/env python3.6
-
 from datetime import datetime
-from os import devnull
 from subprocess import Popen, PIPE
-try:
-    from subprocess import DEVNULL  # Python 3
-except ImportError:
-    DEVNULL = open(devnull, 'r+b', 0)
+from subprocess import DEVNULL
 
 from discord import Embed, errors
 from discord.ext import commands

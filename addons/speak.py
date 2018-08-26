@@ -1,4 +1,3 @@
-#!/usr/bin/python3.6
 from json import load, dump
 from discord import TextChannel, errors, abc, Embed, Color
 from discord.ext import commands

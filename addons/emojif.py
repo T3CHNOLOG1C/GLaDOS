@@ -1,5 +1,3 @@
-#!/usr/bin/env python3.6
-
 from json import load, dump
 from re import findall
 

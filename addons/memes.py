@@ -1,6 +1,4 @@
-﻿#!/usr/bin/env python3.6
-
-from discord.ext import commands
+﻿from discord.ext import commands
 
 
 class Memes:
