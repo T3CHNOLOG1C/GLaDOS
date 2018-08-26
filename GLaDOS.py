@@ -11,6 +11,8 @@ from discord import errors
 from discord.utils import get
 from discord.ext import commands
 
+from addons.utils import checks
+
 # Change to script's directory
 path = dirname(realpath(__file__))
 chdir(path)
@@ -118,12 +120,8 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.errors.CommandNotFound):
-        pass
-    if isinstance(error, commands.errors.CheckFailure):
-        # Discussion: ignore failed check
-        await ctx.send("{} You don't have permission to use this command."
-                       "".format(ctx.message.author.mention))
+    if isinstance(error, (commands.errors.CommandNotFound, commands.errors.CheckFailure)):
+        return
     elif isinstance(error, (commands.MissingRequiredArgument, commands.BadArgument)):
         helpm = await bot.formatter.format_help_for(ctx, ctx.command)
         for m in helpm:
@@ -151,62 +149,52 @@ async def on_command_error(ctx, error):
         await botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
 
 # Core commands
-# TODO
-# - create command decorator for dev roles
-@bot.command(hidden=True)
+@bot.command()
+@checks.is_botdev()
 async def unload(ctx, addon: str):
     """Unloads an addon."""
-    dev = ctx.message.author
-    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
-        try:
-            addon = "addons." + addon
-            bot.unload_extension(addon)
-            await ctx.send('✅ Addon unloaded.')
-        except Exception as e:
-            await ctx.send('💢 Error trying to unload the addon:\n```\n{}: {}\n```'
-                           ''.format(type(e).__name__, e))
+    try:
+        addon = "addons." + addon
+        bot.unload_extension(addon)
+        await ctx.send('✅ Addon unloaded.')
+    except Exception as e:
+        await ctx.send('💢 Error trying to unload the addon:\n```\n{}: {}\n```'
+                       ''.format(type(e).__name__, e))
 
 
-@bot.command(name='reload', aliases=['load'], hidden=True)
+@bot.command(name='reload', aliases=['load'])
+@checks.is_botdev()
 async def reload(ctx, addon: str):
     """(Re)loads an addon."""
-    dev = ctx.message.author
-    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
-        try:
-            addon = "addons." + addon
-            bot.unload_extension(addon)
-            bot.load_extension(addon)
-            await ctx.send('✅ Addon reloaded.')
-        except Exception as e:
-            await ctx.send('💢 Failed!\n```\n{}: {}\n```'.format(type(e).__name__, e))
+    try:
+        addon = "addons." + addon
+        bot.unload_extension(addon)
+        bot.load_extension(addon)
+        await ctx.send('✅ Addon reloaded.')
+    except Exception as e:
+        await ctx.send('💢 Failed!\n```\n{}: {}\n```'.format(type(e).__name__, e))
 
-            # Will add back later
+        # Will add back later
 
 
-@bot.command(hidden=True, name="pull", aliases=["pacman"])
+@bot.command(name="pull", aliases=["pacman"])
+@checks.is_botdev()
 async def pull(ctx, pip=None):
     """Pull new changes from Git and restart.
     Append -p or --pip to this command to also update python modules from requirements.txt."""
-    dev = ctx.message.author
-    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
-        await ctx.send("`Pulling changes...`")
-        run(["git", "stash", "save"])
-        run(["git", "pull"])
-        run(["git", "stash", "clear"])
-        pip_text = ""
-        if pip in ("-p", "--pip", "-Syu"):
-            await ctx.send("`Updating python dependencies...`")
-            run([executable, "-m", "pip", "install", "--user",
-                 "--upgrade", "-r", "requirements.txt"])
-            pip_text = " and updated python dependencies"
-        await ctx.send("Pulled changes{}! Restarting...".format(pip_text))
-        run([executable, "GLaDOS.py"])
-    else:
-        if "pacman" in ctx.message.content:
-            await ctx.send("`{} is not in the sudoers file. This incident will be reported.`"
-                           "".format(ctx.message.author.display_name))
-        else:
-            await ctx.send("Only bot devs and / or owners can use this command")
+
+    await ctx.send("`Pulling changes...`")
+    run(["git", "stash", "save"])
+    run(["git", "pull"])
+    run(["git", "stash", "clear"])
+    pip_text = ""
+    if pip in ("-p", "--pip", "-Syu"):
+        await ctx.send("`Updating python dependencies...`")
+        run([executable, "-m", "pip", "install", "--user",
+             "--upgrade", "-r", "requirements.txt"])
+        pip_text = " and updated python dependencies"
+    await ctx.send("Pulled changes{}! Restarting...".format(pip_text))
+    run([executable, "GLaDOS.py"])
 
 @commands.has_permissions(administrator=True)
 @bot.command()
