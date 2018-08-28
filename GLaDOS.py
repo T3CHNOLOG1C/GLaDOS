@@ -22,7 +22,7 @@ makedirs("database", exist_ok=True)
 
 if not isfile("database/config.json"):
     with open("database/config.json", "w") as f:
-        dump({'prefix': [".", "sudo "], 'token': '', 'api': {'google': ''}}, f)
+        dump({'prefix': [".", "sudo "], 'token': ''}, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 config = load(open("database/config.json", "r"))
 
@@ -37,11 +37,8 @@ if isfile("config.ini"):
     if ini['Main']['token'] != '{TOKEN HERE}' and not config['token']:
         config['token'] = ini['Main']['token']
 
-    if ini['Google']['API_Key'] != '{API KEY HERE}' and not config['api']['google']:
-        config['api']['google'] = ini['Google']['API_Key']
-
     with open("database/config.json", "w") as f:
-        dump(config, f)
+        dump(config, f, sort_keys=True, indent=4, separators=(',', ': '))
 
     remove('config.ini')
 
@@ -80,18 +77,6 @@ async def on_ready():
         bot.botdms_channel = get(guild.channels, name="bot-dm")
         bot.logs_channel = get(guild.channels, name="admin-logs")
         bot.memberlogs_channel = get(guild.channels, name="member-logs")
-
-    # Ignored users
-
-    try:
-        with open("database/ignored_users.json", "r") as config:
-            ignored_users = load(config)
-    except FileNotFoundError:
-        with open("database/ignored_users.json", "w") as config:
-            config.write({"users": []})
-            ignored_users = {"users": []}
-
-    bot.ignored_users = ignored_users
 
     # Load addons
     addons = [
