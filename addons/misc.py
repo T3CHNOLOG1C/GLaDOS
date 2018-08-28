@@ -1,6 +1,4 @@
 from datetime import datetime
-from subprocess import Popen, PIPE
-from subprocess import DEVNULL
 
 from discord import Embed, errors
 from discord.ext import commands
@@ -35,13 +33,7 @@ class Misc:
     @commands.command()
     async def about(self, ctx):
         """About GLaDOS."""
-        repo = Popen(["git", "config", "--get", "remote.origin.url"],
-                     stdout=PIPE, stdin=DEVNULL, stderr=DEVNULL).communicate()[0]
-        if repo:
-            await ctx.send("View my source code here: {}".format(repo.decode("utf-8")[:-1]))
-        else:  # use base as fallback incase this isn't a git clone
-            await ctx.send("View my source code here: https://github.com/T3CHNOLOG1C/GLaDOS")
-        return
+        await ctx.send("View my source code here: https://github.com/T3CHNOLOG1C/GLaDOS")
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()

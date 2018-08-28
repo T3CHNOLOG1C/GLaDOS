@@ -60,7 +60,7 @@ class Emojif:
             msg = "Your messages containing animated emotes will now be replaced."
 
         with open("database/emojif.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
         return await ctx.send("<@{}> {}".format(member, msg))
 
@@ -101,7 +101,7 @@ class Emojif:
             msg = "Emojif is now globally disabled."
 
         with open("database/emojif.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
         return await ctx.send(msg)
 
