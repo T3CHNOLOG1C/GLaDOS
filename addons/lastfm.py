@@ -78,8 +78,7 @@ class LastFM:
                 await ctx.send(f"{user.display_name} is playing nothing")
                 return
             await ctx.send(f"{user.display_name} is playing {playing.artist.name} - {playing.title}")
-        except KeyError as e:
-            print("Failed to load:\n{} : {}".format(type(e).__name__, e))
+        except KeyError:
             await ctx.send(f"You have no account\nPlease use `{ctx.prefix}set` to set one up")
         except WSError:
             await ctx.send(f"The account under your name is not available anymore.\nPlease use `{ctx.prefix}set` to set one up")
