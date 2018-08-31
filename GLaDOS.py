@@ -80,21 +80,22 @@ async def on_ready():
 
     # Load addons
     addons = [
-        'addons.colors',
-        'addons.emojif',
-        'addons.events',
-        'addons.memes',
-        'addons.misc',
-        'addons.mod',
-        'addons.warn',
-        'addons.speak',
-        'addons.toggle',
+        'colors',
+        'emojif',
+        'events',
+        'toggle',
+        'memes',
+        'speak',
+        'warn',
+        'misc',
+        'mod',
     ]
 
     # Notify user if an addon fails to load.
     for addon in addons:
         try:
-            bot.load_extension(addon)
+            bot.load_extension("addons." + addon)
+            print("{} addon loaded.".format(addon))
         except Exception as e:
             print("Failed to load {} :\n{} : {}".format(addon, type(e).__name__, e))
 
