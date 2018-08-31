@@ -8,7 +8,6 @@ class Memes:
 
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     # SSS memes
 
@@ -23,7 +22,7 @@ class Memes:
         msg = await ctx.send("Press F to pay respects.")
         await msg.add_reaction("🇫")
 
-    @commands.command()
+    @commands.command(aliases=["t3ch"])
     async def tech(self, ctx):
         """Goddamn Nazimod"""
         return await ctx.send("https://i.imgur.com/4kANai8.png")
@@ -31,7 +30,7 @@ class Memes:
     @commands.command()
     async def heil(self, ctx):
         """SIEG HEIL"""
-        await ctx.send("HEIL T3CH!")
+        await ctx.send("HEIL T3CHNOLOG1C!")
 
     @commands.command()
     async def lenny(self, ctx):
@@ -365,11 +364,6 @@ class Memes:
 
     @commands.command()
     async def kina2(self, ctx):
-        """kona1"""
-        await ctx.send("https://imgur.com/FDnh7mu")
-
-    @commands.command()
-    async def kina3(self, ctx):
         """Memes."""
         await ctx.send("http://imgur.com/8Mm5ZvB")
 
@@ -380,27 +374,13 @@ class Memes:
         await ctx.send("Your {} is ready".format(roast))
 
     @commands.command()
-    async def t3ch(self, ctx, *, arg="server, sss, weeb, shack mod, trap role, channel, shitposting, cancerous"):
-        """
-        Prints the T3CHNOLOGIC copypasta.
-        With no or missing arguments, defaults to the original pasta (or a modified original).
-        Usage: [p]t3ch [server], [sss], [weeb], [shack mod], [trap role], [channel], [shitposting], [cancerous]
-        """
-        original = ["server", "sss", "weeb", "shack mod", "trap role", "channel", "shitposting",
-                    "cancerous"]
-        replacements = [i.lstrip().rstrip() for i in arg.split(",")]
-        del replacements[len(original):]
-        if len(replacements) < 8:
-            replacements = replacements + original[len(replacements):]
+    async def themes(self, ctx):
+        """Themely"""
+        await ctx.send("When it comes to custom theme nanagers on"
+                       "the 3ds there haven't always been that "
+                       "many choices I can only think of three "
+                       "off the top of my head")
 
-        await ctx.send(
-            await commands.clean_content(
-            ).convert(ctx,
-                      ("y'know, i was trying to keep my cool and be a part of this {0}, but i cant"
-                       " force myself here any longer. this isnt {1}. too much {2} shit, owned by "
-                       "a {3} and a former {3}, no {4}, a {5} where people get warned for {6} when"
-                       " part of the spirit of {1} is {6}, and overall just more {7} than {1} was "
-                       "ever meant to be. goodbye.").format(*replacements)))
 
 
 def setup(bot):
