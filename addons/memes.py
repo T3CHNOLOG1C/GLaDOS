@@ -375,10 +375,10 @@ class Memes:
 
     @commands.command()
     async def themes(self, ctx):
-        """Themely"""
-        await ctx.send("When it comes to custom theme nanagers on"
+        """S a l t"""
+        await ctx.send("When it comes to custom theme managers on "
                        "the 3ds there haven't always been that "
-                       "many choices I can only think of three "
+                       "many choices\nI can only think of three "
                        "off the top of my head")
 
 

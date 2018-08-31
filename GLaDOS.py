@@ -7,7 +7,7 @@ from os import chdir, makedirs, remove
 from os.path import isfile, dirname, realpath
 from sys import executable, exit as sysexit
 
-from discord import errors
+from discord import errors, Embed, Color
 from discord.utils import get
 from discord.ext import commands
 
@@ -94,12 +94,23 @@ async def on_ready():
     ]
 
     # Notify if an addon fails to load.
+    fail = 0
     for addon in addons:
         try:
             bot.load_extension("addons." + addon)
             print("{} addon loaded.".format(addon))
         except Exception as e:
+            if not fail:
+                emb = Embed(title = "Startup", description = "Failed to load Addons", colour = Color.blue())
+            fail += 1
+            emb.add_field(name=addon, value="{} : {}".format(type(e).__name__, e), inline=True)
             print("Failed to load {} :\n{} : {}".format(addon, type(e).__name__, e))
+    if fail:
+        try:
+            logchannel = bot.logs_channel
+            await logchannel.send("", embed=emb)
+        except errors.Forbidden:
+            pass
 
     bot.all_ready = True
 

@@ -64,7 +64,7 @@ class LastFM:
 
     @setservice.command()
     async def librefm(self, ctx, username):
-        """Link your LastFM account to your Discord account"""
+        """Link your LibreFM account to your Discord account"""
         try:
             self.network['librefm'].get_user(username).get_now_playing()
             self.config['users'][str(ctx.message.author.id)] = [username, "librefm"]
