@@ -26,9 +26,11 @@ class LastFM:
         self.network['lastfm'] = LastFMNetwork(self.config['api']['lastfm'][0], self.config['api']['lastfm'][1])
         self.network['librefm'] = LibreFMNetwork(self.config['api']['lastfm'][0], self.config['api']['lastfm'][1]) # apparently LibreFM requires no API keys, keeping this incase
 
+
     def isnetwork(self, value):
         cond1 = any(self.network[value].api_key)
         cond2 = any(self.network[value].api_secret)
+
         
         return cond1 and cond2
 
@@ -44,7 +46,9 @@ class LastFM:
         """Link your LastFM account to your Discord account"""
         try:
             self.network['lastfm'].get_user(username).get_now_playing()
+
             self.config['users'][str(ctx.message.author.id)] = [username, "lastfm"]
+
             with open("database/lastfm.json", "w") as config:
                 dump(self.config, config, indent=4, separators=(',', ':'))
             await ctx.send(f"Set your LastFM account to {username}")
@@ -62,6 +66,7 @@ class LastFM:
 
 
 
+
     @setservice.command()
     async def librefm(self, ctx, username):
         """Link your LastFM account to your Discord account"""
@@ -75,14 +80,15 @@ class LastFM:
             await ctx.send("User does not exist")
 
 
-
     @commands.command()
     async def np(self, ctx, user: Member = None):
         if not user:
             user = ctx.message.author
 
         try:
+
             account = self.network[self.config['users'][str(user.id)][1]].get_user(self.config['users'][str(user.id)][0])
+
             playing = account.get_now_playing()
             if not playing:
                 await ctx.send(f"{user.display_name} is playing nothing")
