@@ -7,7 +7,6 @@ class Colors:
 
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     async def change(self, ctx, color, lang, cur_color, user):
         if not cur_color:

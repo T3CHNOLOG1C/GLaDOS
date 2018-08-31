@@ -25,8 +25,6 @@ class Emojif:
         except KeyError:
             self.emojif_active = True
 
-        print("{} addon loaded.".format(self.__class__.__name__))
-
     @commands.group(name='emojif')
     async def emojif(self, ctx):
         """Manage Emojif"""
