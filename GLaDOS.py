@@ -89,9 +89,11 @@ async def on_ready():
         'warn',
         'misc',
         'mod',
+        'qrgen',
+        'lastfm',
     ]
 
-    # Notify user if an addon fails to load.
+    # Notify if an addon fails to load.
     for addon in addons:
         try:
             bot.load_extension("addons." + addon)
