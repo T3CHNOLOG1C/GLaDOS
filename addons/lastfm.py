@@ -15,7 +15,7 @@ class LastFM:
                 self.config = load(config)
             if len(self.config['users']) > 0 and type(list(self.config['users'].values())[0]) is str: # Used to migrate data, remove
                 for x in self.config['users']:
-                    self.config['users'][x] = [config['users'][x], 'lastfm']
+                    self.config['users'][x] = [self.config['users'][x], 'lastfm']
 
         except FileNotFoundError:
             self.config = {"users": {}, 'api': {'lastfm':['', ''], 'librefm':['', '']}}
