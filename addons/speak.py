@@ -10,10 +10,8 @@ class Speak:
         try:
             with open("database/ignored_users.json", "r") as config:
                 self.ignored_users = load(config)
-                if type(self.ignored_users['users']) == list:
-                    self.ignored_users['users'] = set(self.ignored_users['users'])
         except FileNotFoundError:
-            self.ignored_users = {"users": set()}
+            self.ignored_users = {"users": []}
             with open("database/ignored_users.json", "w") as config:
                 dump(self.ignored_users, config, indent=4, sort_keys=True, separators=(',', ':'))
         print("{} addon loaded.".format(self.__class__.__name__))
@@ -129,7 +127,7 @@ class Speak:
                 self.ignored_users["users"].remove(member.id)
                 await ctx.send("Removed {} from ignored users.".format(member.mention))
             else:
-                self.ignored_users["users"].add(member.id)
+                self.ignored_users["users"].append(member.id)
                 await ctx.send("Added {} to ignored users.".format(member.mention))
 
             with open("database/ignored_users.json", "w") as config:
