@@ -1,12 +1,4 @@
-#!/usr/bin/env python3.6
-
 from datetime import datetime
-from os import devnull
-from subprocess import Popen, PIPE
-try:
-    from subprocess import DEVNULL  # Python 3
-except ImportError:
-    DEVNULL = open(devnull, 'r+b', 0)
 
 from discord import Embed, errors
 from discord.ext import commands
@@ -41,13 +33,7 @@ class Misc:
     @commands.command()
     async def about(self, ctx):
         """About GLaDOS."""
-        repo = Popen(["git", "config", "--get", "remote.origin.url"],
-                     stdout=PIPE, stdin=DEVNULL, stderr=DEVNULL).communicate()[0]
-        if repo:
-            await ctx.send("View my source code here: {}".format(repo.decode("utf-8")[:-1]))
-        else:  # use base as fallback incase this isn't a git clone
-            await ctx.send("View my source code here: https://github.com/T3CHNOLOG1C/GLaDOS")
-        return
+        await ctx.send("View my source code here: https://github.com/T3CHNOLOG1C/GLaDOS")
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()

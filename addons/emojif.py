@@ -1,5 +1,3 @@
-#!/usr/bin/env python3.6
-
 from json import load, dump
 from re import findall
 
@@ -26,8 +24,6 @@ class Emojif:
             self.emojif_active = self.emojif_settings['status']
         except KeyError:
             self.emojif_active = True
-
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     @commands.group(name='emojif')
     async def emojif(self, ctx):
@@ -62,7 +58,7 @@ class Emojif:
             msg = "Your messages containing animated emotes will now be replaced."
 
         with open("database/emojif.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
         return await ctx.send("<@{}> {}".format(member, msg))
 
@@ -103,7 +99,7 @@ class Emojif:
             msg = "Emojif is now globally disabled."
 
         with open("database/emojif.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
         return await ctx.send(msg)
 

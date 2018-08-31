@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from discord import Member, Embed, Colour, errors, Object
 from discord.ext import commands
 

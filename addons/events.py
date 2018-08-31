@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from discord import Embed, Colour
 
 
@@ -9,7 +8,6 @@ class Events:
 
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     async def on_member_join(self, member):
         user = member

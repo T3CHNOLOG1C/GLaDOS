@@ -11,7 +11,6 @@ class Warn:
     """
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     async def dm(self, member: Member, message: str):
         """DM the user and catch an eventual exception."""
@@ -117,7 +116,7 @@ class Warn:
             await member.ban(delete_message_days=0, reason="Fifth warn.")
 
         with open("database/warns.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
     @commands.has_permissions(manage_roles=True)
     @commands.command(aliases=["unwarn", "delwarn"])
@@ -165,7 +164,7 @@ class Warn:
         await logchannel.send("", embed=emb)
 
         with open("database/warns.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
     @commands.command()
     async def listwarns(self, ctx, member: Member = None):
@@ -229,7 +228,7 @@ class Warn:
             logchannel = self.bot.logs_channel
             await logchannel.send("", embed=emb)
             with open("database/warns.json", "w") as f:
-                dump(js, f, indent=2, separators=(',', ':'))
+                dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
         except KeyError:
             return await ctx.send("This user doesn't have any warns!")
 

@@ -1,6 +1,6 @@
 ﻿from configparser import ConfigParser
 from asyncio import sleep
-from traceback import format_exception, format_exc
+from traceback import format_exception
 from json import load, dump
 from subprocess import run
 from os import chdir, makedirs, remove
@@ -11,6 +11,8 @@ from discord import errors
 from discord.utils import get
 from discord.ext import commands
 
+from addons.utils import checks
+
 # Change to script's directory
 path = dirname(realpath(__file__))
 chdir(path)
@@ -20,7 +22,7 @@ makedirs("database", exist_ok=True)
 
 if not isfile("database/config.json"):
     with open("database/config.json", "w") as f:
-        dump({'prefix': [".", "sudo "], 'token': '', 'api': {'google': ''}}, f)
+        dump({'prefix': [".", "sudo "], 'token': ''}, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 config = load(open("database/config.json", "r"))
 
@@ -35,11 +37,8 @@ if isfile("config.ini"):
     if ini['Main']['token'] != '{TOKEN HERE}' and not config['token']:
         config['token'] = ini['Main']['token']
 
-    if ini['Google']['API_Key'] != '{API KEY HERE}' and not config['api']['google']:
-        config['api']['google'] = ini['Google']['API_Key']
-
     with open("database/config.json", "w") as f:
-        dump(config, f)
+        dump(config, f, sort_keys=True, indent=4, separators=(',', ': '))
 
     remove('config.ini')
 
@@ -79,35 +78,26 @@ async def on_ready():
         bot.logs_channel = get(guild.channels, name="admin-logs")
         bot.memberlogs_channel = get(guild.channels, name="member-logs")
 
-    # Ignored users
-
-    try:
-        with open("database/ignored_users.json", "r") as config:
-            ignored_users = load(config)
-    except FileNotFoundError:
-        with open("database/ignored_users.json", "w") as config:
-            config.write({"users": []})
-            ignored_users = {"users": []}
-
-    bot.ignored_users = ignored_users
-
     # Load addons
     addons = [
-        'addons.colors',
-        'addons.emojif',
-        'addons.events',
-        'addons.memes',
-        'addons.misc',
-        'addons.mod',
-        'addons.warn',
-        'addons.speak',
-        'addons.toggle',
+        'colors',
+        'emojif',
+        'events',
+        'toggle',
+        'memes',
+        'speak',
+        'warn',
+        'misc',
+        'mod',
+        'qrgen',
+        'lastfm',
     ]
 
-    # Notify user if an addon fails to load.
+    # Notify if an addon fails to load.
     for addon in addons:
         try:
-            bot.load_extension(addon)
+            bot.load_extension("addons." + addon)
+            print("{} addon loaded.".format(addon))
         except Exception as e:
             print("Failed to load {} :\n{} : {}".format(addon, type(e).__name__, e))
 
@@ -116,22 +106,14 @@ async def on_ready():
     print("Client logged in as {}, in the following guild : {}"
           "".format(bot.user.name, bot.guild.name))
 
-
-# Handle errors
-# Taken from
-# https://github.com/916253/Kurisu/blob/31b1b747e0d839181162114a6e5731a3c58ee34f/run.py#L88
 @bot.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.errors.CommandNotFound):
-        pass
-    if isinstance(error, commands.errors.CheckFailure):
-        await ctx.send("{} You don't have permission to use this command."
-                       "".format(ctx.message.author.mention))
-    elif isinstance(error, commands.errors.MissingRequiredArgument):
-        formatter = commands.formatter.HelpFormatter()
-        msg = await formatter.format_help_for(ctx, ctx.command)
-        await ctx.send("{} You are missing required arguments.\n{}"
-                       "".format(ctx.message.author.mention, msg[0]))
+    if isinstance(error, (commands.errors.CommandNotFound, commands.errors.CheckFailure)):
+        return
+    elif isinstance(error, (commands.MissingRequiredArgument, commands.BadArgument)):
+        helpm = await bot.formatter.format_help_for(ctx, ctx.command)
+        for m in helpm:
+            await ctx.send(m)
     elif isinstance(error, commands.errors.CommandOnCooldown):
         try:
             await ctx.message.delete()
@@ -154,86 +136,53 @@ async def on_command_error(ctx, error):
         botdev_channel = bot.botdev_channel
         await botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
 
-
-@bot.event
-async def on_error(ctx, event_method, *args, **kwargs):
-    if isinstance(args[0], commands.errors.CommandNotFound):
-        return
-    elif isinstance(args[0], (commands.errors.MissingRequiredArgument, commands.errors.BadArgument)):
-        helpm = await bot.formatter.format_help_for(ctx, ctx.command)
-        for m in helpm:
-            await ctx.send(m)
-    elif isinstance(args[0], commands.CheckFailure):
-        pass
-    else:
-        print('Ignoring exception in {}'.format(event_method))
-        botdev_msg = "Exception occured in {}".format(event_method)
-        tb = format_exc()
-        print(''.join(tb))
-        botdev_msg += '\n```' + ''.join(tb) + '\n```'
-        botdev_msg += '\nargs: `{}`\n\nkwargs: `{}`'.format(args, kwargs)
-        botdev_channel = bot.botdev_channel
-        await botdev_channel.send(botdev_msg)
-        print(args)
-        print(kwargs)
-
-
 # Core commands
-@bot.command(hidden=True)
+@bot.command()
+@checks.is_botdev()
 async def unload(ctx, addon: str):
     """Unloads an addon."""
-    dev = ctx.message.author
-    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
-        try:
-            addon = "addons." + addon
-            bot.unload_extension(addon)
-            await ctx.send('✅ Addon unloaded.')
-        except Exception as e:
-            await ctx.send('💢 Error trying to unload the addon:\n```\n{}: {}\n```'
-                           ''.format(type(e).__name__, e))
+    try:
+        addon = "addons." + addon
+        bot.unload_extension(addon)
+        await ctx.send('✅ Addon unloaded.')
+    except Exception as e:
+        await ctx.send('💢 Error trying to unload the addon:\n```\n{}: {}\n```'
+                       ''.format(type(e).__name__, e))
 
 
-@bot.command(name='reload', aliases=['load'], hidden=True)
+@bot.command(name='reload', aliases=['load'])
+@checks.is_botdev()
 async def reload(ctx, addon: str):
     """(Re)loads an addon."""
-    dev = ctx.message.author
-    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
-        try:
-            addon = "addons." + addon
-            bot.unload_extension(addon)
-            bot.load_extension(addon)
-            await ctx.send('✅ Addon reloaded.')
-        except Exception as e:
-            await ctx.send('💢 Failed!\n```\n{}: {}\n```'.format(type(e).__name__, e))
+    try:
+        addon = "addons." + addon
+        bot.unload_extension(addon)
+        bot.load_extension(addon)
+        await ctx.send('✅ Addon reloaded.')
+    except Exception as e:
+        await ctx.send('💢 Failed!\n```\n{}: {}\n```'.format(type(e).__name__, e))
 
-            # Will add back later
+        # Will add back later
 
 
-@bot.command(hidden=True, name="pull", aliases=["pacman"])
+@bot.command(name="pull", aliases=["pacman"])
+@checks.is_botdev()
 async def pull(ctx, pip=None):
     """Pull new changes from Git and restart.
     Append -p or --pip to this command to also update python modules from requirements.txt."""
-    dev = ctx.message.author
-    if bot.botdev_role in dev.roles or bot.owner_role in dev.roles:
-        await ctx.send("`Pulling changes...`")
-        run(["git", "stash", "save"])
-        run(["git", "pull"])
-        run(["git", "stash", "clear"])
-        pip_text = ""
-        if pip in ("-p", "--pip", "-Syu"):
-            await ctx.send("`Updating python dependencies...`")
-            run([executable, "-m", "pip", "install", "--user",
-                 "--upgrade", "-r", "requirements.txt"])
-            pip_text = " and updated python dependencies"
-        await ctx.send("Pulled changes{}! Restarting...".format(pip_text))
-        run([executable, "GLaDOS.py"])
-    else:
-        if "pacman" in ctx.message.content:
-            await ctx.send("`{} is not in the sudoers file. This incident will be reported.`"
-                           "".format(ctx.message.author.display_name))
-        else:
-            await ctx.send("Only bot devs and / or owners can use this command")
 
+    await ctx.send("`Pulling changes...`")
+    run(["git", "stash", "save"])
+    run(["git", "pull"])
+    run(["git", "stash", "clear"])
+    pip_text = ""
+    if pip in ("-p", "--pip", "-Syu"):
+        await ctx.send("`Updating python dependencies...`")
+        run([executable, "-m", "pip", "install", "--user",
+             "--upgrade", "-r", "requirements.txt"])
+        pip_text = " and updated python dependencies"
+    await ctx.send("Pulled changes{}! Restarting...".format(pip_text))
+    run([executable, "GLaDOS.py"])
 
 @commands.has_permissions(administrator=True)
 @bot.command()
@@ -242,7 +191,6 @@ async def restart(ctx):
     await ctx.send("`Restarting, please wait...`")
     run([executable, "GLaDOS.py"])
     sysexit()
-
 
 @commands.has_permissions(administrator=True)
 @bot.command()

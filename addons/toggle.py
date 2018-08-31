@@ -62,7 +62,7 @@ class Toggle:
         await ctx.send("Added role `{}` to the database.".format(keyword))
 
         with open("database/roles.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
     @commands.has_permissions(manage_roles=True)
     @commands.command()
@@ -84,7 +84,7 @@ class Toggle:
             return
 
         with open("database/roles.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
     @commands.command()
     async def togglerole(self, ctx, keyword=""):
