@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from discord import Embed, errors
+from discord import Embed, errors, Color
 from discord.ext import commands
 
 
@@ -49,6 +49,16 @@ class Misc:
         try:
             await channel.purge(limit=n)
             await ctx.send("🗑️ Cleared {} messages in this channel!".format(amount))
+            try:
+                emb = Embed(title="Messages Cleared", colour=Color.red())
+                emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
+                emb.add_field(name="Channel:", value=ctx.message.channel, inline=True)
+                emb.add_field(name="Amount:", value=amount, inline=True)
+                logchannel = self.bot.logs_channel
+                await logchannel.send("", embed=emb)
+            except errors.Forbidden:
+                await ctx.send("💢 I dont have permission to do this.")
+
         except errors.Forbidden:
             await ctx.say("💢 I don't have permission to do this.")
 
