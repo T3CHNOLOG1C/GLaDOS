@@ -1,7 +1,5 @@
-# GLaDOS 
+# GLaDOS [![Build Status](https://travis-ci.com/T3CHNOLOG1C/GLaDOS.svg?branch=master)](https://travis-ci.com/T3CHNOLOG1C/GLaDOS)
 A mostly-general purpose discord bot (designed to be forked in uses outside of its current server).
-
-[![Build Status](https://travis-ci.com/T3CHNOLOG1C/GLaDOS.svg?branch=master)](https://travis-ci.com/T3CHNOLOG1C/GLaDOS)
 
 ## Requirements :
 
