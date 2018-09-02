@@ -9,6 +9,7 @@ class Warn:
     """
     Warn commands
     """
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -21,7 +22,7 @@ class Warn:
 
     @commands.has_permissions(manage_roles=True)
     @commands.command()
-    async def warn(self, ctx, member: Member, *, reason: str = ""):
+    async def warn(self, ctx, member: Member, *, reason: str=""):
         """
         Warn members. (Staff Only)
         A user ID can be used instead of mentionning the user.
@@ -82,7 +83,8 @@ class Warn:
                                   "".format(ctx.guild.name, reason))
         emb = Embed(title="Member Warned", colour=Colour.orange())
         emb.add_field(name="Member:", value=member, inline=True)
-        emb.add_field(name="Warning Number:", value=amount_of_warns, inline=True)
+        emb.add_field(name="Warning Number:",
+                      value=amount_of_warns, inline=True)
         emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
         if reason == "":
             reason = "No reason specified."
@@ -157,7 +159,8 @@ class Warn:
         await self.dm(member, "One of you warns in {} has been removed.".format(ctx.guild.name))
         emb = Embed(title="Member Unwarned", colour=Colour.orange())
         emb.add_field(name="Member:", value=member, inline=True)
-        emb.add_field(name="Removed Warning Number:", value=number, inline=True)
+        emb.add_field(name="Removed Warning Number:",
+                      value=number, inline=True)
         emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
 
         logchannel = self.bot.logs_channel
@@ -167,7 +170,7 @@ class Warn:
             dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
     @commands.command()
-    async def listwarns(self, ctx, member: Member = None):
+    async def listwarns(self, ctx, member: Member=None):
         """
         List your own warns or someone else's warns.
         Only the staff can view someone else's warns
@@ -191,12 +194,14 @@ class Warn:
         if userid not in js:
             return await ctx.send("No warns found!")
         embed = Embed(color=member.colour)
-        embed.set_author(name="List of warns for {} :".format(member), icon_url=member.avatar_url)
+        embed.set_author(name="List of warns for {} :".format(
+            member), icon_url=member.avatar_url)
 
         for nbr, warn in enumerate(js[userid]["warns"]):
             content = "{}".format(warn["reason"])
             author = await self.bot.get_user_info(warn["author_id"])
-            content += "\n*Warn author : {} ({})*".format(warn["author"], author.mention)
+            content += "\n*Warn author : {} ({})*".format(
+                warn["author"], author.mention)
             embed.add_field(name="\n\n#{}: {}".format(nbr + 1, warn["timestamp"]),
                             value=content, inline=False)
 
@@ -235,4 +240,3 @@ class Warn:
 
 def setup(bot):
     bot.add_cog(Warn(bot))
-

@@ -137,11 +137,13 @@ class Emojif:
         # Post URL instead of saving then reuploading image,
         # to save time, bandwidth, and disk usage.
         if not message.attachments:
-            attachments = " ".join(attachment.url for attachment in message.attachments)
+            attachments = " ".join(
+                attachment.url for attachment in message.attachments)
         else:
             attachments = ""
         formatted_author = "`{}`:".format(author.display_name)
-        formatted_content = content.replace('@everyone', '`@`everyone').replace('@here', '`@`here')
+        formatted_content = content.replace(
+            '@everyone', '`@`everyone').replace('@here', '`@`here')
         animated_emojis = []
         for e in set(msg_emojis):
             found_emoji = get(self.bot.emojis, name=e[1:-1])
@@ -167,4 +169,3 @@ class Emojif:
 
 def setup(bot):
     bot.add_cog(Emojif(bot))
-

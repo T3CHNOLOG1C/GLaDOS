@@ -1,5 +1,6 @@
 from discord.ext import commands
 
+
 class Colors:
     """
     Color commands
@@ -94,4 +95,3 @@ class Colors:
 
 def setup(bot):
     bot.add_cog(Colors(bot))
-

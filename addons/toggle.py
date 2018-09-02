@@ -113,7 +113,8 @@ class Toggle:
 
         except KeyError:
             if keyword == "":
-                embed = Embed(title="List of toggleable roles:", colour=Colour.dark_teal())
+                embed = Embed(title="List of toggleable roles:",
+                              colour=Colour.dark_teal())
                 embed.description = ""
                 for k in js:
                     embed.description += "- {} {}: `{}`\n".format(
@@ -129,4 +130,3 @@ class Toggle:
 
 def setup(bot):
     bot.add_cog(Toggle(bot))
-

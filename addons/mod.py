@@ -20,7 +20,7 @@ class Moderation:
 
     @commands.has_permissions(kick_members=True)
     @commands.command()
-    async def kick(self, ctx, member: Member = None, *, reason: str = ""):
+    async def kick(self, ctx, member: Member=None, *, reason: str=""):
         """Kick a member. (Staff Only)"""
         try:
             if not member:
@@ -58,7 +58,7 @@ class Moderation:
 
     @commands.has_permissions(ban_members=True)
     @commands.command()
-    async def ban(self, ctx, member: Member = None, *, reason: str = ""):
+    async def ban(self, ctx, member: Member=None, *, reason: str=""):
         """Ban a member. (Staff Only)"""
         if not member:
             await ctx.send("Please mention a user.")
@@ -77,7 +77,8 @@ class Moderation:
         else:
             try:
                 if not reason:
-                    dm_msg = "You have been banned from {}.".format(ctx.guild.name)
+                    dm_msg = "You have been banned from {}.".format(
+                        ctx.guild.name)
                 else:
                     dm_msg = ("You have been banned from {} for the following reason:\n{}"
                               "".format(ctx.guild.name, reason))
@@ -86,7 +87,8 @@ class Moderation:
                 await ctx.send("I've banned {}.".format(member))
                 emb = Embed(title="Member Banned", colour=Colour.red())
                 emb.add_field(name="Member:", value=member.name, inline=True)
-                emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
+                emb.add_field(
+                    name="Mod:", value=ctx.message.author.name, inline=True)
                 if reason == "":
                     reason = "No reason specified."
                 emb.add_field(name="Reason:", value=reason, inline=True)
@@ -110,7 +112,8 @@ class Moderation:
             await ctx.send("I've banned ID: {}.".format(uid))
             emb = Embed(title="Member Banned by ID", colour=Colour.red())
             emb.add_field(name="ID:", value=uid, inline=True)
-            emb.add_field(name="Mod:", value=ctx.message.author.name, inline=True)
+            emb.add_field(
+                name="Mod:", value=ctx.message.author.name, inline=True)
             if reason == "":
                 reason = "No reason specified."
             emb.add_field(name="Reason:", value=reason, inline=True)
@@ -171,12 +174,14 @@ class Moderation:
         if self.bot.approved_role not in member.roles:
             try:
                 await member.add_roles(self.bot.approved_role)
-                dm_msg = "You have been approved. Welcome to {}!".format(ctx.guild.name)
+                dm_msg = "You have been approved. Welcome to {}!".format(
+                    ctx.guild.name)
                 await self.dm(member, dm_msg)
                 await ctx.send(":thumbsup: {} has been approved".format(member))
                 emb = Embed(title="Member Approved", colour=Colour.blue())
                 emb.add_field(name="Member:", value=member, inline=True)
-                emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
+                emb.add_field(
+                    name="Mod:", value=ctx.message.author, inline=True)
                 logchannel = self.bot.logs_channel
                 await logchannel.send("", embed=emb)
             except errors.Forbidden:
@@ -220,7 +225,8 @@ class Moderation:
             emb.add_field(name="Member:", value=member, inline=True)
             emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
             if reason == "":
-                emb.add_field(name="Reason:", value="No reason specified.", inline=True)
+                emb.add_field(name="Reason:",
+                              value="No reason specified.", inline=True)
             else:
                 emb.add_field(name="Reason:", value=reason, inline=True)
             logchannel = self.bot.logs_channel
@@ -264,4 +270,3 @@ class Moderation:
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
-
