@@ -75,7 +75,7 @@ class Memes:
 
     @commands.cooldown(rate=1, per=10.0, type=commands.BucketType.channel)
     @commands.command()
-    async def xkyup(self, ctx, variant: str = ""):
+    async def xkyup(self, ctx, variant: str=""):
         """
         MEMES???
         This meme has multiple variants : fr, es, it, jp, de, pl, pt, nl, se, bees
@@ -368,7 +368,7 @@ class Memes:
         await ctx.send("http://imgur.com/8Mm5ZvB")
 
     @commands.command()
-    async def beepbeep(self, ctx, *, roast: str = "Roast"):
+    async def beepbeep(self, ctx, *, roast: str="Roast"):
         """Bope"""
         roast = await commands.clean_content().convert(ctx, roast)
         await ctx.send("Your {} is ready".format(roast))
@@ -382,7 +382,5 @@ class Memes:
                        "off the top of my head")
 
 
-
 def setup(bot):
     bot.add_cog(Memes(bot))
-

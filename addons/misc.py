@@ -51,8 +51,10 @@ class Misc:
             await ctx.send("🗑️ Cleared {} messages in this channel!".format(amount))
             try:
                 emb = Embed(title="Messages Cleared", colour=Color.red())
-                emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
-                emb.add_field(name="Channel:", value=ctx.message.channel, inline=True)
+                emb.add_field(
+                    name="Mod:", value=ctx.message.author, inline=True)
+                emb.add_field(name="Channel:",
+                              value=ctx.message.channel, inline=True)
                 emb.add_field(name="Amount:", value=amount, inline=True)
                 logchannel = self.bot.logs_channel
                 await logchannel.send("", embed=emb)
@@ -96,4 +98,3 @@ class Misc:
 
 def setup(bot):
     bot.add_cog(Misc(bot))
-

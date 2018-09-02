@@ -2,6 +2,7 @@ from json import load, dump
 from discord import TextChannel, errors, abc, Embed, Color
 from discord.ext import commands
 
+
 class Speak:
     """Give the bot a voice"""
 
@@ -13,7 +14,8 @@ class Speak:
         except FileNotFoundError:
             self.ignored_users = {"users": []}
             with open("database/ignored_users.json", "w") as config:
-                dump(self.ignored_users, config, indent=4, sort_keys=True, separators=(',', ':'))
+                dump(self.ignored_users, config, indent=4,
+                     sort_keys=True, separators=(',', ':'))
         print("{} addon loaded.".format(self.__class__.__name__))
 
     @commands.has_permissions(manage_messages=True)
@@ -25,7 +27,8 @@ class Speak:
         try:
             emb = Embed(title="Message Sent", colour=Color.orange())
             emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
-            emb.add_field(name="Send from:", value=ctx.message.channel, inline=True)
+            emb.add_field(name="Send from:",
+                          value=ctx.message.channel, inline=True)
             emb.add_field(name="Send To:", value=destination, inline=True)
             emb.add_field(name="Message:", value=message, inline=True)
             logchannel = self.bot.logs_channel
@@ -37,7 +40,8 @@ class Speak:
         """Check for various parameters before DM'ing a member"""
         try:
             if ctx.message.attachments:
-                attachments = " ".join(attachment.url for attachment in ctx.message.attachments)
+                attachments = " ".join(
+                    attachment.url for attachment in ctx.message.attachments)
                 message = "{} {}".format(message, attachments)
             else:
                 if message == '':
@@ -80,12 +84,15 @@ class Speak:
             else:
                 dmchannel = self.bot.botdms_channel
                 if message.attachments == []:
-                    logOutput = "{} | {} 📨 {}\n".format(author, author.id, self.bot.user)
+                    logOutput = "{} | {} 📨 {}\n".format(
+                        author, author.id, self.bot.user)
                     logOutput += "Message Content: {}".format(message.content)
                     await dmchannel.send(logOutput)
                 else:
-                    logOutput = "{} | {} 📨 {}\n".format(author, author.id, self.bot.user)
-                    logOutput += "Message Content: {}\n".format(message.content)
+                    logOutput = "{} | {} 📨 {}\n".format(
+                        author, author.id, self.bot.user)
+                    logOutput += "Message Content: {}\n".format(
+                        message.content)
                     logOutput += "Attachments: \n"
                     for attachment in message.attachments:
                         logOutput += "{}\n".format(attachment.url)
@@ -101,17 +108,18 @@ class Speak:
 
         if member == "list":
             if len(self.ignored_users["users"]) > 0:
-                embed = Embed(title="List of ignored users", color=Color.blue())
+                embed = Embed(title="List of ignored users",
+                              color=Color.blue())
 
                 description = ""
                 for i in self.ignored_users["users"]:
                     try:
                         u = self.bot.get_user(i)
-                        description += "- {} ({}#{})\n".format(u.id, u.display_name, u.discriminator)
+                        description += "- {} ({}#{})\n".format(u.id,
+                                                               u.display_name, u.discriminator)
                     except errors.CommandInvokeError:
                         description += "- {}\n".format(i)
 
-                    
                 embed.description = description
                 await ctx.send("", embed=embed)
                 return
@@ -131,9 +139,9 @@ class Speak:
                 await ctx.send("Added {} to ignored users.".format(member.mention))
 
             with open("database/ignored_users.json", "w") as config:
-                dump(self.ignored_users, config, indent=4, sort_keys=True, separators=(',', ':'))
+                dump(self.ignored_users, config, indent=4,
+                     sort_keys=True, separators=(',', ':'))
 
 
 def setup(bot):
     bot.add_cog(Speak(bot))
-

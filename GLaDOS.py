@@ -22,7 +22,8 @@ makedirs("database", exist_ok=True)
 
 if not isfile("database/config.json"):
     with open("database/config.json", "w") as f:
-        dump({'prefix': [".", "sudo "], 'token': ''}, f, sort_keys=True, indent=4, separators=(',', ': '))
+        dump({'prefix': [".", "sudo "], 'token': ''}, f,
+             sort_keys=True, indent=4, separators=(',', ': '))
 
 config = load(open("database/config.json", "r"))
 
@@ -101,10 +102,13 @@ async def on_ready():
             print("{} addon loaded.".format(addon))
         except Exception as e:
             if not fail:
-                emb = Embed(title = "Startup", description = "Failed to load Addons", colour = Color.blue())
+                emb = Embed(
+                    title="Startup", description="Failed to load Addons", colour=Color.blue())
             fail += 1
-            emb.add_field(name=addon, value="{} : {}".format(type(e).__name__, e), inline=True)
-            print("Failed to load {} :\n{} : {}".format(addon, type(e).__name__, e))
+            emb.add_field(name=addon, value="{} : {}".format(
+                type(e).__name__, e), inline=True)
+            print("Failed to load {} :\n{} : {}".format(
+                addon, type(e).__name__, e))
     if fail:
         try:
             logchannel = bot.logs_channel
@@ -116,6 +120,7 @@ async def on_ready():
 
     print("Client logged in as {}, in the following guild : {}"
           "".format(bot.user.name, bot.guild.name))
+
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -140,14 +145,18 @@ async def on_command_error(ctx, error):
     else:
         await ctx.send("An error occured while processing the `{}` command."
                        "".format(ctx.command.name))
-        print('Ignoring exception in command {0.command} in {0.message.channel}'.format(ctx))
-        botdev_msg = "Exception occured in `{0.command}` in {0.message.channel.mention}".format(ctx)
+        print(
+            'Ignoring exception in command {0.command} in {0.message.channel}'.format(ctx))
+        botdev_msg = "Exception occured in `{0.command}` in {0.message.channel.mention}".format(
+            ctx)
         tb = format_exception(type(error), error, error.__traceback__)
         print(''.join(tb))
         botdev_channel = bot.botdev_channel
         await botdev_channel.send(botdev_msg + '\n```' + ''.join(tb) + '\n```')
 
 # Core commands
+
+
 @bot.command()
 @checks.is_botdev()
 async def unload(ctx, addon: str):
@@ -195,6 +204,7 @@ async def pull(ctx, pip=None):
     await ctx.send("Pulled changes{}! Restarting...".format(pip_text))
     run([executable, "GLaDOS.py"])
 
+
 @commands.has_permissions(administrator=True)
 @bot.command()
 async def restart(ctx):
@@ -202,6 +212,7 @@ async def restart(ctx):
     await ctx.send("`Restarting, please wait...`")
     run([executable, "GLaDOS.py"])
     sysexit()
+
 
 @commands.has_permissions(administrator=True)
 @bot.command()
@@ -214,4 +225,3 @@ async def stop(ctx):
 # Run the bot
 if __name__ == "__main__":
     bot.run(config['token'])
-
