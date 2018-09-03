@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from discord import Embed, errors, Color
+from discord import Embed, errors, Color, Member
 from discord.ext import commands
 
 
@@ -95,6 +95,21 @@ class Misc:
         emb.set_thumbnail(url=member.avatar_url)
         await ctx.send("", embed=emb)
 
+    @commands.command()
+    async def bean(self, ctx, member: Member=None, *, reason: str=""):
+        """Ban a member. (Staff Only)"""
+        if not member:
+            await ctx.send("Please mention a user.")
+            return
+        if member == ctx.message.author:
+            await ctx.send("You cannot ban yourself!")
+            return
+        elif ctx.me is member:
+            await ctx.send("I am unable to ban myself to prevent stupid mistakes.\n"
+                           "Please ban me by hand!")
+            return
+        else:
+            await ctx.send("I've banned {}.".format(member))
 
 def setup(bot):
     bot.add_cog(Misc(bot))
