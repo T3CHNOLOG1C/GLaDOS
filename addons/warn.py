@@ -178,12 +178,9 @@ class Warn:
         if not member:
             member = ctx.message.author
 
-        if self.bot.staff_role in ctx.message.author.roles:
-            has_perms = True
-        else:
-            has_perms = False
+        has_perms = self.bot.staff_role in ctx.message.author.roles
 
-        if not has_perms:
+        if not has_perms or member == ctx.message.author:
             return await ctx.send("{} You don't have permission to list other member's warns!"
                                   "".format(ctx.message.author.mention))
 
