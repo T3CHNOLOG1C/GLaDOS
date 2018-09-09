@@ -16,7 +16,6 @@ class Speak:
             with open("database/ignored_users.json", "w") as config:
                 dump(self.ignored_users, config, indent=4,
                      sort_keys=True, separators=(',', ':'))
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
