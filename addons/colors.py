@@ -19,8 +19,8 @@ class Colors:
             await user.add_roles(color)
             await ctx.send("{} {} {} removed.\n"
                            "{} {} {} added."
-                           "".format(user.mention, lang, cur_color.name.lower()), delete_after=5,
-                           user.mention, lang, color.name.lower(), delete_after=5)
+                           "".format(user.mention, lang, cur_color.name.lower(),
+                                     user.mention, lang, color.name.lower()), delete_after=5)
         else:
             await user.remove_roles(color)
             await ctx.send("{} {} {} removed."
