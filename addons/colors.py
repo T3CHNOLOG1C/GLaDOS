@@ -16,11 +16,11 @@ class Colors:
                            "".format(user.mention, lang, color.name.lower()), delete_after=5)
         elif cur_color != color:
             await user.remove_roles(cur_color)
-            await ctx.send("{} {} {} removed."
-                           "".format(user.mention, lang, cur_color.name.lower()), delete_after=5)
             await user.add_roles(color)
-            await ctx.send("{} {} {} added."
-                           "".format(user.mention, lang, color.name.lower()), delete_after=5)
+            await ctx.send("{} {} {} removed.\n"
+                           "{} {} {} added."
+                           "".format(user.mention, lang, cur_color.name.lower(),
+                                     user.mention, lang, color.name.lower()), delete_after=5)
         else:
             await user.remove_roles(color)
             await ctx.send("{} {} {} removed."
