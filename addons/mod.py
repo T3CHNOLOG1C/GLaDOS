@@ -29,7 +29,7 @@ class Moderation:
             elif member is ctx.message.author:
                 await ctx.send("You cannot kick yourself!")
                 return
-            elif (self.bot.admin_role in member.roles and
+            elif (self.bot.staff_role in member.roles and
                   self.bot.owner_role not in ctx.message.author.roles):
                 await ctx.send("You may not kick another staffer")
                 return
@@ -66,7 +66,7 @@ class Moderation:
         if member == ctx.message.author:
             await ctx.send("You cannot ban yourself!")
             return
-        elif (self.bot.admin_role in member.roles and
+        elif (self.bot.staff_role in member.roles and
               self.bot.owner_role not in ctx.message.author.roles):
             await ctx.send("You may not ban another staffer")
             return
@@ -197,7 +197,7 @@ class Moderation:
         if member is ctx.message.author:
             await ctx.send("You cannot mute yourself!")
             return
-        elif (self.bot.admin_role in member.roles and
+        elif (self.bot.staff_role in member.roles and
               self.bot.owner_role not in ctx.message.author.roles):
             await ctx.send("You cannot mute other staffers!")
             return
@@ -239,7 +239,7 @@ class Moderation:
     async def unmute(self, ctx, member: Member):
         """Unmutes a user. (Staff Only)"""
 
-        if (self.bot.admin_role in member.roles and
+        if (self.bot.staff_role in member.roles and
                 self.bot.owner_role not in ctx.message.author.roles):
             await ctx.send("You cannot unmute other staffers!")
             return
