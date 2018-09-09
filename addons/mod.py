@@ -9,7 +9,6 @@ class Moderation:
 
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     async def dm(self, member, message):
         """DM the user and catch an eventual exception."""

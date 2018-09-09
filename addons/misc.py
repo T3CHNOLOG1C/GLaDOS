@@ -11,7 +11,6 @@ class Misc:
 
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     @commands.command(pass_context=True)
     async def ping(self, ctx):
