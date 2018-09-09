@@ -4,7 +4,7 @@ A mostly-general purpose discord bot.
 ## Requirements :
 
 - Python 3.6 or later
-- [discord.py]((https://github.com/Rapptz/discord.py/tree/rewrite))
+- [discord.py](https://github.com/Rapptz/discord.py/tree/rewrite)
 - [pylast](https://github.com/pylast/pylast)
 - [qrcode](https://github.com/lincolnloop/python-qrcode)
 - [Pillow](https://github.com/python-pillow/Pillow)
