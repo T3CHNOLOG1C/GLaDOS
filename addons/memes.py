@@ -22,7 +22,7 @@ class Memes:
         msg = await ctx.send("Press F to pay respects.")
         await msg.add_reaction("🇫")
 
-    @commands.command(aliases=["t3ch"])
+    @commands.command()
     async def tech(self, ctx):
         """Goddamn Nazimod"""
         return await ctx.send("https://i.imgur.com/4kANai8.png")
