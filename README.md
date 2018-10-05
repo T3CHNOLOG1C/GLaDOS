@@ -11,10 +11,10 @@ A mostly-general purpose discord bot.
 
 ## How to use :
 
-Notice: GLaDOS is NOT intended to work on every server modification may be required
+Notice: GLaDOS is NOT intended to work on every server, modification may be required
 
 1. Run `GLaDOS.py` once to generate the config files
-2. edit `config.json` in the database directory
+2. Edit `config.json` in the database directory
 3. Edit role and channel names in `GLaDOS.py`
 4. Run `GLaDOS.py`
 
