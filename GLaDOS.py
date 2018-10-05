@@ -1,9 +1,8 @@
-﻿from configparser import ConfigParser
 from asyncio import sleep
 from traceback import format_exception
 from json import load, dump
 from subprocess import run
-from os import chdir, makedirs, remove
+from os import chdir, makedirs
 from os.path import isfile, dirname, realpath
 from sys import executable, exit as sysexit
 
@@ -29,19 +28,6 @@ config = load(open("database/config.json", "r"))
 
 bot = commands.Bot(command_prefix=config['prefix'], description="GLaDOS, a general purpose discord bot.",
                    max_messages=10000, pm_help=True)
-
-# Migrate data from config.ini to config.json
-if isfile("config.ini"):
-    ini = ConfigParser()
-    ini.read("config.ini")
-
-    if ini['Main']['token'] != '{TOKEN HERE}' and not config['token']:
-        config['token'] = ini['Main']['token']
-
-    with open("database/config.json", "w") as f:
-        dump(config, f, sort_keys=True, indent=4, separators=(',', ': '))
-
-    remove('config.ini')
 
 
 @bot.event

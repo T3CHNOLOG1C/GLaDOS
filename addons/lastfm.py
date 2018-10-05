@@ -15,11 +15,6 @@ class LastFM:
         try:
             with open("database/lastfm.json", "r") as config:
                 self.config = load(config)
-            # Used to migrate data, remove
-            if len(self.config['users']) > 0 and type(list(self.config['users'].values())[0]) is str:
-                for x in self.config['users']:
-                    self.config['users'][x] = [
-                        self.config['users'][x], 'lastfm']
 
         except FileNotFoundError:
             self.config = {"users": {}, 'api': {
