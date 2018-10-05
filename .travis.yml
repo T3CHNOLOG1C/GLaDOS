@@ -12,10 +12,8 @@ install:
   - pip install pyflakes
 
 script:
-  - python -m compileall ./GLaDOS.py
-  - python -m compileall ./addons/*.py
-  - pyflakes ./GLaDOS.py
-  - find ./addons -iname "*.py" | xargs pyflakes
+  - find . | grep -E "\.py$" | xargs python -m compileall
+  - find . | grep -E "\.py$" | xargs pyflakes
 
 cache:
   - pip
