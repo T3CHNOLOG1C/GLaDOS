@@ -1,7 +1,7 @@
-import qrcode
+from qrcode import make
 from discord.ext import commands
-import discord
-import io
+from discord import File
+from io import BytesIO
 
 
 class QRGen:
@@ -13,24 +13,24 @@ class QRGen:
         self.bot = bot
 
     @commands.command()
-    async def qr(self, ctx, url=""):
+    async def qr(self, ctx, url: str=None):
         """Generate QR Code"""
 
-        if url == "":
+        if not url:
             async for m in ctx.channel.history():
                 if len(m.attachments) == 1:  # Currently this only supports 1 attachment at most
-                    img = qrcode.make(m.attachments[0].url)
-                    imgbuf = io.BytesIO()
+                    img = make(m.attachments[0].url)
+                    imgbuf = BytesIO()
                     img.save(imgbuf, 'png')
                     imgbuf.seek(0)
-                    await ctx.send(file=discord.File(imgbuf, "qr_code.png"))
+                    await ctx.send(file=File(imgbuf, "qr_code.png"))
                     return
         else:
-            img = qrcode.make(url)
-            imgbuf = io.BytesIO()
+            img = make(url)
+            imgbuf = BytesIO()
             img.save(imgbuf, 'png')
             imgbuf.seek(0)
-            await ctx.send(file=discord.File(imgbuf, "qr_code.png"))
+            await ctx.send(file=File(imgbuf, "qr_code.png"))
 
 
 def setup(bot):
