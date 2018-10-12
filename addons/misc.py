@@ -110,5 +110,55 @@ class Misc:
         else:
             await ctx.send("I've banned {}.".format(member))
 
+    @commands.command()
+    async def kicc(self, ctx, member: Member=None, *, reason: str=""):
+        """Kick a member. (Staff Only)"""
+        try:
+            if not member:
+                await ctx.send("Please mention a user.")
+                return
+            elif member is ctx.message.author:
+                await ctx.send("You cannot kick yourself!")
+                return
+            elif ctx.me is member:
+                await ctx.send("I am unable to kick myself to prevent stupid mistakes.\n"
+                               "Please kick me by hand!")
+                return
+            await ctx.send("I've kicked {}.".format(member))
+
+    @commands.command()
+    async def moot(self, ctx, member: Member, *, reason=""):
+        """Mutes a user. (Staff Only)"""
+
+        if member is ctx.message.author:
+            await ctx.send("You cannot mute yourself!")
+            return
+        elif self.bot.muted_role in member.roles:
+            await ctx.send("{} is already muted!".format(member))
+            return
+        elif ctx.me is member:
+            await ctx.send("I can not mute myself!")
+            return
+        await ctx.send("{} can no longer speak!".format(member))
+
+    @commands.command()
+    async def warm(self, ctx, member: Member, *, reason=""):
+        """
+        Warn members. (Staff Only)
+        - First warn : nothing happens, a simple warning
+        - Second warn : muted until an the admin who issued the warning decides to unmute the user.
+        - Third warn : kicked
+        - Fourth warn : kicked
+        - Fifth warn : banned
+        """
+
+        if member is ctx.message.author:
+            await ctx.send("You cannot warn yourself!")
+            return
+        elif ctx.me is member:
+            await ctx.send("I can not warn myself!")
+            return
+        await ctx.send("🚩 I've warned {}.".format(member))
+
 def setup(bot):
     bot.add_cog(Misc(bot))
