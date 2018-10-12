@@ -113,18 +113,17 @@ class Misc:
     @commands.command()
     async def kicc(self, ctx, member: Member=None, *, reason: str=""):
         """Kick a member. (Staff Only)"""
-        try:
-            if not member:
-                await ctx.send("Please mention a user.")
-                return
-            elif member is ctx.message.author:
-                await ctx.send("You cannot kick yourself!")
-                return
-            elif ctx.me is member:
-                await ctx.send("I am unable to kick myself to prevent stupid mistakes.\n"
-                               "Please kick me by hand!")
-                return
-            await ctx.send("I've kicked {}.".format(member))
+        if not member:
+            await ctx.send("Please mention a user.")
+            return
+        elif member is ctx.message.author:
+            await ctx.send("You cannot kick yourself!")
+            return
+        elif ctx.me is member:
+            await ctx.send("I am unable to kick myself to prevent stupid mistakes.\n"
+                           "Please kick me by hand!")
+            return
+        await ctx.send("I've kicked {}.".format(member))
 
     @commands.command()
     async def moot(self, ctx, member: Member, *, reason=""):
@@ -133,13 +132,16 @@ class Misc:
         if member is ctx.message.author:
             await ctx.send("You cannot mute yourself!")
             return
-        elif self.bot.muted_role in member.roles:
-            await ctx.send("{} is already muted!".format(member))
-            return
         elif ctx.me is member:
             await ctx.send("I can not mute myself!")
             return
         await ctx.send("{} can no longer speak!".format(member))
+
+    @commands.command()
+    async def unmoot(self, ctx, member: Member, *, reason=""):
+        """Unmutes a user. (Staff Only)"""
+
+        await ctx.send("{} is no longer muted!".format(member))
 
     @commands.command()
     async def warm(self, ctx, member: Member, *, reason=""):
