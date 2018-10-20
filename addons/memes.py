@@ -46,7 +46,12 @@ class Memes:
     async def birds(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/fVAx5oh.png")
-
+        
+    @commands.command()
+    async def nh (self, ctx):
+        """something that should be done"""
+        await ctx.send("https://imgur.com/a/Xk9gTEt")
+        
     @commands.command()
     async def macboy(self, ctx):
         """Memes."""
