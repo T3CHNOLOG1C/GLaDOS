@@ -361,7 +361,13 @@ class Memes:
                        "operating system: the whole system is basically GNU with Linux added, "
                        "or GNU/Linux. All the so-called \"Linux\" distributions are really "
                        "distributions of GNU/Linux.```")
-
+    
+    @commands.command()
+    async def excuse(self, ctx):
+        """excuse me but what the fuck"""
+        await ctx.send("https://imgur.com/a/OtMv33a")
+    
+    
     @commands.command()
     async def kina(self, ctx):
         """kona"""
