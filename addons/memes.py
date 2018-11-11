@@ -22,7 +22,7 @@ class Memes:
         msg = await ctx.send("Press F to pay respects.")
         await msg.add_reaction("🇫")
 
-    @commands.command(aliases=["t3ch"])
+    @commands.command()
     async def tech(self, ctx):
         """Goddamn Nazimod"""
         return await ctx.send("https://i.imgur.com/4kANai8.png")
@@ -46,12 +46,12 @@ class Memes:
     async def birds(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/fVAx5oh.png")
-        
+
     @commands.command()
-    async def nh (self, ctx):
+    async def nh(self, ctx):
         """something that should be done"""
         await ctx.send("https://imgur.com/a/Xk9gTEt")
-        
+
     @commands.command()
     async def macboy(self, ctx):
         """Memes."""
@@ -177,13 +177,13 @@ class Memes:
 
         elif variant.lower() == "nl":
             await ctx.send(
-                "Het spijt me zo erg, ik was een echt achterlijk om woorden te zeggen die mij "
-                "in moeite zou brengen en die veel mensen die transgender zijn of die in een "
-                "relatie zijn met een transgender persoon boos zou maken. Ik heb niet nagedacht "
-                "voor het spreken, dus kwam het als iets totaal vals, ik haat niemand die "
-                "transgender is, alleen de gemeenschap. Ik hou van Aurora, alleen niet van de "
-                "trans gemeenschap. Het spijt me voor dit alles. Alles what ik vraag is excuses, "
-                "dat is alles. Ik had moeten denken voordat ik sprak"
+                "Het spijt me heel erg. Ik was een mongool omdat ik woorden gebruikte waardoor ik "
+                "in de problemen kwam te zitten en veel transgender mensen of mensen die uitgaan "
+                "met een transgender boos zouden maken. I dacht niet na over wat ik zei en dus zei "
+                "ik iets dat ik niet bedoelde. I haat geen transgender, ik haat alleen de "
+                "gemeenschap. Ik heb geen bezwaar tegen Aurora, alleen de transgender gemeenschap. "
+                "Het spijt me hiervoor. Ik vraag alleen voor een verontschuldiging. Ik moet "
+                "volgende keer nadenken voordat ik iets zeg."
             )
 
         elif variant.lower() == "se":
@@ -361,13 +361,7 @@ class Memes:
                        "operating system: the whole system is basically GNU with Linux added, "
                        "or GNU/Linux. All the so-called \"Linux\" distributions are really "
                        "distributions of GNU/Linux.```")
-    
-    @commands.command()
-    async def excuse(self, ctx):
-        """excuse me but what the fuck"""
-        await ctx.send("https://imgur.com/a/OtMv33a")
-    
-    
+
     @commands.command()
     async def kina(self, ctx):
         """kona"""
@@ -391,6 +385,35 @@ class Memes:
                        "the 3ds there haven't always been that "
                        "many choices\nI can only think of three "
                        "off the top of my head")
+
+    @commands.command()
+    async def excuse(self, ctx):
+        """excuse me but what the fuck"""
+        await ctx.send("https://imgur.com/a/OtMv33a")
+
+    @commands.command()
+    async def t3ch(self, ctx, *, arg="server, sss, weeb, shack mod, trap role, channel, shitposting, cancerous"):
+        """
+        Prints the T3CHNOLOGIC copypasta.
+        With no or missing arguments, defaults to the original pasta (or a modified original).
+        Usage: [p]t3ch [server], [sss], [weeb], [shack mod], [trap role], [channel], [shitposting], [cancerous]
+        """
+        original = ["server", "sss", "weeb", "shack mod",
+                    "trap role", "channel", "shitposting", "cancerous"]
+        replacements = [i.strip() for i in arg.split(",")]
+        del replacements[len(original):]
+        if len(replacements) < 8:
+            replacements = replacements + original[len(replacements):]
+
+        await ctx.send(
+            await commands.clean_content().convert(ctx, ("y'know, i was trying to keep my cool and be a part of this"
+                                                         "{0}, but i cant force myself here any longer. this isnt {1}."
+                                                         "too much {2} shit, owned by a {3} and a former {3}, no {4},"
+                                                         " a {5} where people get warned for {6} when part of the "
+                                                         "spirit of {1} is {6}, and overall just more {7} than {1} "
+                                                         "was ever meant to be. goodbye."
+                                                         "").format(*replacements)))
+
 
 def setup(bot):
     bot.add_cog(Memes(bot))
