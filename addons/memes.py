@@ -177,13 +177,13 @@ class Memes:
 
         elif variant.lower() == "nl":
             await ctx.send(
-                "Het spijt me zo erg, ik was een echt achterlijk om woorden te zeggen die mij "
-                "in moeite zou brengen en die veel mensen die transgender zijn of die in een "
-                "relatie zijn met een transgender persoon boos zou maken. Ik heb niet nagedacht "
-                "voor het spreken, dus kwam het als iets totaal vals, ik haat niemand die "
-                "transgender is, alleen de gemeenschap. Ik hou van Aurora, alleen niet van de "
-                "trans gemeenschap. Het spijt me voor dit alles. Alles what ik vraag is excuses, "
-                "dat is alles. Ik had moeten denken voordat ik sprak"
+                "Het spijt me heel erg. Ik was een mongool omdat ik woorden gebruikte waardoor ik "
+                "in de problemen kwam te zitten en veel transgender mensen of mensen die uitgaan "
+                "met een transgender boos zouden maken. I dacht niet na over wat ik zei en dus zei "
+                "ik iets dat ik niet bedoelde. I haat geen transgender, ik haat alleen de "
+                "gemeenschap. Ik heb geen bezwaar tegen Aurora, alleen de transgender gemeenschap. "
+                "Het spijt me hiervoor. Ik vraag alleen voor een verontschuldiging. Ik moet "
+                "volgende keer nadenken voordat ik iets zeg."
             )
 
         elif variant.lower() == "se":
