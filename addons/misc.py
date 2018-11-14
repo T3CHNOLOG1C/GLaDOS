@@ -108,7 +108,7 @@ class Misc:
                            "Please ban me by hand!")
             return
         else:
-            await ctx.send("I've banned {}.".format(member))
+            await ctx.send("I've banned {}. :abeanhammer:".format(member))
 
     @commands.command()
     async def kicc(self, ctx, member: Member=None, *, reason: str=""):
