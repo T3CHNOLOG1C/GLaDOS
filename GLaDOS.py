@@ -37,9 +37,9 @@ async def on_ready():
         bot.guild = guild
 
         # Moderation Roles
-        bot.owner_role = get(guild.roles, name="Nazi Overlords (Owners)")
-        bot.admin_role = get(guild.roles, name="Nazis (Admins)")
-        bot.mod_role = get(guild.roles, name="Special Snowflakes (SS)")
+        bot.owner_role = get(guild.roles, name="Nutshack Gods (Owners)")
+        bot.admin_role = get(guild.roles, name="Nutshack Administrators")
+        bot.mod_role = get(guild.roles, name="Special Snowflakes (Mods)")
         bot.staff_role = get(guild.roles, name="Staff")
         bot.botdev_role = get(guild.roles, name="BotDev")
         bot.nsfw_role = get(guild.roles, name="NSFW")
