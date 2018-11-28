@@ -21,7 +21,7 @@ makedirs("database", exist_ok=True)
 
 if not isfile("database/config.json"):
     with open("database/config.json", "w") as f:
-        dump({'prefix': ["g!"], 'token': ''}, f,
+        dump({'prefix': ["."], 'token': ''}, f,
              sort_keys=True, indent=4, separators=(',', ': '))
 
 config = load(open("database/config.json", "r"))
