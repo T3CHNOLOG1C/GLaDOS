@@ -406,7 +406,7 @@ class Memes:
             replacements = replacements + original[len(replacements):]
 
         await ctx.send(
-            await commands.clean_content().convert(ctx, ("y'know, i was trying to keep my cool and be a part of this"
+            await commands.clean_content().convert(ctx, ("y'know, i was trying to keep my cool and be a part of this "
                                                          "{0}, but i cant force myself here any longer. this isnt {1}."
                                                          "too much {2} shit, owned by a {3} and a former {3}, no {4},"
                                                          " a {5} where people get warned for {6} when part of the "
