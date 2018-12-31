@@ -414,6 +414,11 @@ class Memes:
                                                          "was ever meant to be. goodbye."
                                                          "").format(*replacements)))
 
+    @commands.command()
+    async def headpat(self, ctx):
+        """Send someone a headpat"""
+        await ctx.send("http://i.imgur.com/7V6gIIW.jpg")
+
 
 def setup(bot):
     bot.add_cog(Memes(bot))
