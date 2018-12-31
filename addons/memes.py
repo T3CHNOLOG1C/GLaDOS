@@ -419,6 +419,10 @@ class Memes:
         """Send someone a headpat"""
         await ctx.send("http://i.imgur.com/7V6gIIW.jpg")
 
+    @commands.command()
+    async def hug(self, ctx):
+        """hug someone over the internet"""
+        await ctx.send("https://i.imgur.com/mWRMu8y.png")
 
 def setup(bot):
     bot.add_cog(Memes(bot))
