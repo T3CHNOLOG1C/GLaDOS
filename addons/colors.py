@@ -87,7 +87,7 @@ class Colors:
     @commands.command(pass_context=True, aliases=['listcolours', 'listcolor', 'listcolour'])
     async def listcolors(self, ctx):
         """List available colors"""
-        await ctx.send(":art: **__{}ed roles:__**\n- green\n- blue\n- orange\n- white\n- black\n-"
+        await ctx.send(":art: **__{}ed roles:__**\n- green\n- blue\n- orange\n- white\n- black\n- "
                        "sand\n- pink\n- teal\n- red\n- purple\n"
                        "".format("Color" if ctx.invoked_with == "listcolor" or
                                  ctx.invoked_with == "listcolors" else "Colour"))
