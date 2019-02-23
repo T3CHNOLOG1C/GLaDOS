@@ -1,4 +1,4 @@
-git+https://github.com/Rapptz/discord.py@rewrite
+git+https://github.com/Rapptz/discord.py@cfc2e47b4f25bde3ed21365b6507f023b7b39977
 pylast
 qrcode
 Pillow
