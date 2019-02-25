@@ -33,11 +33,11 @@ class Events:
         logchannel = self.bot.logs_channel
         await logchannel.send("", embed=emb)
 
-    async def on_message(message):
+    async def on_message(self, message):
         msg = message
         oktard = get_emoji(549658429355196427)
         if msg.author.id == 243019821564952578:
-            msg.add_reaction(oktard)
+            await msg.add_reaction(oktard)
         else:
             pass
 
