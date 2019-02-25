@@ -1,4 +1,4 @@
-from discord import Embed, Colour
+from discord import Embed, Colour, utils
 
 
 class Events:
@@ -35,7 +35,7 @@ class Events:
 
     async def on_message(self, message):
         msg = message
-        emote = discord.utils.get(message.guild.emoji, name='okretard')
+        emote = utils.get(message.guild.emoji, name='okretard')
         if msg.author.id == 243019821564952578:
             await msg.add_reaction(emote)
         else:
