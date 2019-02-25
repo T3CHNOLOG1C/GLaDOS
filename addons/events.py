@@ -35,7 +35,7 @@ class Events:
 
     async def on_message(self, message):
         msg = message
-        emote = utils.get(guild.Emoji, name='okretard')
+        emote = utils.get(Guild.Emoji, name='okretard')
         if msg.author.id == 243019821564952578:
             await msg.add_reaction(okretard)
         else:
