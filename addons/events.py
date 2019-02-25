@@ -35,9 +35,8 @@ class Events:
 
     async def on_message(self, message):
         msg = message
-        oktard = get_emoji(492661176765775884)
         if msg.author.id == 243019821564952578:
-            await msg.add_reaction(oktard)
+            await msg.add_reaction(492661176765775884)
         else:
             pass
 
