@@ -5,7 +5,7 @@ from discord.ext import commands
 from discord.utils import get
 
 
-class Toggle:
+class Toggle(commands.Cog):
     """
     Toggle channel and role commands (not colours)
     """

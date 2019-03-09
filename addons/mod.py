@@ -2,7 +2,7 @@ from discord import Member, Embed, Colour, errors, Object
 from discord.ext import commands
 
 
-class Moderation:
+class Moderation(commands.Cog):
     """
     Moderation commands
     """

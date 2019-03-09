@@ -5,7 +5,7 @@ from discord import Member, Embed, Colour
 from discord.ext import commands
 
 
-class Warn:
+class Warn(commands.Cog):
     """
     Warn commands
     """
