@@ -4,7 +4,7 @@ from discord import File
 from io import BytesIO
 
 
-class QRGen:
+class QRGen(commands.Cog):
     """
     Module for generating QR codes from attachments and URLs
     """

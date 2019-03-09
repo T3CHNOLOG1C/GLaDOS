@@ -5,7 +5,7 @@ from discord.utils import get
 from discord.ext import commands
 
 
-class Emojif:
+class Emojif(commands.Cog):
 
     """
     Replace the messages of non-nitro users that should contain animated

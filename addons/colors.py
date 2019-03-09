@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 
-class Colors:
+class Colors(commands.Cog):
     """
     Color commands
     """

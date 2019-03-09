@@ -3,7 +3,7 @@ from discord import TextChannel, errors, abc, Embed, Color
 from discord.ext import commands
 
 
-class Speak:
+class Speak(commands.Cog):
     """Give the bot a voice"""
 
     def __init__(self, bot):

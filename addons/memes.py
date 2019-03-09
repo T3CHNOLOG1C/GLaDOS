@@ -1,7 +1,7 @@
 ﻿from discord.ext import commands
 
 
-class Memes:
+class Memes(commands.Cog):
     """
     ayy lmao
     """

@@ -4,7 +4,7 @@ from discord import Embed, errors, Color, Member
 from discord.ext import commands
 
 
-class Misc:
+class Misc(commands.Cog):
     """
     Miscellaneous commands
     """

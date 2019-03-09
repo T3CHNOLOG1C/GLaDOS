@@ -1,4 +1,5 @@
-git+https://github.com/Rapptz/discord.py@cfc2e47b4f25bde3ed21365b6507f023b7b39977
-pylast
-qrcode
-Pillow
+git+https://github.com/Rapptz/discord.py@42a7c4f7e5caa7baf555e86b52249419ce33acfc
+pillow==5.4.1
+pip-chill==0.1.8
+pylast==3.1.0
+qrcode==6.1
