@@ -57,6 +57,7 @@ async def on_ready():
         bot.teal_role = get(guild.roles, name="Teal")
         bot.red_role = get(guild.roles, name="Red")
         bot.purple_role = get(guild.roles, name="Purple")
+        bot.turquoise_role = get(guild.roles, name="Turquoise")
 
         # Channels
         bot.announcements_channel = get(guild.channels, name="announcements")
