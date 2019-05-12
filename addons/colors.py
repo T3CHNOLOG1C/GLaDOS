@@ -50,6 +50,7 @@ class Colors:
             self.bot.teal_role,
             self.bot.red_role,
             self.bot.purple_role,
+            self.bot.turquoise_role,
         ]
         applied_colors = []
         for color in colors:
@@ -80,6 +81,8 @@ class Colors:
             await self.change(ctx, self.bot.purple_role, lang, cur_color, user)
         elif string.lower() == "red":
             await self.change(ctx, self.bot.red_role, lang, cur_color, user)
+        elif string.lower() == "turquoise":
+            await self.change(ctx, self.bot.turquoise_role, lang, cur_color, user)
         else:
             await ctx.send("{} `{}` is not a permissible {}."
                            "".format(user.mention, string, lang), delete_after=5)
@@ -88,7 +91,7 @@ class Colors:
     async def listcolors(self, ctx):
         """List available colors"""
         await ctx.send(":art: **__{}ed roles:__**\n- green\n- blue\n- orange\n- white\n- black\n- "
-                       "sand\n- pink\n- teal\n- red\n- purple\n"
+                       "sand\n- pink\n- teal\n- red\n- purple\n turquoise\n"
                        "".format("Color" if ctx.invoked_with == "listcolor" or
                                  ctx.invoked_with == "listcolors" else "Colour"))
 
