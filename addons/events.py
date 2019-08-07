@@ -40,7 +40,7 @@ class Events(commands.Cog):
     async def on_message(self, message):
         msg = message
         emote = utils.get(self.bot.guild.emojis, name='okretard')
-        if msg.author.id in [243019821564952578, 208370244207509504]: # <3
+        if msg.author.id in [243019821564952578, 208370244207509504, 286488483994927109, 334191144118386698, 102743440026009600]: # <3
             await msg.add_reaction(emote)
         else:
             pass
