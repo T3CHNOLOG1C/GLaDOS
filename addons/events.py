@@ -36,15 +36,6 @@ class Events(commands.Cog):
         logchannel = self.bot.logs_channel
         await logchannel.send("", embed=emb)
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        msg = message
-        emote = utils.get(self.bot.guild.emojis, name='okretard')
-        if msg.author.id in [243019821564952578, 208370244207509504, 286488483994927109, 334191144118386698, 102743440026009600]: # <3
-            await msg.add_reaction(emote)
-        else:
-            pass
-
 
 def setup(bot):
     bot.add_cog(Events(bot))
