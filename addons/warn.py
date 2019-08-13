@@ -156,7 +156,7 @@ class Warn(commands.Cog):
         js[userid]["warns"].pop(number - 1)
         await ctx.send("🚩 I've deleted the {} warn of {}. The user now has {} warns."
                        "".format(number, member, amount_of_warns))
-        await self.dm(member, "One of you warns in {} has been removed.".format(ctx.guild.name))
+        await self.dm(member, "One of your warns in {} has been removed.".format(ctx.guild.name))
         emb = Embed(title="Member Unwarned", colour=Colour.orange())
         emb.add_field(name="Member:", value=member, inline=True)
         emb.add_field(name="Removed Warning Number:",
