@@ -1,4 +1,4 @@
-from discord import Embed, Colour, utils
+from discord import Embed, Colour
 from discord.ext import commands
 
 class Events(commands.Cog):
