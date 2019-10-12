@@ -1,15 +1,13 @@
-﻿#!/usr/bin/env python3.6
+﻿from discord.ext import commands
 
-from discord.ext import commands
 
-class Memes:
+class Memes(commands.Cog):
     """
     ayy lmao
     """
 
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     # SSS memes
 
@@ -25,26 +23,14 @@ class Memes:
         await msg.add_reaction("🇫")
 
     @commands.command()
-    async def t3ch(self, ctx):
+    async def tech(self, ctx):
         """Goddamn Nazimod"""
         return await ctx.send("https://i.imgur.com/4kANai8.png")
 
     @commands.command()
-    async def bigsmoke(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/vo5l6Fo.jpg\n"
-                       "ALL YOU HAD TO DO WAS FOLLOW THE DAMN GUIDE CJ!")
-
-    @commands.command()
-    async def bigorder(self, ctx):
-        """Memes."""
-        await ctx.send("I'll have two number 9s, a number 9 large, a number 6 with extra dip, a "
-                       "number 7, two number 45s, one with cheese, and a large soda.")
-
-    @commands.command()
     async def heil(self, ctx):
         """SIEG HEIL"""
-        await ctx.send("HEIL T3CH!")
+        await ctx.send("HEIL T3CHNOLOG1C!")
 
     @commands.command()
     async def lenny(self, ctx):
@@ -60,6 +46,11 @@ class Memes:
     async def birds(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/fVAx5oh.png")
+
+    @commands.command()
+    async def nh(self, ctx):
+        """something that should be done"""
+        await ctx.send("https://imgur.com/a/Xk9gTEt")
 
     @commands.command()
     async def macboy(self, ctx):
@@ -89,7 +80,7 @@ class Memes:
 
     @commands.cooldown(rate=1, per=10.0, type=commands.BucketType.channel)
     @commands.command()
-    async def xkyup(self, ctx, variant=""):
+    async def xkyup(self, ctx, variant: str=""):
         """
         MEMES???
         This meme has multiple variants : fr, es, it, jp, de, pl, pt, nl, se, bees
@@ -186,13 +177,13 @@ class Memes:
 
         elif variant.lower() == "nl":
             await ctx.send(
-                "Het spijt me zo erg, ik was een echt achterlijk om woorden te zeggen die mij "
-                "in moeite zou brengen en die veel mensen die transgender zijn of die in een "
-                "relatie zijn met een transgender persoon boos zou maken. Ik heb niet nagedacht "
-                "voor het spreken, dus kwam het als iets totaal vals, ik haat niemand die "
-                "transgender is, alleen de gemeenschap. Ik hou van Aurora, alleen niet van de "
-                "trans gemeenschap. Het spijt me voor dit alles. Alles what ik vraag is excuses, "
-                "dat is alles. Ik had moeten denken voordat ik sprak"
+                "Het spijt me heel erg. Ik was een mongool omdat ik woorden gebruikte waardoor ik "
+                "in de problemen kwam te zitten en veel transgender mensen of mensen die uitgaan "
+                "met een transgender boos zouden maken. I dacht niet na over wat ik zei en dus zei "
+                "ik iets dat ik niet bedoelde. I haat geen transgender, ik haat alleen de "
+                "gemeenschap. Ik heb geen bezwaar tegen Aurora, alleen de transgender gemeenschap. "
+                "Het spijt me hiervoor. Ik vraag alleen voor een verontschuldiging. Ik moet "
+                "volgende keer nadenken voordat ik iets zeg."
             )
 
         elif variant.lower() == "se":
@@ -215,7 +206,7 @@ class Memes:
 
         else:
             try:
-                variant = variant.replace('@everyone', '`@`everyone').replace('@here', '`@`here')
+                variant = await commands.clean_content().convert(ctx, variant)
                 words = variant.split(',')
                 await ctx.send(
                     "I'm so sorry, I was a fucking retard for saying words that would get me in "
@@ -226,13 +217,11 @@ class Memes:
                     " I should have been thinking before I spoke."
                     "".format(words[0], words[1], words[2], words[3], words[4])
                 )
-            except:
+            except IndexError:
                 await ctx.send("Your syntax is incorrect. Please use the following syntax : "
                                "`.xkyup \"word1,word2,word3,word4,word5\"`. You must specify the 5"
-                               " words."
-                              )
+                               " words.")
                 return
-
 
     # Kurisu memes
     @commands.command()
@@ -241,54 +230,9 @@ class Memes:
         await ctx.send("**ALL HAIL BRITANNIA!**")
 
     @commands.command()
-    async def screams(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/j0Dkv2Z.png")
-
-    @commands.command()
-    async def eeh(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/2SBC1Qo.jpg")
-
-    @commands.command()
     async def dubyadud(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/Sohsi8s.png")
-
-    @commands.command()
-    async def megumi(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/GMRp1dj.jpg")
-
-    @commands.command()
-    async def inori(self, ctx):
-        """Memes."""
-        await ctx.send("https://i.imgur.com/WLncIsi.gif")
-
-    @commands.command()
-    async def inori3(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/so8thgu.gifv")
-
-    @commands.command()
-    async def inori4(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/267IXh1.gif")
-
-    @commands.command()
-    async def inori5(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/lKcsiBP.png")
-
-    @commands.command()
-    async def inori6(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/SIJzpau.gifv")
-
-    @commands.command()
-    async def shotsfired(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/zf2XrNk.gifv")
 
     @commands.command()
     async def rusure(self, ctx):
@@ -296,49 +240,9 @@ class Memes:
         await ctx.send("http://i.imgur.com/dqh3fNi.png")
 
     @commands.command()
-    async def r34(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/sjQZKBF.gif")
-
-    @commands.command()
     async def permabrocked(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/ARsOh3p.jpg")
-
-    @commands.command()
-    async def knp(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/EsJ191C.png")
-
-    @commands.command()
-    async def lucina(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/tnWSXf7.png")
-
-    @commands.command()
-    async def lucina2(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/ZPMveve.jpg")
-
-    @commands.command()
-    async def xarec(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/A59RbRT.png")
-
-    @commands.command()
-    async def clap(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/UYbIZYs.gifv")
-
-    @commands.command()
-    async def ayyy(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/bgvuHAd.png")
-
-    @commands.command()
-    async def hazel(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/vpu8bX3.png")
 
     @commands.command()
     async def thumbsup(self, ctx):
@@ -350,51 +254,15 @@ class Memes:
         """Memes."""
         await ctx.send("http://i.imgur.com/sBJKzuK.png")
 
-    # Cute commands :3
-    @commands.command()
-    async def headpat(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/7V6gIIW.jpg")
-
-    @commands.command()
-    async def headpat2(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/djhHX0n.gifv")
-
-    @commands.command()
-    async def sudoku(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/VHlIZRC.png")
-
-    @commands.command()
-    async def baka(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/OyjCHNe.png")
-
-    @commands.command()
-    async def mugi(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/lw80tT0.gif")
-
     @commands.command()
     async def lisp(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/RQeZErU.png")
 
     @commands.command()
-    async def headrub(self, ctx):
-        """Cute"""
-        await ctx.send("http://i.imgur.com/j6xSoKv.jpg")
-
-    @commands.command()
     async def blackalabi(self, ctx):
         """Memes."""
         await ctx.send("http://i.imgur.com/JzFem4y.png")
-
-    @commands.command()
-    async def nom(self, ctx):
-        """Memes."""
-        await ctx.send("http://i.imgur.com/p1r53ni.jpg")
 
     @commands.command()
     async def soghax(self, ctx):
@@ -421,8 +289,7 @@ class Memes:
         """MEMES?"""
         await ctx.send("https://i.imgur.com/cWXBb5g.png")
 
-
-    ## GIB DONGRODER LAZY DEV
+    # GIB DONGRODER LAZY DEV
     @commands.cooldown(rate=1, per=10.0, type=commands.BucketType.channel)
     @commands.command()
     async def dongroder(self, ctx, variant=""):
@@ -493,8 +360,8 @@ class Memes:
                        "operating system. Linux is normally used in combination with the GNU "
                        "operating system: the whole system is basically GNU with Linux added, "
                        "or GNU/Linux. All the so-called \"Linux\" distributions are really "
-                       "distributions of GNU/Linux.```"
-                      )
+                       "distributions of GNU/Linux.```")
+
     @commands.command()
     async def kina(self, ctx):
         """kona"""
@@ -502,19 +369,60 @@ class Memes:
 
     @commands.command()
     async def kina2(self, ctx):
-        """kona1"""
-        await ctx.send("https://imgur.com/FDnh7mu")
-
-    # fucking piece of shit roast replaced this fucking arse command >:(
-    @commands.command()
-    async def kina3(self, ctx):
         """Memes."""
         await ctx.send("http://imgur.com/8Mm5ZvB")
 
     @commands.command()
-    async def beepbeep(self, ctx):
+    async def beepbeep(self, ctx, *, roast: str="Roast"):
         """Bope"""
-        await ctx.send("Your roast is Ready")
+        roast = await commands.clean_content().convert(ctx, roast)
+        await ctx.send("Your {} is ready".format(roast))
+
+    @commands.command()
+    async def themes(self, ctx):
+        """S a l t"""
+        await ctx.send("When it comes to custom theme managers on "
+                       "the 3ds there haven't always been that "
+                       "many choices\nI can only think of three "
+                       "off the top of my head")
+
+    @commands.command()
+    async def excuse(self, ctx):
+        """excuse me but what the fuck"""
+        await ctx.send("https://imgur.com/a/OtMv33a")
+
+    @commands.command()
+    async def t3ch(self, ctx, *, arg="server, sss, weeb, shack mod, trap role, channel, shitposting, cancerous"):
+        """
+        Prints the T3CHNOLOGIC copypasta.
+        With no or missing arguments, defaults to the original pasta (or a modified original).
+        Usage: [p]t3ch [server], [sss], [weeb], [shack mod], [trap role], [channel], [shitposting], [cancerous]
+        """
+        original = ["server", "sss", "weeb", "shack mod",
+                    "trap role", "channel", "shitposting", "cancerous"]
+        replacements = [i.strip() for i in arg.split(",")]
+        del replacements[len(original):]
+        if len(replacements) < 8:
+            replacements = replacements + original[len(replacements):]
+
+        await ctx.send(
+            await commands.clean_content().convert(ctx, ("y'know, i was trying to keep my cool and be a part of this "
+                                                         "{0}, but i cant force myself here any longer. this isnt {1}."
+                                                         "too much {2} shit, owned by a {3} and a former {3}, no {4},"
+                                                         " a {5} where people get warned for {6} when part of the "
+                                                         "spirit of {1} is {6}, and overall just more {7} than {1} "
+                                                         "was ever meant to be. goodbye."
+                                                         "").format(*replacements)))
+
+    @commands.command()
+    async def headpat(self, ctx):
+        """Send someone a headpat"""
+        await ctx.send("http://i.imgur.com/7V6gIIW.jpg")
+
+    @commands.command()
+    async def hug(self, ctx):
+        """Hug someone over the internet"""
+        await ctx.send("https://i.imgur.com/mWRMu8y.png")
 
 def setup(bot):
     bot.add_cog(Memes(bot))

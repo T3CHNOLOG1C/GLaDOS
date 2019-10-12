@@ -1,19 +1,19 @@
 from json import load, dump
 from time import strftime, localtime
 
-import discord
+from discord import Member, Embed, Colour
 from discord.ext import commands
 
 
-class Warn:
+class Warn(commands.Cog):
     """
     Warn commands
     """
+
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
 
-    async def dm(self, member: discord.Member, message: str):
+    async def dm(self, member: Member, message: str):
         """DM the user and catch an eventual exception."""
         try:
             await member.send(message)
@@ -22,7 +22,7 @@ class Warn:
 
     @commands.has_permissions(manage_roles=True)
     @commands.command()
-    async def warn(self, ctx, member: discord.Member, *, reason: str = ""):
+    async def warn(self, ctx, member: Member, *, reason: str=""):
         """
         Warn members. (Staff Only)
         A user ID can be used instead of mentionning the user.
@@ -37,15 +37,23 @@ class Warn:
         if member == ctx.message.author:
             await ctx.send("You cannot warn yourself!")
             return
-        if self.bot.staff_role in member.roles and not self.bot.owner_role in author.roles:
+        if self.bot.staff_role in member.roles and self.bot.owner_role not in author.roles:
             await ctx.send("You cannot warn other staff members!")
             return
         elif self.bot.owner_role in member.roles:
             await ctx.send("💢 I don't have the permission to do that!")
             return
+        elif ctx.me is member:
+            await ctx.send("I should not warn myself!")
+            return
 
-        with open("database/warns.json", "r") as f:
-            js = load(f) # https://hastebin.com/ejizaxasav.scala
+        try:
+            with open("database/warns.json", "r") as config:
+                js = load(config)
+        except FileNotFoundError:
+            with open("database/warns.json", "w") as config:
+                config.write('{}')
+                js = {}
 
         userid = str(member.id)
         if userid not in js:
@@ -73,9 +81,10 @@ class Warn:
         else:
             await self.dm(member, "You have been warned in {} for the following reason :\n{}\n"
                                   "".format(ctx.guild.name, reason))
-        emb = discord.Embed(title="Member Warned", colour=discord.Colour.orange())
+        emb = Embed(title="Member Warned", colour=Colour.orange())
         emb.add_field(name="Member:", value=member, inline=True)
-        emb.add_field(name="Warning Number:", value=amount_of_warns, inline=True)
+        emb.add_field(name="Warning Number:",
+                      value=amount_of_warns, inline=True)
         emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
         if reason == "":
             reason = "No reason specified."
@@ -91,8 +100,7 @@ class Warn:
                           "This is your second warning, so you've been muted. You will be unmuted "
                           "whenever the admin who warned you decides to unmute you.\nYou will be "
                           "DM'ed when a mod unmutes you.\n**Do not ask mods to unmute you, as "
-                          "doing so might extend the duration of the mute**"
-                         )
+                          "doing so might extend the duration of the mute**")
             await self.dm(member, "Your next warn will result in being kicked from the server.")
             await member.add_roles(self.bot.muted_role)
         elif amount_of_warns == 3:
@@ -110,11 +118,11 @@ class Warn:
             await member.ban(delete_message_days=0, reason="Fifth warn.")
 
         with open("database/warns.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
     @commands.has_permissions(manage_roles=True)
-    @commands.command(aliases=["unwarn","delwarn"])
-    async def deletewarn(self, ctx, member: discord.Member, number: int):
+    @commands.command(aliases=["unwarn", "delwarn"])
+    async def deletewarn(self, ctx, member: Member, number: int):
         """
         Unwarn members. (Staff Only)
         A user ID can be used instead of mentionning the userself.
@@ -123,7 +131,7 @@ class Warn:
         if member == ctx.message.author:
             await ctx.send("You cannot remove a warn from yourself!")
             return
-        if self.bot.staff_role in member.roles and not self.bot.owner_role in author.roles:
+        if self.bot.staff_role in member.roles and self.bot.owner_role not in author.roles:
             await ctx.send("You cannot remove a warn from other staff members!")
             return
         elif self.bot.owner_role in member.roles:
@@ -134,7 +142,7 @@ class Warn:
             return
 
         with open("database/warns.json", "r") as f:
-            js = load(f) # https://hastebin.com/ejizaxasav.scala
+            js = load(f)  # https://hastebin.com/ejizaxasav.scala
 
         userid = str(member.id)
         if userid not in js:
@@ -144,40 +152,35 @@ class Warn:
         else:
             amount_of_warns = len(js[userid]["warns"]) - 1
 
-
         js[userid]["amount"] = amount_of_warns
-        js[userid]["warns"].pop(number-1)
+        js[userid]["warns"].pop(number - 1)
         await ctx.send("🚩 I've deleted the {} warn of {}. The user now has {} warns."
                        "".format(number, member, amount_of_warns))
-        await self.dm(member, "One of you warns in {} has been removed.".format(ctx.guild.name))
-        emb = discord.Embed(title="Member Unwarned", colour=discord.Colour.orange())
+        await self.dm(member, "One of your warns in {} has been removed.".format(ctx.guild.name))
+        emb = Embed(title="Member Unwarned", colour=Colour.orange())
         emb.add_field(name="Member:", value=member, inline=True)
-        emb.add_field(name="Removed Warning Number:", value=number, inline=True)
+        emb.add_field(name="Removed Warning Number:",
+                      value=number, inline=True)
         emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
 
         logchannel = self.bot.logs_channel
         await logchannel.send("", embed=emb)
 
         with open("database/warns.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
     @commands.command()
-    async def listwarns(self, ctx):
+    async def listwarns(self, ctx, member: Member=None):
         """
         List your own warns or someone else's warns.
         Only the staff can view someone else's warns
         """
-
-        try:
-            member = ctx.message.mentions[0]
-            if self.bot.staff_role in ctx.message.author.roles:
-                has_perms = True
-            else:
-                has_perms = False
-        except IndexError:
+        if not member:
             member = ctx.message.author
-            has_perms = True
-        if not has_perms:
+
+        has_perms = self.bot.staff_role in ctx.message.author.roles
+
+        if not has_perms and member != ctx.message.author:
             return await ctx.send("{} You don't have permission to list other member's warns!"
                                   "".format(ctx.message.author.mention))
 
@@ -187,13 +190,15 @@ class Warn:
         userid = str(member.id)
         if userid not in js:
             return await ctx.send("No warns found!")
-        embed = discord.Embed(color=member.colour)
-        embed.set_author(name="List of warns for {} :".format(member), icon_url=member.avatar_url)
+        embed = Embed(color=member.colour)
+        embed.set_author(name="List of warns for {} :".format(
+            member), icon_url=member.avatar_url)
 
         for nbr, warn in enumerate(js[userid]["warns"]):
             content = "{}".format(warn["reason"])
             author = await self.bot.get_user_info(warn["author_id"])
-            content += "\n*Warn author : {} ({})*".format(warn["author"], author.mention)
+            content += "\n*Warn author : {} ({})*".format(
+                warn["author"], author.mention)
             embed.add_field(name="\n\n#{}: {}".format(nbr + 1, warn["timestamp"]),
                             value=content, inline=False)
 
@@ -201,7 +206,7 @@ class Warn:
 
     @commands.has_permissions(manage_roles=True)
     @commands.command()
-    async def clearwarns(self, ctx, member):
+    async def clearwarns(self, ctx, member: Member):
         """Clear all of someone's warns. (Staff only)"""
         try:
             member = ctx.message.mentions[0]
@@ -219,18 +224,15 @@ class Warn:
         try:
             js.pop(str(member.id))
             await ctx.send("Cleared all of {}'s warns!".format(member.mention))
-            emb = discord.Embed(title="Member Warns Cleared", colour=discord.Colour.orange())
+            emb = Embed(title="Member Warns Cleared", colour=Colour.orange())
             emb.add_field(name="Member:", value=member, inline=True)
             emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
             logchannel = self.bot.logs_channel
             await logchannel.send("", embed=emb)
             with open("database/warns.json", "w") as f:
-                dump(js, f, indent=2, separators=(',', ':'))
+                dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
         except KeyError:
             return await ctx.send("This user doesn't have any warns!")
-
-
-
 
 
 def setup(bot):

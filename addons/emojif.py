@@ -1,12 +1,11 @@
-#!/usr/bin/env python3.6
-
 from json import load, dump
 from re import findall
 
 from discord.utils import get
 from discord.ext import commands
 
-class Emojif:
+
+class Emojif(commands.Cog):
 
     """
     Replace the messages of non-nitro users that should contain animated
@@ -15,14 +14,16 @@ class Emojif:
 
     def __init__(self, bot):
         self.bot = bot
-        with open("database/emojif.json", "r") as f:
-            self.emojif_settings = load(f)
+        try:
+            with open("database/emojif.json") as f:
+                self.emojif_settings = load(f)
+        except FileNotFoundError:
+            with open("database/emojif.json", "w") as f:
+                f.write('{}')
         try:
             self.emojif_active = self.emojif_settings['status']
         except KeyError:
             self.emojif_active = True
-
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     @commands.group(name='emojif')
     async def emojif(self, ctx):
@@ -36,8 +37,11 @@ class Emojif:
         """Opt in or out of Emojif."""
 
         member = str(ctx.message.author.id)
-        with open("database/emojif.json", "r") as f:
-            js = load(f)
+        try:
+            with open("database/emojif.json") as f:
+                js = load(f)
+        except FileNotFoundError:
+            js = {}
 
         try:
             if js[member]:
@@ -54,7 +58,7 @@ class Emojif:
             msg = "Your messages containing animated emotes will now be replaced."
 
         with open("database/emojif.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
         return await ctx.send("<@{}> {}".format(member, msg))
 
@@ -74,8 +78,11 @@ class Emojif:
     async def globaltoggle(self, ctx):
         """Globally enable or disable Emojif. (Mods only)"""
 
-        with open("database/emojif.json", "r") as f:
-            js = load(f)
+        try:
+            with open("database/emojif.json") as f:
+                js = load(f)
+        except FileNotFoundError:
+            js = {}
 
         try:
             if js['status']:
@@ -92,7 +99,7 @@ class Emojif:
             msg = "Emojif is now globally disabled."
 
         with open("database/emojif.json", "w") as f:
-            dump(js, f, indent=2, separators=(',', ':'))
+            dump(js, f, sort_keys=True, indent=4, separators=(',', ': '))
 
         return await ctx.send(msg)
 
@@ -117,9 +124,8 @@ class Emojif:
         for i, e in enumerate(msg_emojis):
             if e[1:-1] not in client_emojis:
                 msg_emojis.pop(i)
-        if len(msg_emojis) == 0:
+        if not msg_emojis:
             return
-
 
         # At this point we can be sure that the message contains
         # a server emoji, that the author isn't a bot,
@@ -127,16 +133,17 @@ class Emojif:
         # that Emojifs are globally on. We can now format the message,
         # delete the original one, and post the new one.
 
-
         # Manage attachements / images
         # Post URL instead of saving then reuploading image,
         # to save time, bandwidth, and disk usage.
-        if len(message.attachments) > 0:
-            attachments = " ".join(attachment.url for attachment in message.attachments)
+        if not message.attachments:
+            attachments = " ".join(
+                attachment.url for attachment in message.attachments)
         else:
             attachments = ""
         formatted_author = "`{}`:".format(author.display_name)
-        formatted_content = content.replace('@everyone', '`@`everyone').replace('@here', '`@`here')
+        formatted_content = content.replace(
+            '@everyone', '`@`everyone').replace('@here', '`@`here')
         animated_emojis = []
         for e in set(msg_emojis):
             found_emoji = get(self.bot.emojis, name=e[1:-1])

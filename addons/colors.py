@@ -1,16 +1,13 @@
-#!/usr/bin/env python3.6
-
 from discord.ext import commands
 
 
-class Colors:
+class Colors(commands.Cog):
     """
     Color commands
     """
 
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
 
     async def change(self, ctx, color, lang, cur_color, user):
         if not cur_color:
@@ -19,16 +16,15 @@ class Colors:
                            "".format(user.mention, lang, color.name.lower()), delete_after=5)
         elif cur_color != color:
             await user.remove_roles(cur_color)
-            await ctx.send("{} {} {} removed."
-                           "".format(user.mention, lang, cur_color.name.lower()), delete_after=5)
             await user.add_roles(color)
-            await ctx.send("{} {} {} added."
-                           "".format(user.mention, lang, color.name.lower()), delete_after=5)
+            await ctx.send("{} {} {} removed.\n"
+                           "{} {} {} added."
+                           "".format(user.mention, lang, cur_color.name.lower(),
+                                     user.mention, lang, color.name.lower()), delete_after=5)
         else:
             await user.remove_roles(color)
             await ctx.send("{} {} {} removed."
                            "".format(user.mention, lang, color.name.lower()), delete_after=5)
-
 
     @commands.command(pass_context=True, aliases=['colour'])
     async def color(self, ctx, string=""):
@@ -54,6 +50,7 @@ class Colors:
             self.bot.teal_role,
             self.bot.red_role,
             self.bot.purple_role,
+            self.bot.turquoise_role,
         ]
         applied_colors = []
         for color in colors:
@@ -84,6 +81,8 @@ class Colors:
             await self.change(ctx, self.bot.purple_role, lang, cur_color, user)
         elif string.lower() == "red":
             await self.change(ctx, self.bot.red_role, lang, cur_color, user)
+        elif string.lower() == "turquoise":
+            await self.change(ctx, self.bot.turquoise_role, lang, cur_color, user)
         else:
             await ctx.send("{} `{}` is not a permissible {}."
                            "".format(user.mention, string, lang), delete_after=5)
@@ -91,10 +90,11 @@ class Colors:
     @commands.command(pass_context=True, aliases=['listcolours', 'listcolor', 'listcolour'])
     async def listcolors(self, ctx):
         """List available colors"""
-        await ctx.send(":art: **__{}ed roles:__**\n- green\n- blue\n- orange\n- white\n- black\n-"
-                       "sand\n- pink\n- teal\n- red\n- purple\n"
+        await ctx.send(":art: **__{}ed roles:__**\n- green\n- blue\n- orange\n- white\n- black\n- "
+                       "sand\n- pink\n- teal\n- red\n- purple\n- turquoise\n"
                        "".format("Color" if ctx.invoked_with == "listcolor" or
                                  ctx.invoked_with == "listcolors" else "Colour"))
+
 
 def setup(bot):
     bot.add_cog(Colors(bot))

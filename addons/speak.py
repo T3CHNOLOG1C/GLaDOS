@@ -1,16 +1,21 @@
-#!/usr/bin/python3.6
-import json
+from json import load, dump
 from discord import TextChannel, errors, abc, Embed, Color
 from discord.ext import commands
 
-class Speak:
+
+class Speak(commands.Cog):
     """Give the bot a voice"""
 
     def __init__(self, bot):
         self.bot = bot
-        print("{} addon loaded.".format(self.__class__.__name__))
-
-
+        try:
+            with open("database/ignored_users.json", "r") as config:
+                self.ignored_users = load(config)
+        except FileNotFoundError:
+            self.ignored_users = {"users": []}
+            with open("database/ignored_users.json", "w") as config:
+                dump(self.ignored_users, config, indent=4,
+                     sort_keys=True, separators=(',', ':'))
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
@@ -18,13 +23,24 @@ class Speak:
         """Make the bot speak (Staff Only)"""
         await ctx.message.delete()
         await destination.send(message)
-
+        try:
+            emb = Embed(title="Message Sent", colour=Color.orange())
+            emb.add_field(name="Mod:", value=ctx.message.author, inline=True)
+            emb.add_field(name="Send from:",
+                          value=ctx.message.channel, inline=True)
+            emb.add_field(name="Send To:", value=destination, inline=True)
+            emb.add_field(name="Message:", value=message, inline=True)
+            logchannel = self.bot.logs_channel
+            await logchannel.send("", embed=emb)
+        except errors.Forbidden:
+            await ctx.send("💢 I dont have permission to do this.")
 
     async def memberDM(self, ctx, member, message):
         """Check for various parameters before DM'ing a member"""
         try:
             if ctx.message.attachments:
-                attachments = " ".join(attachment.url for attachment in ctx.message.attachments)
+                attachments = " ".join(
+                    attachment.url for attachment in ctx.message.attachments)
                 message = "{} {}".format(message, attachments)
             else:
                 if message == '':
@@ -58,7 +74,7 @@ class Speak:
             author = message.author
             if message.author.id == self.bot.user.id:
                 pass
-            elif message.author.id in self.bot.ignored_users:
+            elif message.author.id in self.ignored_users:
                 ignored_user_message = ("Sorry, your message `{}` could not be delivered due to "
                                         "you being blocked from messaging the bot. If you believe "
                                         "this is in error, too fucking bad."
@@ -67,17 +83,19 @@ class Speak:
             else:
                 dmchannel = self.bot.botdms_channel
                 if message.attachments == []:
-                    logOutput = "{} | {} 📨 {}\n".format(author, author.id, self.bot.user)
+                    logOutput = "{} | {} 📨 {}\n".format(
+                        author, author.id, self.bot.user)
                     logOutput += "Message Content: {}".format(message.content)
                     await dmchannel.send(logOutput)
                 else:
-                    logOutput = "{} | {} 📨 {}\n".format(author, author.id, self.bot.user)
-                    logOutput += "Message Content: {}\n".format(message.content)
+                    logOutput = "{} | {} 📨 {}\n".format(
+                        author, author.id, self.bot.user)
+                    logOutput += "Message Content: {}\n".format(
+                        message.content)
                     logOutput += "Attachments: \n"
                     for attachment in message.attachments:
                         logOutput += "{}\n".format(attachment.url)
                     await dmchannel.send(logOutput)
-
 
     @commands.has_permissions(manage_messages=True)
     @commands.command()
@@ -86,37 +104,43 @@ class Speak:
         Ignore DM's from a user (Staff Only)
         If you use .ignore list, it will list all ignored members instead.
         """
-        with open("database/ignored_users.json", "r") as f:
-            js = json.load(f)
 
         if member == "list":
-            if len(js["users"]) > 0:
-                embed = Embed(title="List of ignored users", color=Color.blue())
-                ignored_users = []
-                for i in js["users"]:
-                    u = self.bot.get_user(i)
-                    ignored_users.append(u)
+            if len(self.ignored_users["users"]) > 0:
+                embed = Embed(title="List of ignored users",
+                              color=Color.blue())
+
                 description = ""
-                for u in ignored_users:
-                    description += "- {} ({})\n".format(u, u.mention)
+                for i in self.ignored_users["users"]:
+                    try:
+                        u = self.bot.get_user(i)
+                        description += "- {} ({}#{})\n".format(u.id,
+                                                               u.display_name, u.discriminator)
+                    except errors.CommandInvokeError:
+                        description += "- {}\n".format(i)
+
                 embed.description = description
-                return await ctx.send("", embed=embed)
+                await ctx.send("", embed=embed)
+                return
             else:
-                return await ctx.send("There are no ignored users!")
+                await ctx.send("There are no ignored users!")
+                return
         else:
             try:
                 member = ctx.message.mentions[0]
             except IndexError:
                 await ctx.send("Please mention a user.")
-            if member.id in js["users"]:
-                js["users"].remove(member.id)
-                self.bot.ignored_users.remove(member.id)
+            if member.id in self.ignored_users["users"]:
+                self.ignored_users["users"].remove(member.id)
                 await ctx.send("Removed {} from ignored users.".format(member.mention))
             else:
-                js["users"].append(member.id)
-                self.bot.ignored_users.append(member.id)
+                self.ignored_users["users"].append(member.id)
                 await ctx.send("Added {} to ignored users.".format(member.mention))
-            with open("database/ignored_users.json", "w") as f:
-                json.dump(js, f, indent=2, separators=(',', ':'))
+
+            with open("database/ignored_users.json", "w") as config:
+                dump(self.ignored_users, config, indent=4,
+                     sort_keys=True, separators=(',', ':'))
+
+
 def setup(bot):
     bot.add_cog(Speak(bot))
