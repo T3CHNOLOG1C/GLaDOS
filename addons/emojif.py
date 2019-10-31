@@ -103,6 +103,7 @@ class Emojif(commands.Cog):
 
         return await ctx.send(msg)
 
+    @commands.Cog.listener()
     async def on_message(self, message):
         """
         Replace messages that should contain animated emojis with
