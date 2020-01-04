@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from discord import Embed, errors, Color, Member
+from discord import *
 from discord.ext import commands
+from typing import Union
 
 
 class Misc(commands.Cog):
@@ -57,42 +58,101 @@ class Misc(commands.Cog):
                 emb.add_field(name="Amount:", value=amount, inline=True)
                 logchannel = self.bot.logs_channel
                 await logchannel.send("", embed=emb)
-            except errors.Forbidden:
+            except Forbidden:
                 await ctx.send("💢 I dont have permission to do this.")
 
-        except errors.Forbidden:
+        except Forbidden:
             await ctx.say("💢 I don't have permission to do this.")
 
-    @commands.command()
-    async def userinfo(self, ctx):
-        try:
-            member = ctx.message.mentions[0]
-        except IndexError:
-            member = ctx.message.author
-        uname = member.name
-        discrim = member.discriminator
-        Uid = member.id
-        displayName = member.display_name
-        isBot = member.bot
-        cTime = member.created_at
-        jTime = member.joined_at
-        str1 = "{}#{}".format(uname, discrim)
-        str2 = "{}".format(Uid)
-        if displayName == uname:
-            displayName = "None"
-        str3 = "{}".format(displayName)
-        str4 = "{}".format(str(isBot))
-        str5 = "{}".format(cTime)
-        str6 = "{}".format(jTime)
-        emb = Embed(title="Userinfo", color=0x00ff00)
-        emb.add_field(name="Member", value=str1 + "\n", inline=True)
-        emb.add_field(name="ID", value=str2 + "\n", inline=True)
-        emb.add_field(name="Nickname", value=str3 + "\n", inline=True)
-        emb.add_field(name="Bot?", value=str4 + "\n", inline=True)
-        emb.add_field(name="Account Created", value=str5 + "\n", inline=True)
-        emb.add_field(name="Joined Server", value=str6 + "\n", inline=True)
-        emb.set_thumbnail(url=member.avatar_url)
-        await ctx.send("", embed=emb)
+    @commands.command(aliases=['ui'])
+    async def userinfo(self, ctx, member: Union[Member, int, str] = None):
+        """Prints userinfo on a member"""
+        #print("\n----------------------------------------------------------------\n")
+
+        inserver = None
+        
+        
+        if member == None:
+           # print('\n[DEBUG] Member is author\n')
+            user = ctx.author
+            inserver  = True
+
+        elif isinstance(member, int):
+           # print('\n[DEBUG] Member is an id')
+            try:
+              #  print("\nUser not found in server, searching api!\n")
+                user = await self.bot.fetch_user(member)
+                inserver = False
+            except NotFound:
+                await ctx.send(f"{self.femote} I cannot find that user")
+
+        elif isinstance(member, Member):
+          #  print("\n[DEBUG] discord member class detected")
+            user = member
+            inserver = True
+
+        elif isinstance(member, str):
+          #  print("\n[DEBUG] shitty error handling or smth")
+            await ctx.send(f"{self.femote} I cannot find that user")
+            return
+        
+
+        # is the user a bot?
+        if user.bot:
+            ubot = True
+            
+        else:
+            ubot = False
+
+
+        if inserver:
+            
+            uname = user.name
+            uid = user.id
+            udisrm = user.discriminator
+            joindate = user.joined_at
+
+            if user.activity == None:
+                uacc = 'None'
+            else:    
+                uacc = user.activity.name
+            unick = user.display_name
+            sinner = user.premium_since
+            ustat = user.status
+            toprolecolor = user.color.value
+            toprole = user.top_role
+            createdate = user.created_at
+            uavi = user.avatar_url
+            udavi = user.default_avatar
+           
+
+            # embed or smth t3chgay
+            embed = Embed(title=f'**Userinfo for {uname}#{str(udisrm)}**', color=toprolecolor)
+            embed.description = f"**User's ID:** {str(uid)} \n **Join date:** {str(joindate)} \n **Created on** {str(createdate)} \n **Current Status:** {str(ustat).title()} \n **User Activity:**: {str(uacc)} \n **Default Profile Picture:** {str(udavi).title()} \n **Current Display Name:** {unick} \n **Nitro Boost Info:** {str(sinner)} \n **Current Top Role:** {str(toprole)} \n **Color:** {str(hex(toprolecolor)[2:])}"
+            embed.set_thumbnail(url=uavi)
+            if ubot:
+                embed.set_footer(text=f"{uname} is a bot.")
+
+            await ctx.send(embed=embed)
+
+        elif inserver == False:
+            uname = user.name
+            uid = user.id
+            udisrm = user.discriminator
+            createdate = user.created_at
+            uavi = user.avatar_url
+            udavi = user.default_avatar
+
+            embed = Embed(title=f'**Userinfo for {uname}#{str(udisrm)}**')
+            embed.description = f"**User's ID:** {str(uid)} \n **Default Profile Picture:** {str(udavi)} \n  **Created on** {str(createdate)}"
+
+            embed.set_footer(text=f'{uname} is not in your server.')
+            embed.set_thumbnail(url=uavi)
+
+            if ubot:
+                embed.set_footer(text=f"{uname} is a bot and not on your server.")
+
+            await ctx.send(embed=embed)
 
     @commands.command()
     async def bean(self, ctx, member: Member=None, *, reason: str=""):
