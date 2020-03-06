@@ -64,7 +64,7 @@ class Misc(commands.Cog):
         except Forbidden:
             await ctx.say("💢 I don't have permission to do this.")
 
-    @commands.command(aliases=['ui'])
+    @commands.command(aliases=['ui', 'onion'])
     async def userinfo(self, ctx, member: Union[Member, int, str] = None):
         """Prints userinfo on a member"""
         #print("\n----------------------------------------------------------------\n")
