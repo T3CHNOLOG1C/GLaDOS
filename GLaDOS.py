@@ -79,6 +79,7 @@ async def on_ready():
         'mod',
         'qrgen',
         'lastfm',
+        'accountinfo',
     ]
 
     # Notify if an addon fails to load.
