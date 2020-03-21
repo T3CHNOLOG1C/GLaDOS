@@ -277,7 +277,7 @@ class AccountInfo(commands.Cog):
             self.database = {}
 
 
-    @commands.command(aliases=['le'])
+    @commands.command(aliases=['le', 'la'])
     async def listentries(self, ctx, member = None):
         """Lists database entries for a user"""
 
