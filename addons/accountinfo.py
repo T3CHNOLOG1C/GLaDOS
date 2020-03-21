@@ -311,7 +311,7 @@ class AccountInfo(commands.Cog):
             await ctx.send(embed=embed)
 
         else:
-            await ctx.send(f"{self.femote} This user has no entries")      
+            await ctx.send(f"{self.femote} This user has no entries!")      
 
 def setup(bot):
     bot.add_cog(AccountInfo(bot))
