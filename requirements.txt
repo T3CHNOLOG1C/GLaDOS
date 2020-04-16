@@ -3,3 +3,4 @@ git+https://github.com/Rapptz/discord.py
 pip-chill==0.1.8
 pylast==3.1.0
 qrcode==6.1
+image
