@@ -18,7 +18,7 @@ class Moderation(commands.Cog):
             pass
 
     @commands.has_permissions(kick_members=True)
-    @commands.command()
+    @commands.command(aliases=['dropkick','punt'])
     async def kick(self, ctx, member: Member=None, *, reason: str=""):
         """Kick a member. (Staff Only)"""
         try:

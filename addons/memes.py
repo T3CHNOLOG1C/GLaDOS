@@ -423,6 +423,16 @@ class Memes(commands.Cog):
     async def hug(self, ctx):
         """Hug someone over the internet"""
         await ctx.send("https://i.imgur.com/mWRMu8y.png")
+        
+    @commands.command()
+    async def apex(self, ctx):
+        """milkgay"""
+        await ctx.send("https://i.imgur.com/DAkUCuO.png")
+        
+    @commands.command(aliases=['garfield'])
+    async def food(self, ctx):
+        """of in the hot food"""
+        await ctx.send("https://i.imgur.com/8JG8Pca.png")
 
 def setup(bot):
     bot.add_cog(Memes(bot))

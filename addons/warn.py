@@ -196,7 +196,7 @@ class Warn(commands.Cog):
 
         for nbr, warn in enumerate(js[userid]["warns"]):
             content = "{}".format(warn["reason"])
-            author = await self.bot.get_user_info(warn["author_id"])
+            author = await self.bot.fetch_user(warn["author_id"])
             content += "\n*Warn author : {} ({})*".format(
                 warn["author"], author.mention)
             embed.add_field(name="\n\n#{}: {}".format(nbr + 1, warn["timestamp"]),
