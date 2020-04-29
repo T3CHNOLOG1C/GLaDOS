@@ -431,7 +431,7 @@ class Memes(commands.Cog):
         
     @commands.command()
     async def food(self, ctx):
-        """of in the hot food"""
+        """Of in the Cold Food"""
         await ctx.send("https://i.imgur.com/8JG8Pca.png")
 
 def setup(bot):
