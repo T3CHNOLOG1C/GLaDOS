@@ -429,7 +429,7 @@ class Memes(commands.Cog):
         """milkgay"""
         await ctx.send("https://i.imgur.com/DAkUCuO.png")
         
-    @commands.command(aliases=['garfield'])
+    @commands.command(name='food', aliases=['garfield'])
     async def food(self, ctx):
         """of in the hot food"""
         await ctx.send("https://i.imgur.com/8JG8Pca.png")
