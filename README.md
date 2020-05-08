@@ -26,6 +26,6 @@ Notice: GLaDOS is NOT intended to work on every server, modification may be requ
 
 - [Griffin](https://github.com/GriffinG1) for his various work on the color addon.
 
-- [astronautlevel](https://github.com/astronautlevel2) for his [QR code addon](https://github.com/astronautlevel2/Discord-Cogs/blob/master/qrgen.py).
+- [astronautlevel](https://github.com/astronautlevel2) for her [QR code addon](https://github.com/astronautlevel2/Discord-Cogs/blob/master/qrgen.py).
 
 - Various other people for maintenance and other minor additions
