@@ -435,7 +435,7 @@ class Memes(commands.Cog):
         await ctx.send("https://i.imgur.com/8JG8Pca.png")
         
     @commands.command(aliases=['pog'])
-    asnync def poggers(self, ctx):
+    async def poggers(self, ctx):
         """man throwing christmas tree gif"""
         await ctx.send("https://imgur.com/7uGlsZN")
     
