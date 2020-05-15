@@ -429,20 +429,20 @@ class Memes(commands.Cog):
         """milkgay"""
         await ctx.send("https://i.imgur.com/DAkUCuO.png")
         
-    @commands.command(aliases=['garfield'])
+    @commands.command()
     async def food(self, ctx):
-        """of in the hot food"""
+        """Of in the Cold Food"""
         await ctx.send("https://i.imgur.com/8JG8Pca.png")
         
     @commands.command(aliases=['pog'])
     async def poggers(self, ctx):
-        '''man throwing christmas tree gif'''
-        await ctx.send('https://imgur.com/7uGlsZN')
+        """man throwing christmas tree gif"""
+        await ctx.send("https://imgur.com/7uGlsZN")
         
     @commands.command(aliases=['notpog'])
     async def notpoggers(self, ctx):
-        '''woman throwing christmas man tree gif'''
-        await ctx.send('https://imgur.com/UWJXM8j')
-    
+        """woman throwing christmas man tree gif"""
+        await ctx.send("https://imgur.com/UWJXM8j")
+ 
 def setup(bot):
     bot.add_cog(Memes(bot))
