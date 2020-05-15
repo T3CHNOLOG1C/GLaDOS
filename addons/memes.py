@@ -433,6 +433,12 @@ class Memes(commands.Cog):
     async def food(self, ctx):
         """of in the hot food"""
         await ctx.send("https://i.imgur.com/8JG8Pca.png")
-
+        
+    @commands.command(aliases=['pog', 'man throwing christmas tree gif'])
+    asnync def poggers(self, ctx):
+        '''man throwing christmas tree gif'''
+        await ctx.send('https://imgur.com/7uGlsZN')
+    
+    
 def setup(bot):
     bot.add_cog(Memes(bot))
