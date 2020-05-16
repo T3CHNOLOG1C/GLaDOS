@@ -438,7 +438,11 @@ class Memes(commands.Cog):
     async def poggers(self, ctx):
         """man throwing christmas tree gif"""
         await ctx.send("https://imgur.com/7uGlsZN")
-    
-    
+        
+    @commands.command(aliases=['notpog'])
+    async def notpoggers(self, ctx):
+        """woman throwing christmas man tree gif"""
+        await ctx.send("https://imgur.com/UWJXM8j")
+ 
 def setup(bot):
     bot.add_cog(Memes(bot))
