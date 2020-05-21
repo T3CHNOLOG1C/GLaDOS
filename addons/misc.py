@@ -67,93 +67,36 @@ class Misc(commands.Cog):
     @commands.command(aliases=['ui', 'onion'])
     async def userinfo(self, ctx, member: Union[Member, int, str] = None):
         """Prints userinfo on a member"""
-        #print("\n----------------------------------------------------------------\n")
-
         inserver = None
-        
-        
         if member == None:
-           # print('\n[DEBUG] Member is author\n')
             user = ctx.author
             inserver  = True
-
         elif isinstance(member, int):
-           # print('\n[DEBUG] Member is an id')
             try:
-              #  print("\nUser not found in server, searching api!\n")
                 user = await self.bot.fetch_user(member)
                 inserver = False
             except NotFound:
                 await ctx.send(f"{self.femote} I cannot find that user")
-
         elif isinstance(member, Member):
-          #  print("\n[DEBUG] discord member class detected")
             user = member
             inserver = True
-
         elif isinstance(member, str):
-          #  print("\n[DEBUG] shitty error handling or smth")
             await ctx.send(f"{self.femote} I cannot find that user")
-            return
-        
-
-        # is the user a bot?
-        if user.bot:
-            ubot = True
-            
-        else:
-            ubot = False
-
+            return  
 
         if inserver:
-            
-            uname = user.name
-            uid = user.id
-            udisrm = user.discriminator
-            joindate = user.joined_at
-
-            if user.activity == None:
-                uacc = 'None'
-            else:    
-                uacc = user.activity.name
-            unick = user.display_name
-            sinner = user.premium_since
-            ustat = user.status
-            toprolecolor = user.color.value
-            toprole = user.top_role
-            createdate = user.created_at
-            uavi = user.avatar_url
-            udavi = user.default_avatar
-           
-
-            # embed or smth t3chgay
-            embed = Embed(title=f'**Userinfo for {uname}#{str(udisrm)}**', color=toprolecolor)
-            embed.description = f"**User's ID:** {str(uid)} \n **Join date:** {str(joindate)} \n **Created on** {str(createdate)} \n **Current Status:** {str(ustat).title()} \n **User Activity:**: {str(uacc)} \n **Default Profile Picture:** {str(udavi).title()} \n **Current Display Name:** {unick} \n **Nitro Boost Info:** {str(sinner)} \n **Current Top Role:** {str(toprole)} \n **Color:** {str(hex(toprolecolor)[2:])}"
-            embed.set_thumbnail(url=uavi)
-            if ubot:
-                embed.set_footer(text=f"{uname} is a bot.")
-
+            embed = Embed(title=f'**Userinfo for {user.name}#{str(user.discriminator)}**', color=user.color.value)
+            embed.description = f"""**User's ID:** {str(user.id)} \n **Join date:** {str(user.joined_at)} \n**Created on** {str(user.created_at)}\n **Current Status:** {str(user.status).upper() if str(user.status).lower() == "dnd" else str(user.status).title()}\n **User Activity:**: {str(user.activity)} \n **Default Profile Picture:** {str(user.default_avatar).title()}\n **Current Display Name:** {user.display_name}\n**Nitro Boost Date:** {str(user.premium_since)}\n **Current Top Role:** {str(user.top_role)}\n **Bot** {user.bot}\n **Color:** {str(hex(user.color.value)[2:])}"""
+            embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
 
-        elif inserver == False:
-            uname = user.name
-            uid = user.id
-            udisrm = user.discriminator
-            createdate = user.created_at
-            uavi = user.avatar_url
-            udavi = user.default_avatar
-
-            embed = Embed(title=f'**Userinfo for {uname}#{str(udisrm)}**')
-            embed.description = f"**User's ID:** {str(uid)} \n **Default Profile Picture:** {str(udavi)} \n  **Created on** {str(createdate)}"
-
-            embed.set_footer(text=f'{uname} is not in your server.')
-            embed.set_thumbnail(url=uavi)
-
-            if ubot:
-                embed.set_footer(text=f"{uname} is a bot and not on your server.")
-
+        elif not inserver:
+            embed = Embed(title=f'**Userinfo for {user.name}#{str(user.discriminator)}**')
+            embed.description = f"""**User's ID:** {str(user.id)} \n **Default Profile Picture:** {str(user.default_avatar)} \n  **Created on:** {str(user.created_at)}\n **Bot:** {user.bot}"""
+            embed.set_footer(text=f'{user.name}#{user.discriminator} is not in your server.')
+            embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
-
+        
     @commands.command()
     async def bean(self, ctx, member: Member=None, *, reason: str=""):
         """Ban a member. (Staff Only)"""
