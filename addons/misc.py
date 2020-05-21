@@ -91,8 +91,13 @@ class Misc(commands.Cog):
             await ctx.send(embed=embed)
 
         elif not inserver:
+            try:
+                ban = await ctx.guild.fetch_ban(user)
+            except NotFound:
+                ban = None
+
             embed = Embed(title=f'**Userinfo for {user.name}#{str(user.discriminator)}**')
-            embed.description = f"""**User's ID:** {str(user.id)} \n **Default Profile Picture:** {str(user.default_avatar)} \n  **Created on:** {str(user.created_at)}\n **Bot:** {user.bot}"""
+            embed.description = f"**User's ID:** {str(user.id)} \n **Default Profile Picture:** {str(user.default_avatar)} \n  **Created on:** {str(user.created_at)}\n **Bot:** {user.bot}\n {f'**Banned, reason:** {ban.reason}'if ban is not None else ''}"
             embed.set_footer(text=f'{user.name}#{user.discriminator} is not in your server.')
             embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)

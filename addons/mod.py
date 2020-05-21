@@ -82,7 +82,7 @@ class Moderation(commands.Cog):
                     dm_msg = ("You have been banned from {} for the following reason:\n{}"
                               "".format(ctx.guild.name, reason))
                 await self.dm(member, dm_msg)
-                await member.ban(delete_message_days=0)
+                await ctx.guild.ban(reason=reason, delete_message_days=0)
                 await ctx.send("I've banned {}.".format(member))
                 emb = Embed(title="Member Banned", colour=Colour.red())
                 emb.add_field(name="Member:", value=member.name, inline=True)
@@ -107,7 +107,7 @@ class Moderation(commands.Cog):
             return
 
         try:
-            await ctx.guild.ban(member)
+            await ctx.guild.ban(member, reason=reason)
             await ctx.send("I've banned ID: {}.".format(uid))
             emb = Embed(title="Member Banned by ID", colour=Colour.red())
             emb.add_field(name="ID:", value=uid, inline=True)
