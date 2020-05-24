@@ -77,8 +77,8 @@ async def on_ready():
         'warn',
         'misc',
         'mod',
-        'qrgen',
-        'lastfm',
+      #  'qrgen',
+     #   'lastfm',
         'accountinfo',
     ]
 
