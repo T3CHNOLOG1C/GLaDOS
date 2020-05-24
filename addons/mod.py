@@ -121,7 +121,7 @@ class Moderation(commands.Cog):
         except errors.Forbidden:
             await ctx.send("💢 I dont have permission to do this.")
 
-    @commands.has_permissions(manage_messages=True)
+    @commands.has_permissions(manage_roles=True)
     @commands.command()
     async def lockdown(self, ctx, *, reason=""):
         """
@@ -143,7 +143,7 @@ class Moderation(commands.Cog):
         logchannel = self.bot.logs_channel
         await logchannel.send("", embed=emb)
 
-    @commands.has_permissions(manage_messages=True)
+    @commands.has_permissions(manage_roles=True)
     @commands.command()
     async def unlock(self, ctx):
         """

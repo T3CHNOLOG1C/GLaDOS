@@ -4,7 +4,6 @@ from discord import *
 from discord.ext import commands
 from typing import Union
 
-
 class Misc(commands.Cog):
     """
     Miscellaneous commands
@@ -35,7 +34,7 @@ class Misc(commands.Cog):
         """About GLaDOS."""
         await ctx.send("View my source code here: https://github.com/T3CHNOLOG1C/GLaDOS")
 
-    @commands.has_permissions(manage_messages=True)
+    @commands.has_permissions(manage_roles=True)
     @commands.command()
     async def clear(self, ctx, amount):
         """Clears a given amount of messages. (Mods only)"""
@@ -158,5 +157,28 @@ class Misc(commands.Cog):
         """
         await ctx.send("🚩 I've warmed {}.".format(member))
 
+    @commands.has_permissions(manage_roles=True)
+    @commands.command()
+    async def status(self, ctx, *, msg: str = None):     
+        """Change the bot's status (Staff only)"""
+        if msg is None:
+            await self.bot.change_presence()
+            await ctx.send("Removing status")
+            return
+
+        if msg.split()[0].lower() == "watching":
+            msg = msg[9:]
+            actType = ActivityType.watching
+        elif msg.split()[0].lower() == "listening":
+            msg = msg[10:]
+            actType = ActivityType.listening
+        else:
+            actType = ActivityType.playing
+
+        game = Activity(name=msg, type=actType)
+        await self.bot.change_presence(activity=game)
+        await ctx.send(f"Setting current status to: `{str(actType)[13:].title() + ' to' if str(actType)[13:].title() == 'Listening' else str(actType)[13:].title()} {msg}`")
+    
+    
 def setup(bot):
     bot.add_cog(Misc(bot))
