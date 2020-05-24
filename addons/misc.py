@@ -76,12 +76,12 @@ class Misc(commands.Cog):
                 user = await self.bot.fetch_user(member)
                 inserver = False
             except NotFound:
-                await ctx.send(f"{💢} I cannot find that user")
+                await ctx.send("💢 I cannot find that user")
         elif isinstance(member, Member):
             user = member
             inserver = True
         elif isinstance(member, str):
-            await ctx.send(f"{💢} I cannot find that user")
+            await ctx.send("💢 I cannot find that user")
             return  
 
         if inserver:
