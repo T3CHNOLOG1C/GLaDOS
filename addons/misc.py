@@ -101,7 +101,33 @@ class Misc(commands.Cog):
             embed.set_footer(text=f'{user.name}#{user.discriminator} is not in your server.')
             embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
+
+    @commands.command(aliases=['avi'])
+    async def avatar(self, ctx, member: Union[Member, int, str] = None):
+        """Gets a user's avatar"""
+        # TODO move this code to its own function
+        inserver = None
+        if member is None:
+            user = ctx.author
+            inserver  = True
+        elif isinstance(member, int):
+            try:
+                user = await self.bot.fetch_user(member)
+                inserver = False
+            except NotFound:
+                await ctx.send("💢 I cannot find that user")
+        elif isinstance(member, Member):
+            user = member
+            inserver = True
+        elif isinstance(member, str):
+            await ctx.send("💢 I cannot find that user")
+            return
         
+        embed = Embed(title= f"Avatar for {user.name}#{user.discriminator}", color=user.color.value if inserver else Color.greyple)
+        embed.image(user.avatar_url)
+        await ctx.send(embed=embed)
+
+
     @commands.command()
     async def bean(self, ctx, member: Member=None, *, reason: str=""):
         """Ban a member. (Staff Only)"""
