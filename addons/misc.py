@@ -123,8 +123,8 @@ class Misc(commands.Cog):
             await ctx.send("💢 I cannot find that user")
             return
         
-        embed = Embed(title= f"Avatar for {user.name}#{user.discriminator}", color=user.color.value if inserver else Color.greyple)
-        embed.image(user.avatar_url)
+        embed = Embed(title= f"Avatar for {user.name}#{user.discriminator}", color=user.color.value if inserver else 0x99aab5)
+        embed.set_image(url=user.avatar_url)
         await ctx.send(embed=embed)
 
 
